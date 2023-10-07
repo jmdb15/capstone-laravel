@@ -1,6 +1,10 @@
 <?php
 
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CalendarController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +17,79 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+# ### STUDENT PAGES ### #
+Route::get('/', [UserController::class, 'index'])->middleware('auth');
+Route::get('/login', function(){ return view('login'); })->name('login')->middleware('guest');
+Route::get('/signup', function(){ return view('signup'); })->middleware('guest');
+Route::get('/about', function(){ return view('students.about'); });
+Route::get('/orgs', function(){ return view('students.organization'); });
+Route::get('/forum', [UserController::class, 'forum'])->middleware('auth');
+Route::get('/forum/{id}', [UserController::class, 'viewQuery'])->middleware('auth');
+Route::get('/{id}', [UserController::class, 'viewProfile'])->middleware('auth');
+Route::get('/posts', [UserController::class, 'news'])->middleware('auth');
+Route::get('/post/{id}', [UserController::class, 'copyLink'])->middleware('auth');
+
+Route::get('/calendar', [UserController::class, 'calendar'])->middleware('auth');
+
+
+# ### ADMIN PAGES ### #
+Route::middleware(['auth', 'type'])->group(function(){
 });
+Route::get('/admin', [AdminController::class, 'index']);
+Route::get('/create-post', [AdminController::class, 'create']);
+Route::post('/create-post/process', [AdminController::class, 'store']);
+Route::get('/users', [AdminController::class, 'users']);
+Route::get('/admin/forum', [AdminController::class, 'forum'])->middleware('auth');
+Route::get('/logs', [AdminController::class, 'logs']);
+Route::post('/logs/filtered', [AdminController::class, 'filter']);
+Route::get('/admin/calendar', [CalendarController::class, 'index']);
+Route::post('/admin/calendar/action', [CalendarController::class, 'action']);
+
+# ### PROCESS ### #
+Route::post('/login/process', [UserController::class, 'process']);
+Route::post('/store', [UserController::class, 'store']);
+Route::put('/update', [UserController::class, 'update']);
+Route::put('/changepass', [UserController::class, 'changepass']);
+Route::post('/logout', [UserController::class, 'logout']);
+Route::post('/ajax-request-react', [UserController::class, 'ajaxRequestReact']);
+Route::post('/ajax-request-comment', [UserController::class, 'ajaxRequestComment']);
+Route::get('/process-notifs', [UserController::class, 'notifs'])->middleware('auth');
+
+
+
+
+
+// Route::get('/', function(){
+//     return view('welcome');
+// });
+
+// Route::get('/user/{id}', [UserController::class, 'show'])->middleware('auth');//protect routes
+// Route::get('/login', function(){ return view('login'); })->name('login');
+// Route::get('/users', [UserController::class, 'index']);
+// Route::get('/user/{id}', [UserController::class, 'show']);
+// Route::get('/signup', function(){ return view('signup'); });
+
+// Route::get('/home', function () {
+//     return 'welcome home';
+// });
+// Route::get('/users', function(Request $request){
+//     dd($request);
+//     return null;
+// });
+
+// Route::get('/user/{id}/{grp}', function($id, $grp){
+//     return response($id.'-'.$grp, 200)->header('Content-type', 'text/plain');
+// });
+
+// Route::get('/request-json', function(){
+//     return response()->json(['name' => 'Hello', 'age' => '22']);
+// });
+
+// Route::get('/request-dl', function(){
+//     $path = public_path().'/sample.txt';
+//     $name = 'sample.txt';
+//     $header = array(
+//         'Content-type : application/text-plain',
+//     );
+//     return response()->download($path, $name, $header);
+// });
