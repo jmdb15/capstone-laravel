@@ -8,5 +8,6 @@
   @vite(['resources/css/app.css','resources/js/app.js'])
   <title>{{ $title }}</title>
   <script src="//unpkg.com/alpinejs" defer></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js" defer></script>
 </head>
 <body class="bg-gray-200" x-data="{nos: false}" :class="{'no-scroll': nos}">

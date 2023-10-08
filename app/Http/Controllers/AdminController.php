@@ -96,7 +96,7 @@ class AdminController extends Controller
             $logs = Activities::select('activities.*', 'users.name', 'users.image', 'users.email')
                         ->join('users', 'users.id','=','activities.users_id')
                         ->where('name','like','%'.$request->text.'%')
-                        ->whereBetween('logged_at', [$startDate, $endDate])
+                        ->whereBetween('created_at', [$startDate, $endDate])
                         ->get()
                         ->groupBy('users_id');
             return response()->json($logs);

@@ -6,7 +6,7 @@
   <section id="left" class="relative hidden m-0 h-auto w-[300px] max-w-sm md:block lg:basis-1/4">
     <div class="hidden md:flex flex-col fixed w-inherit bg-gray-200 top-[70px] left-0 max-w-full">
       <!-- Sidebar Navigations -->
-        <a href="/{{auth()->user()->id}}" class="hover:bg-gray-300 rounded-md">
+        <a href="/profile/{{auth()->user()->id}}" class="hover:bg-gray-300 rounded-md">
           <div class="flex items-center h-8 m-4">
             <img src="{{auth()->user()->image ? asset('storage/student/thumbnail/'.auth()->user()->image) : $def_profile}}" alt="Profile" class="h-10 rounded-full mr-2">
             <h2 class="text-lg font-bold">{{auth()->user()->name}}</h2>

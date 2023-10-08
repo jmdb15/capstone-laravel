@@ -4,7 +4,7 @@
     <ul>
       @auth
         <li class='text-white mb-1 py-2 px-7 border-b-neutral-400 rounded-md cursor-pointer hover:backdrop-brightness-200 hover:brightness-110'>
-          <a href="/{{auth()->user()->id}}">
+          <a href="/profile/{{auth()->user()->id}}">
             Profile
           </a>
         </li>

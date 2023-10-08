@@ -25,7 +25,7 @@ Route::get('/about', function(){ return view('students.about'); });
 Route::get('/orgs', function(){ return view('students.organization'); });
 Route::get('/forum', [UserController::class, 'forum'])->middleware('auth');
 Route::get('/forum/{id}', [UserController::class, 'viewQuery'])->middleware('auth');
-Route::get('/{id}', [UserController::class, 'viewProfile'])->middleware('auth');
+Route::get('/profile/{id}', [UserController::class, 'viewProfile'])->middleware('auth');
 Route::get('/posts', [UserController::class, 'news'])->middleware('auth');
 Route::get('/post/{id}', [UserController::class, 'copyLink'])->middleware('auth');
 

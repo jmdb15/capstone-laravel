@@ -1,29 +1,28 @@
-  
+
   <section id="right" class="relative hidden m-0 h-auto w-[280px] max-w-sm lg:block lg:basis-1/4">
     <div class="hidden md:flex flex-col w-inherit max-w-full bg-gray-200 ">
-    <!-- title -->
-    <div class="flex item-center justify-center w-full py-4 m-0">
-      <img src="{{url('images/Untitled-1.ico')}}" class="h-12 rounded-full" alt="">
-      <p class="text-2xl ml-2">Notifications</p>
-    </div>
-    <!-- items -->
-    <div class="flex flex-col px-2 mt-4" id="notif_cont">
-      @foreach ($notifs as $notif)
-        <div class="cursor-pointer flex h-fit my-4 border-2 border-b-gray-400 rounded-lg" onclick="goto({{$notif->id}})">
-            <img src="{{url('images/Untitled-1.ico')}}" class="h-16 rouded-full mx-3" alt="">
-            <div class="flex flex-col">
-              <h2 class="font-bold">{{$notif->postman}}</h2>
-              <p>{{$notif->content}}</p>
+      <!-- title -->
+      <div class="flex item-center justify-center w-full py-4 m-0">
+        <img src="{{url('images/Untitled-1.ico')}}" class="h-12 rounded-full" alt="">
+        <p class="text-2xl ml-2">Notifications</p>
+      </div>
+      <!-- items -->
+      <div class="flex flex-col px-2 mt-4" id="notif_cont">
+        @foreach ($notifs as $notif)
+          <div class="cursor-pointer flex h-fit my-4 border-2 border-b-gray-400 rounded-lg" onclick="goto({{$notif->id}})">
+              <img src="{{url('images/Untitled-1.ico')}}" class="h-16 rouded-full mx-3" alt="">
+              <div class="flex flex-col">
+                <h2 class="font-bold">{{$notif->postman}}</h2>
+                <p>{{$notif->content}}</p>
+              </div>
             </div>
-          </div>
-      @endforeach
-    </div>
+        @endforeach
+      </div>
     </div>
   </section>
 
   <x-chatbot />
-  
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+
 <script>
   class Chatbox {
     constructor() {
