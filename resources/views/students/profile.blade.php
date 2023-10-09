@@ -65,13 +65,32 @@
       </div>
     </div>
 
+    {{-- FORM FOR FORUM QUESTION --}}
+    <div id="post_query" class="w-[80%] px-4 pt-4 pb-8 mx-auto mt-8 shadow-md rounded-md bg-gray-100">
+      <form action="/go-ask" method="post" class="w-full relative">
+        @csrf
+        
+        <label for="message" class="block mb-2 text-xl font-medium text-gray-700 dark:text-white">Do you have a question?</label>
+        <textarea id="message" name="query" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Ask everyone..."></textarea>
+
+        <button class="send absolute bottom-3 right-3 bg-blue-600 p-2 rounded-full" title="Send" id="send">
+          <svg class="rotate-90" fill="none" viewBox="0 0 24 24" height="18" width="18" xmlns="http://www.w3.org/2000/svg">
+            <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" stroke="#ffffff" d="M12 5L12 20"></path>
+            <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" stroke="#ffffff" d="M7 9L11.2929 4.70711C11.6262 4.37377 11.7929 4.20711 12 4.20711C12.2071 4.20711 12.3738 4.37377 12.7071 4.70711L17 9"></path>
+          </svg>
+        </button>
+
+      </form>
+    </div>
+
+    {{-- QUERIES POSTED --}}
     <section class="flex flex-col h-fit mt-10">
       @if (count($posts) == 0)
         <h1 class="mx-auto text-4xl text-center text-white mt-10 ">You have no questions posted yet.</h1>
       @else
         @foreach ($posts as $post)
           @php $def_profile = 'https://avatars.dicebear.com/api/initials/'.$post->users->name.'.svg'; @endphp
-            <div class="my-2 mx-auto" x-data="{open: false}">
+            <div class="my-2 mx-auto" x-data="{open2: false, see: {{$see}} }">
               <div class="max-w-md p-6 overflow-hidden rounded-t-lg shadow bg-gray-100 dark:bg-gray-900 dark:text-gray-100 h-min">
                 <article>
                   <div class="flex items-center mb-8 space-x-4">
@@ -116,5 +135,51 @@
       }
       reader.readAsDataURL(image)
   })
+
+  function reactsubmit(type, uid, namee, cid, qid){
+    if((cid != 'null' && type == 'react') || (qid != 'null' && type=='comment')){
+      span = document.getElementById(`span${cid}`);
+      svg = document.getElementById(`heart${cid}`);
+      document.getElementById('namee').value = namee;
+      document.getElementById('uid').value = uid;
+      document.getElementById('cid').value = cid;
+      document.getElementById('qid').value = qid;
+      document.getElementById('cominput').value = document.getElementById(`txtarea${qid}`).value;
+      url = (type == 'react') ? "{{ url('ajax-request-react') }}" : "{{ url('ajax-request-comment') }}";
+      $.ajaxSetup({
+        headers:{
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+      });
+      $.ajax({
+        type: 'POST',
+        url: url,
+        data: $('#querier').serialize(),
+        success: function(data){
+          if(data == 'add'){
+            svg.setAttribute('fill', "#f5356e");
+            svg.setAttribute('stroke', "#f5356e");
+            span.innerHTML = Number(span.innerText) + 1;
+          }else if(data == 'commented'){
+            console.log(data)
+          }else{
+            svg.setAttribute('fill', "#707277");
+            svg.setAttribute('stroke', "#707277");
+            span.innerHTML = Number(span.innerText) - 1;
+          }
+        },
+        error:function(xhr){
+          console.log(xhr.responseText);
+        }
+      });
+    }
+    const timeElapsed = Date.now();
+    let today = new Date(timeElapsed);    
+    today = today.toDateString();
+    $('#new-comment-name'+qid).html(namee)
+    $('#new-comment-date'+qid).html(today);
+    $('#new-comment-msg'+qid).html(document.getElementById(`txtarea${qid}`).value);
+    document.getElementById(`txtarea${qid}`).value = '';
+  }
 </script>
 @include('partials.__footer')

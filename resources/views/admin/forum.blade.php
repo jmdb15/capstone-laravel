@@ -15,7 +15,7 @@
     <div class="flex flex-col">
       @foreach ($posts as $post)
       @php $def_profile = 'https://avatars.dicebear.com/api/initials/'.$post->users->name.'.svg'; @endphp
-        <div class="my-8 mx-auto relative"  x-data="{open: {{$open}}}">
+        <div class="my-8 mx-auto relative"  x-data="{open: {{$open}}, open2: false, see: {{$see}}}">
           <div class="max-w-md p-6 overflow-hidden rounded-t-lg shadow bg-gray-100 dark:bg-gray-900 dark:text-gray-100 h-min">
             <article>
               <div class="flex items-center mb-8 space-x-4">
@@ -41,10 +41,10 @@
                         </li>
                         {{-- <li>
                             <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Edit</a>
-                        </li>
-                        <li>
-                            <a href="#" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete</a>
                         </li> --}}
+                        <li onclick="deleteqry({{ $post->id }})">
+                            <span class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete</span>
+                        </li>
                       </ul>
                   </div>
                 </div>
@@ -60,8 +60,17 @@
 
 </section>
 
+<x-messages />
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script>
+  $(document).ready(function(){
+    $.ajaxSetup({
+      headers:{
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+  });
   function reactsubmit(type, uid, cid, qid){
     if((cid != 'null' && type == 'react') || (qid != 'null' && type=='comment')){
       span = document.getElementById(`span${cid}`);
@@ -71,11 +80,6 @@
       document.getElementById('qid').value = qid;
       document.getElementById('cominput').value = document.getElementById('txtarea'+qid).value;
       url = (type == 'react') ? "{{ url('ajax-request-react') }}" : "{{ url('ajax-request-comment') }}";
-      $.ajaxSetup({
-        headers:{
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-      });
       $.ajax({
         type: 'POST',
         url: url,
@@ -116,6 +120,19 @@
       setTimeout(() => {
         cpylinkbtn.innerText = 'Copy link';
       }, 2000);
+    }
+    function deleteqry(id){
+      $.ajax({
+        url:'/create-post/action',
+        type: 'POST',
+        data: { 
+          for: 'query',
+          id: id,
+        },
+        success:function(data){
+          console.log(' deleted');
+        }
+      });
     }
 </script>
 

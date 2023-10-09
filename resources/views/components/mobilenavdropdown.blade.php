@@ -7,49 +7,52 @@
     </div>
     <ul class="items-center justify-center flex-1 pt-6  lg:pt-0 list-reset lg:flex">
         <a href="/posts" >
-            <li class="mr-3 px-4 py-3 nav__item hover:bg-slate-600 hover:text-white">
-                News Feed
+            <li class="mr-3 px-4 py-3 flex gap-x-2 items-center nav__item hover:bg-slate-600 hover:text-white">
+               <img src="{{ url('images/icons/blog-text.png') }}" alt="" class="w-5 h-4 aspect-square">News Feed
             </li>
         </a>
         <a href="/forum" >
-            <li class="mr-3 px-4 py-3 nav__item hover:bg-slate-600 hover:text-white">
-                Forum
+            <li class="mr-3 px-4 py-3 flex gap-x-2 items-center nav__item hover:bg-slate-600 hover:text-white">
+                <img src="{{ url('images/icons/messages-question.png') }}" alt="" class="w-5 h-4 aspect-square"> Forum
             </li>
         </a>
         <a href="/notifications" >
-            <li class="mr-3 px-4 py-3 nav__item hover:bg-slate-600 hover:text-white">
-                Notifications
+            <li class="mr-3 px-4 py-3 flex gap-x-2 items-center nav__item hover:bg-slate-600 hover:text-white">
+                <img src="{{ url('images/icons/bell.png') }}" alt="" class="w-4 h-4 ml-1 aspect-square"> Notifications
             </li>
         </a>
         <a href="/orgs" >
-            <li class="mr-3 px-4 py-3 nav__item hover:bg-slate-600 hover:text-white">
-                Organizations
+            <li class="mr-3 px-4 py-3 flex gap-x-2 items-center nav__item hover:bg-slate-600 hover:text-white">
+                <img src="{{ url('images/icons/users-alt.png') }}" alt="" class="w-5 h-4 aspect-square"> Organizations
             </li>
         </a>
         <a href="/calendar" >
-            <li class="mr-3 px-4 py-3 nav__item hover:bg-slate-600 hover:text-white">
-                Calendar
+            <li class="mr-3 px-4 py-3 flex gap-x-2 items-center nav__item hover:bg-slate-600 hover:text-white">
+                <img src="{{ url('images/icons/calendar.png') }}" alt="" class="w-5 h-4 aspect-square"> Calendar
             </li>
         </a>
         <a href="/faculty" >
-            <li class="mr-3 px-4 py-3 nav__item hover:bg-slate-600 hover:text-white">
-                CSSP Faculty
+            <li class="mr-3 px-4 py-3 flex gap-x-2 items-center nav__item hover:bg-slate-600 hover:text-white">
+                <img src="{{ url('images/icons/chalkboard-user.png') }}" alt="" class="w-5 h-4 aspect-square"> CSSP Faculty
             </li>
         </a>
         <a href="/about" >
-            <li class="mr-3 px-4 py-3 nav__item hover:bg-slate-600 hover:text-white">
-                About
+            <li class="mr-3 px-4 py-3 flex gap-x-2 items-center nav__item hover:bg-slate-600 hover:text-white">
+                <img src="{{ url('images/icons/info.png') }}" alt="" class="w-4 h-4 aspect-square"> About
             </li>
         </a>
         <a href="/profile/{{auth()->user()->id}}" >
-            <li class="mr-3 px-4 py-3 nav__item hover:bg-slate-600 hover:text-white">
-                Profile
+            <li class="mr-3 px-4 py-3 flex gap-x-2 items-center nav__item hover:bg-slate-600 hover:text-white">
+                <img src="{{ url('images/icons/user.png') }}" alt="" class="w-5 h-4 aspect-square"> Profile
             </li>
         </a>
-        <a href="/logout" >
+        <form action="/logout" method="POST">
+            @csrf
             <li class="mr-3 px-4 py-3 nav__item hover:bg-slate-600 hover:text-white">
-                Logout
+                <button type="submit" class="flex gap-x-2 items-center">
+                    <img src="{{ url('images/icons/sign-out-alt.png') }}" alt="" class="w-5 h-4 aspect-square"> Logout
+                </button>
             </li>
-        </a>
+        </form>
     </ul>
 </div>

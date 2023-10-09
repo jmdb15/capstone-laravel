@@ -15,6 +15,7 @@ return new class extends Migration
             $table->increments('id');
             $table->text('links')->nullable();
             $table->text('caption');
+            $table->smallInteger('is_deleted')->default(0);
             $table->timestamps();
         });
     }

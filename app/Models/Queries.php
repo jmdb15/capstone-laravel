@@ -9,9 +9,15 @@ use Illuminate\Support\Facades\DB;
 class Queries extends Model
 {
     use HasFactory;
-    protected $guarded;
 
-    public static function showPost($id){
+    protected $fillable = [
+        'users_id',
+        'query',
+        'is_deleted'
+    ];
+
+    public static function showPost($id)
+    {
         // $rootQueries = Queries::get();
         // $allComments = Comments::get();
 
@@ -22,12 +28,18 @@ class Queries extends Model
         // $combined = compact('rootQueries', 'allComments');
 
         $queries = DB::table('queries')
-        ->join('users', 'users.id', '=', 'queries.users_id')
-        ->join('comments', 'comments.queries_id', '=', 'queries.id')
-        ->select('users.name', 'users.image', 'queries.id as qry_id',
-                'queries.query', 'comments.id as cm_id', 'comments.comment')
-        ->where('queries.id', '=', $id)
-        ->get(100);
+            ->join('users', 'users.id', '=', 'queries.users_id')
+            ->join('comments', 'comments.queries_id', '=', 'queries.id')
+            ->select(
+                'users.name',
+                'users.image',
+                'queries.id as qry_id',
+                'queries.query',
+                'comments.id as cm_id',
+                'comments.comment'
+            )
+            ->where('queries.id', '=', $id)
+            ->get(100);
         return $queries;
     }
 
@@ -40,5 +52,4 @@ class Queries extends Model
     {
         return $this->belongsTo(Users::class);
     }
-
 }
