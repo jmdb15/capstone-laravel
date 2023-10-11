@@ -63,6 +63,8 @@ Route::post('/ajax-request-react', [UserController::class, 'ajaxRequestReact']);
 Route::post('/ajax-request-comment', [UserController::class, 'ajaxRequestComment']);
 Route::post('/go-ask', [UserController::class, 'postQuery']);
 Route::get('/process-notifs', [UserController::class, 'notifs'])->middleware('auth');
+Route::get('/notifs', [UserController::class, 'trynotifs'])->middleware('auth');
+Route::post('/read-notifs', [UserController::class, 'readnotifs'])->middleware('auth');
 
 
 

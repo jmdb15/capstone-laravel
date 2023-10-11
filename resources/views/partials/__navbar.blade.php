@@ -21,8 +21,9 @@
 
   
 </nav> --}}
-
-<div class="w-screen h-[70px] bg-violet-500 sticky top-0 left-0 z-[49]">
+<body class="bg-gray-200 h-screen w-screen grid place-items-center overflow-y-scroll overflow-x-hidden" x-data="{nos: false}" :class="{'no-scroll': nos}">
+  
+<div class="w-screen h-[70px] bg-violet-500 fixed top-0 left-0 z-[49]">
     <nav class="container relative flex flex-wrap items-center justify-between h-full mx-auto lg:justify-between xl:px-0" x-data="{openMobile: false, open: false}">
         <div class="flex flex-wrap items-center justify-between w-full lg:w-auto">
               <a href="/" class="flex items-center space-x-2 text-2xl font-medium text-indigo-500 dark:text-gray-100">

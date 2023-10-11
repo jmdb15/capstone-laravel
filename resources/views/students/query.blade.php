@@ -1,10 +1,8 @@
 @include('partials.__header')
 @include('partials.__navbar')
-@include('partials.__sidebar')
+@include('partials.__sidebar', ['show' => true])
 
 {{-- Main/Middle Section --}}
-
-<section id="mid" class="flex flex-col grow md:basis-2/3 h-fit m-8 content-center">
 
   <form method="POST" action="javascript:void(0)" id="querier">
   @csrf
@@ -36,7 +34,6 @@
     </div>
   </form>
 
-</section>
 
 @include('partials.__notifications', ['notifs' => $notifs])
 <script>

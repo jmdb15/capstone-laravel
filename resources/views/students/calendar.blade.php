@@ -22,21 +22,24 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/datepicker.min.js"></script>
 
 </head>
-<body class="bg-gray-200" x-data="{nos: false}" :class="{'no-scroll': nos}">
+<body class="bg-gray-200 h-screen w-screen grid place-items-center" x-data="{nos: false}" :class="{'no-scroll': nos}">
 @include('partials.__navbar')
-@include('partials.__sidebar')
+@include('partials.__sidebar' , ['show' => false])
 
-  <main class="w-screen flex flex-col sm:flex-row max-w-1920 mx-auto">
-    <div class="row">
-      <div class="col-11">
-        <div class="col-md-11 offset-1 my-5">
-          <div id="calendar"></div>
-        </div>
+<section id="mid" class="h-[calc(100%-70px)] mt-[70px] overflow-y-scroll basis-full md:w-[calc(1920px-382px)] lg:w-[calc(1920px-698px)]">
+
+  <div class="row">
+    <div class="col-11">
+      <div class="col-md-11 offset-1" style="margin-top: 42px;">
+        <div id="calendar"></div>
       </div>
     </div>
-  </main>
+  </div>
 
   <x-popover />
+
+  
+@include('partials.__notifications', ['notifs' => $notifs])
 
   <script>
     $(document).ready(function() {
@@ -124,5 +127,4 @@
     }
   </script>
 
-@include('partials.__notifications', ['notifs' => $notifs])
 @include('partials.__footer')

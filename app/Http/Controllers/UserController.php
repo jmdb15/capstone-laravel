@@ -7,11 +7,13 @@ use App\Models\Activities;
 use Carbon\Carbon;
 use App\Models\Comments;
 use App\Models\Events;
+use App\Models\Notifications;
 use App\Models\Posts;
 use App\Models\Queries;
 use App\Models\Users;
 use App\Models\Votes;
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -96,11 +98,12 @@ class UserController extends Controller
 
     public function postQuery(Request $request)
     {
-        $requestData = $request->request->all(); // Get all form data as an array
-        Queries::create([
-            'users_id' => auth()->user()->id,
-            'query' => $request->query,
+        $user_id = auth()->user()->id;
+        $post = DB::table('queries')->insertGetId([
+            'users_id' => $user_id,
+            'query' => $request->question,
         ]);
+        $this->informUsers($user_id, $post, $request->question);
         return back()->with('messages', "Question is posted!");
     }
 
@@ -125,6 +128,7 @@ class UserController extends Controller
         }
         // dd($posts);
         $notifs = $this->notifs();
+        // dd($posts);
         // dd($posts);
         return view('students.query', ['posts' => $posts, 'open' => 'false', 'see' => 'true', 'notifs' => $notifs]);
     }
@@ -295,6 +299,14 @@ class UserController extends Controller
                 'users_id' => $request->uid,
                 'activity' => "Reacted on someone's comment"
             ]);
+            $user = Users::find($request->uid);
+            $c = Comments::find($request->cid);
+            DB::table('notifications')->insert([
+                'users_id' => $c->users_id,
+                'content' => $user->name.' liked your comment: "'.$c->comment.'"',
+                'queries_id' => $request->qid,
+                //i need the commentor's id, his comment, query id where he commented 
+            ]);
             return 'add';
         }
     }
@@ -310,10 +322,11 @@ class UserController extends Controller
             'users_id' => $request->uid,
             'activity' => "Commented on someone's question"
         ]);
-        $qry = Queries::select('users_id')->where('id', $request->qid)->first();
+        $qry = Queries::select('users_id', 'query')->where('id', $request->qid)->first();
         DB::table('notifications')->insert([
             'users_id' => $qry->users_id,
-            'content' => $request->name . " answered your question"
+            'content' => $request->name . ' commented on your "'.$qry->query.'"',
+            'queries_id' => $request->qid,
         ]);
         return 'commented';
     }
@@ -333,15 +346,40 @@ class UserController extends Controller
     }
 
 
+    public function trynotifs()
+    {
+        return view('students.some');
+    }
+
     public function notifs()
     {
         $user = auth()->user();
-        $union = DB::select("SELECT id, query_date as created_at, 'A student posted their question.' AS content, 'Student' as postman FROM queries
-                UNION ALL SELECT id, created_at, 'An admin posted an announcement.' AS content, 'Admin' as postman FROM posts ORDER BY created_at DESC");
-        $fil = DB::select("SELECT queries_id as id, created_at, content, 'Commentor' as postman FROM notifications WHERE users_id = " . $user->id);
-        $combinedResults = array_merge($union, $fil);
-        $collection = collect($combinedResults);
-        $sortedCollection = $collection->sortByDesc('created_at');
-        return $sortedCollection;
+        $notifs = Notifications::where('users_id', $user->id)->get();
+        return $notifs;
+        // return view('students.some', ['posts' => $posts, 'peruser' => $fil]);
+    }
+
+    public function informUsers($id, $query_id, $query){
+        $cur = auth()->user()->name;
+        $users = Users::where('id', '!=', $id)->orderBy('created_at', 'DESC')->get();
+        foreach($users as $user){
+            Notifications::insert([
+                'users_id' => $user->id,
+                'content' => $cur->name.' posted a question: '.$query,
+                'queries_id' => $query_id,
+            ]);
+        }
+    }
+
+    public function readnotifs(Request $request){
+            try {
+                $id = Notifications::findOrFail($request->id);
+                $id->update([
+                    'is_read' => 1
+                ]);
+                return 'updated';
+            } catch (ModelNotFoundException $e) {
+                return response()->json('no records');
+            }
     }
 }

@@ -1,29 +1,56 @@
 
-  <section id="right" class="relative hidden m-0 h-auto w-[280px] max-w-sm lg:block lg:basis-1/4">
-    <div class="hidden md:flex flex-col w-inherit max-w-full bg-gray-200 ">
-      <!-- title -->
-      <div class="flex item-center justify-center w-full py-4 m-0">
-        <img src="{{url('images/Untitled-1.ico')}}" class="h-12 rounded-full" alt="">
-        <p class="text-2xl ml-2">Notifications</p>
-      </div>
-      <!-- items -->
-      <div class="flex flex-col px-2 mt-4" id="notif_cont">
+        <x-chatbot class="block lg:hidden"/>
+
+    </section>
+
+    <section id="right" class="h-[calc(100%-70px)] mt-[70px] min-w-[324px] max-w-[324px] overflow-y-auto basis-1/4 hidden flex-col items-center lg:flex">
+      {{-- <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+          <p class="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the <strong class="font-medium text-gray-800 dark:text-white">Profile tab's associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>
+      </div> --}}
         @foreach ($notifs as $notif)
-          <div class="cursor-pointer flex h-fit my-4 border-2 border-b-gray-400 rounded-lg" onclick="goto({{$notif->id}})">
-              <img src="{{url('images/Untitled-1.ico')}}" class="h-16 rouded-full mx-3" alt="">
-              <div class="flex flex-col">
-                <h2 class="font-bold">{{$notif->postman}}</h2>
-                <p>{{$notif->content}}</p>
-              </div>
-            </div>
+            <a href="{{ ($notif->queries_id) ? '/forum/'.$notif->queries_id : '/post/'.$notif->posts_id }}" 
+                onclick="viewNotif({{$notif->id}})"
+                class="mx-auto">
+                <div class="ctm cursor-pointer flex h-[80px] my-4 relative pr-6 w-[280px] hover:bg-gray-100 rounded-lg shadow-sm transition-all overflow-hidden">
+                    <img src="{{url('images/Untitled-1.ico')}}" class="h-16 rouded-full mx-3" alt="">
+                    <div class="flex flex-col w-[240px]">
+                        <h2 class="font-bold">{{($notif->queries_id) ? 'Student' : 'Admin'}}</h2>
+                        <p>{{$notif->content}}</p>
+                    </div>
+                    @if ($notif->is_read == 0)
+                        <span id="notif-indicator{{$notif->notid}}" class="absolute right-2 top-1/2 bg-blue-500 h-4 w-4 rounded-full">ׂׂׂ</span>
+                    @endif
+                </div>
+            </a>
         @endforeach
-      </div>
-    </div>
-  </section>
+        
+        <x-chatbot />
+    </section>
+</main>
 
-  <x-chatbot />
 
+  
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js" defer></script>
 <script>
+    function viewNotif(notifyid){
+        $('#notif-indicator'+notifyid).css("display", "none");
+        $.ajaxSetup({
+            headers:{
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: '/read-notifs',
+            type: 'POST',
+            data: {
+                id: notifyid
+            },
+            success: function(data){
+                console.log(data);
+            }
+        });
+    }
+
   class Chatbox {
     constructor() {
         this.args = {

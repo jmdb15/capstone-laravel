@@ -13,6 +13,11 @@ html.dark {
   margin: 0;
   padding: 0;
 }
+
+#mid::-webkit-scrollbar{
+  display: none;
+}
+
 a:hover {
   text-decoration: none;
   color: inherit;
@@ -20,6 +25,10 @@ a:hover {
 
 .max-w-1920 {
   max-width: 1920px;
+}
+
+.canvasjs-chart-canvas{
+  border-radius: 12px;
 }
 
 .fc-center h2 {
@@ -75,12 +84,6 @@ a:hover {
 }
 .fc-event:hover {
   background-color: #449bc6;
-}
-
-#right,
-#left {
-  height: 100vh;
-  overflow-y: auto;
 }
 
 .w-inherit {
@@ -469,14 +472,13 @@ html {
 /* CHATBOX
 =============== */
 .chatbox {
-  position: fixed;
-  bottom: 30px;
+  position: absolute;
+  bottom: 68px;
   right: 30px;
 }
 
 /* CONTENT IS CLOSE */
 .chatbox__support {
-  margin-bottom: 48px;
   display: none;
   flex-direction: column;
   background: #333;
@@ -663,4 +665,11 @@ html {
   position: absolute;
   left: 450px;
   scale: 120%;
+}
+
+/* NOTIFICATION  */
+.notif-cont{
+  width: 240px;
+  white-space: nowrap; /* Prevent text from wrapping to the next line */
+  overflow: hidden; /* Hide the overflowed text */
 }

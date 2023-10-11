@@ -1,8 +1,9 @@
 @include('partials.__header')
+<body class="bg-gray-200" x-data="{nos: false}" :class="{'no-scroll': nos}">
 @include('partials.__sidenavbar')
 
 <div class="p-4 sm:ml-64" >
-  <div class="p-4 rounded-lg dark:border-gray-700 mt-14">
+  <div class="p-4 rounded-lg flex flex-col gap-y-10 dark:border-gray-700 mt-14">
 
     <div class="flex flex-col gap-4  md:flex-row justify-around">
 
@@ -48,7 +49,14 @@
 
     </div>
 
-    <div class="relative mt-16 flex flex-col justify-between max-w-2xl      gap-96 xl:gap-6 xl:flex-row h-fit">
+    <div class="flex">
+      <div id="chartContainer3" class="rounded-md shadow-xl" style="height: 370px; max-width: 920px; margin: 0px auto;"></div>
+    </div>
+
+    <h1>ilang post kada week/month</h1>
+    <h1>system notifications</h1>
+
+    <div class="relative mt-16 flex flex-col justify-between max-w-2xl gap-96 xl:gap-6 xl:flex-row h-fit">
       <div id="chartContainer2" class="w-fit shadow-xl"></div>
       <div id="chartContainer" class="w-fit mt-12 xl:mt-0 shadow-xl"></div>
     </div>
@@ -66,7 +74,50 @@
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
           }
       });
-    })
+      var chart3 = new CanvasJS.Chart("chartContainer3", {
+        theme:"light2",
+        animationEnabled: true,
+        title:{
+          text: "Posts & Queries"
+        },
+        axisY :{
+          title: "Number of Viewers",
+        },
+        toolTip: {
+          shared: "true"
+        },
+        legend:{
+          cursor:"pointer",
+          itemclick : toggleDataSeries
+        },
+        data: [
+        {
+          type: "spline", 
+          showInLegend: true,
+          yValueFormatString: "##",
+          name: "Season 8",
+          dataPoints: [
+            { label: "Ep. 1", y: 11.76 },
+            { label: "Ep. 2", y: 10.29 },
+            { label: "Ep. 3", y: 12.02 },
+            { label: "Ep. 4", y: 11.80 },
+            { label: "Ep. 5", y: 12.48 },
+            { label: "Ep. 6", y: 13.61 }
+          ]
+        }]
+      });
+      chart3.render();
+
+      function toggleDataSeries(e) {
+        if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible ){
+          e.dataSeries.visible = false;
+        } else {
+          e.dataSeries.visible = true;
+        }
+        chart.render();
+      }
+  });
+
     $.ajax({
       url:'/admin',
       type: 'GET',

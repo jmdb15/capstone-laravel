@@ -1,26 +1,23 @@
 @include('partials.__header')
 @include('partials.__navbar')
-@include('partials.__sidebar')
+@include('partials.__sidebar', ['show' => true])
 
-<main class="w-screen flex flex-col sm:flex-row max-w-1920 mx-auto">
-  <section id="mid" class="grid place-items-center grow md:basis-2/3 h-fit pt-10" x-data="{show:false}">
-
-    <div class="flex flex-col gap-3 mx-2">
-      @foreach ($posts as $post)
+  <div class="flex flex-col gap-3 mx-2">
+    @foreach ($posts as $post)
       <x-card :post="$post" />
-      @endforeach
-    </div>
+    @endforeach
+  </div>
 
-    <x-toast />
-
-  </section>
-</main>
+  <x-toast />
 
 {{-- View Image Modal --}}
 <div id="imageModal" class="modal">
   <span id="viewImageCloseButton">&times;</span>
   <img class="modal-content" id="modalImage" src="" alt="Image" />
 </div>
+
+
+@include('partials.__notifications', ['notifs' => $notifs])
 
 <script>
   function copylink(v) {
@@ -44,5 +41,4 @@
   }
 </script>
 
-@include('partials.__notifications', ['notifs' => $notifs])
 @include('partials.__footer')

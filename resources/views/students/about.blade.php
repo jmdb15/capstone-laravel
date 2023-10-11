@@ -1,10 +1,8 @@
 @include('partials.__header')
 @include('partials.__navbar')
-@include('partials.__sidebar')
+@include('partials.__sidebar', ['show' => true])
 
-
-<section id="mid" class="grid place-items-center grow md:basis-2/3 h-fit ">
-  <!-- Insert middle section's contents here -->
+<!-- Insert middle section's contents here -->
 
       <!-- Dean's Section -->
       <div class="flex flex-col items-center w-full h-fit relative ">
@@ -146,7 +144,6 @@
       </div>
 
       <!-- End of middle section's contents -->
-</section>
 
 @include('partials.__notifications', ['notifs' => $notifs])
 @include('partials.__footer')

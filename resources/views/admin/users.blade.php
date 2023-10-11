@@ -1,4 +1,5 @@
 @include('partials.__header')
+<body class="bg-gray-200" x-data="{nos: false}" :class="{'no-scroll': nos}">
 @include('partials.__sidenavbar')
 
 <div class="p-4 sm:ml-64" >

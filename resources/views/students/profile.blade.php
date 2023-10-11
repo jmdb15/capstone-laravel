@@ -1,14 +1,13 @@
 @include('partials.__header')
 @include('partials.__navbar')
-@include('partials.__sidebar')
+@include('partials.__sidebar', ['show' => true])
 @php
   $cuser = auth()->user();
   $show = ($cuser->id == $user->id) ? true : false;
   $def = 'https://avatars.dicebear.com/api/initials/'.$user->name.'.svg';
 @endphp
 
-<section id="mid" class="flex flex-col grow md:basis-2/3 h-fit m-2 md:m-8" >
-  {{-- Personal Details --}}
+{{-- Personal Details --}}
     <div class="flex flex-col bg-gray-50 min-h-64 h-[440px] md:h-96 rounded-md " x-data="{open: false, id:'', modal_type: 'Change Password'}">
       <img src="{{url('images/cssp_white.png')}}" class="object-cover w-full overflow-y-hidden h-[40%] md:h-[60%]" alt="">
       <div class="flex flex-col relative h-[40%] md:flex-row pt-4">
@@ -71,7 +70,7 @@
         @csrf
         
         <label for="message" class="block mb-2 text-xl font-medium text-gray-700 dark:text-white">Do you have a question?</label>
-        <textarea id="message" name="query" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Ask everyone..."></textarea>
+        <textarea id="message" name="question" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Ask everyone..."></textarea>
 
         <button class="send absolute bottom-3 right-3 bg-blue-600 p-2 rounded-full" title="Send" id="send">
           <svg class="rotate-90" fill="none" viewBox="0 0 24 24" height="18" width="18" xmlns="http://www.w3.org/2000/svg">
@@ -108,8 +107,6 @@
           @endforeach   
         @endif
     </section>
-
-</section>
 
 <x-messages />
   
