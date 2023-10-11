@@ -345,16 +345,10 @@ class UserController extends Controller
         return view('students.calendar', ['notifs' => $notifs]);
     }
 
-
-    public function trynotifs()
-    {
-        return view('students.some');
-    }
-
     public function notifs()
     {
         $user = auth()->user();
-        $notifs = Notifications::where('users_id', $user->id)->get();
+        $notifs = Notifications::where('users_id', $user->id)->orderBy('created_at', 'DESC')->get();
         return $notifs;
         // return view('students.some', ['posts' => $posts, 'peruser' => $fil]);
     }
@@ -365,7 +359,7 @@ class UserController extends Controller
         foreach($users as $user){
             Notifications::insert([
                 'users_id' => $user->id,
-                'content' => $cur->name.' posted a question: '.$query,
+                'content' => $cur.' posted a question: '.$query,
                 'queries_id' => $query_id,
             ]);
         }

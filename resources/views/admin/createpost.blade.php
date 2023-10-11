@@ -50,22 +50,22 @@
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script>
+  document.querySelector('#select_image').addEventListener('click', function(){
+    document.querySelector('#post_image').click();
+  });
   $(document).ready(function(){
       $.ajaxSetup({
           headers:{
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
           }
       });
-      document.querySelector('#select_image').addEventListener('click', function(){
-        document.querySelector('#post_image').click();
-      });
-  });
+    });
   function deletethis(id){
     $.ajax({
       url:'/create-post/action',
       type: 'POST',
       data: { 
-          for: 'posts'
+          for: 'posts',
           id: id
         },
       success:function(data){

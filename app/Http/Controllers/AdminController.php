@@ -19,15 +19,15 @@ class AdminController extends Controller
 {
     public function index(Request $request)
     {
-        if ($request->ajax() && false) {
+        if ($request->ajax()) {
             $results = DB::select('SELECT COUNT(*) as count, activity FROM activities GROUP BY activity');
             return response()->json($results);
-            $qrys = Queries::count();
-            $users = Users::count();
-            $posts = Posts::count();
-            $comments = Comments::count();
-            return view('admin.index', ['qrys' => $qrys, 'users' => $users, 'posts' => $posts, 'comments' => $comments]);
         }
+        $qrys = Queries::count();
+        $users = Users::count();
+        $posts = Posts::count();
+        $comments = Comments::count();
+        return view('admin.index', ['qrys' => $qrys, 'users' => $users, 'posts' => $posts, 'comments' => $comments]);
         $endDate = Carbon::now();
         $startDate = $endDate->copy()->subWeek();
         $results = [];
@@ -43,13 +43,14 @@ class AdminController extends Controller
         $results2 = [];
         while ($startDate2 <= $endDate2) {
             $count = DB::table('queries')
-                ->whereDate('created_at', $startDate2->toDateString())
+                ->whereDate('query_date', $startDate2->toDateString())
                 ->count();
             $starDate2 = $startDate2->format('d');
             $results2[$starDate2] = $count;
             $startDate2->addDay();
         }
-        dd($results2);
+        // dd($results2);
+        return view('admin.index');
     }
 
     public function users()

@@ -8,7 +8,7 @@
 @endphp
 
 {{-- Personal Details --}}
-    <div class="flex flex-col bg-gray-50 min-h-64 h-[440px] md:h-96 rounded-md " x-data="{open: false, id:'', modal_type: 'Change Password'}">
+    <div class="flex flex-col bg-gray-50 min-h-64 h-[440px] w-[85%] md:h-96 rounded-md ">
       <img src="{{url('images/cssp_white.png')}}" class="object-cover w-full overflow-y-hidden h-[40%] md:h-[60%]" alt="">
       <div class="flex flex-col relative h-[40%] md:flex-row pt-4">
         {{-- left side --}}
@@ -58,7 +58,6 @@
                 </li>
               </ul>
           </div>
-          <x-changepass />
 
         </div>
       </div>
@@ -179,4 +178,5 @@
     document.getElementById(`txtarea${qid}`).value = '';
   }
 </script>
+<x-changepass />
 @include('partials.__footer')
