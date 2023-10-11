@@ -1,6 +1,4 @@
 
-        <x-chatbot class="block lg:hidden"/>
-
     </section>
 
     <section id="right" class="h-[calc(100%-70px)] mt-[70px] min-w-[324px] max-w-[324px] overflow-y-auto basis-1/4 hidden flex-col items-center lg:flex">
@@ -23,9 +21,9 @@
                 </div>
             </a>
         @endforeach
-        
-        <x-chatbot />
     </section>
+        
+    <x-chatbot />
 </main>
 
 
