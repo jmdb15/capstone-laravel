@@ -28,29 +28,29 @@ class AdminController extends Controller
         $posts = Posts::count();
         $comments = Comments::count();
         return view('admin.index', ['qrys' => $qrys, 'users' => $users, 'posts' => $posts, 'comments' => $comments]);
-        $endDate = Carbon::now();
-        $startDate = $endDate->copy()->subWeek();
-        $results = [];
-        while ($startDate <= $endDate) {
-            $count = DB::table('posts')
-                ->whereDate('created_at', $startDate->toDateString())
-                ->count();
-            $results[$startDate->toDateString()] = $count;
-            $startDate->addDay();
+    }
+
+    public function line(Request $request){
+        if($request->ajax()){
+            $endDate = Carbon::now();
+            $startDate = $endDate->copy()->subWeek();
+            $results = [];
+            $results2 = [];
+            while ($startDate <= $endDate) {
+                $countPosts = DB::table('posts')
+                    ->whereDate('created_at', $startDate->toDateString())
+                    ->count();
+                $countQueries = DB::table('queries')
+                    ->whereDate('query_date', $startDate->toDateString())
+                    ->count();
+                $starDate = $startDate->format('d');
+                $results[$starDate] = $countPosts;
+                $results2[$starDate] = $countQueries;
+                $startDate->addDay();
+            }
+            $ret = [$results, $results2];
+            return $ret;
         }
-        $endDate2 = Carbon::now();
-        $startDate2 = $endDate2->copy()->subWeek();
-        $results2 = [];
-        while ($startDate2 <= $endDate2) {
-            $count = DB::table('queries')
-                ->whereDate('query_date', $startDate2->toDateString())
-                ->count();
-            $starDate2 = $startDate2->format('d');
-            $results2[$starDate2] = $count;
-            $startDate2->addDay();
-        }
-        // dd($results2);
-        return view('admin.index');
     }
 
     public function users()

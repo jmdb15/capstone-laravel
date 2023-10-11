@@ -49,14 +49,14 @@
 
     </div>
 
-    <div class="flex">
-      <div id="chartContainer3" class="rounded-md shadow-xl" style="height: 370px; max-width: 920px; margin: 0px auto;"></div>
+    <div class="flex flex-col justify-between gap-y-[420px] xl:flex-row">
+      <div id="chartContainer3" class="rounded-md shadow-xl min-w-sm basis-4/5" style="height: 370px; max-width: 920px;"></div>
+      <div class="h-[370px] w-96 rounded-lg border-2 border-gray-600">
+
+      </div>
     </div>
 
-    <h1>ilang post kada week/month</h1>
-    <h1>system notifications</h1>
-
-    <div class="relative mt-16 flex flex-col justify-between max-w-2xl gap-96 xl:gap-6 xl:flex-row h-fit">
+    <div class="relative mt-10 flex flex-col justify-between max-w-2xl gap-96 xl:gap-6 xl:flex-row h-fit">
       <div id="chartContainer2" class="w-fit shadow-xl"></div>
       <div id="chartContainer" class="w-fit mt-12 xl:mt-0 shadow-xl"></div>
     </div>
@@ -74,58 +74,40 @@
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
           }
       });
-      var chart3 = new CanvasJS.Chart("chartContainer3", {
-        theme:"light2",
-        animationEnabled: true,
-        title:{
-          text: "Posts & Queries"
-        },
-        axisY :{
-          title: "Number of Viewers",
-        },
-        toolTip: {
-          shared: "true"
-        },
-        legend:{
-          cursor:"pointer",
-          itemclick : toggleDataSeries
-        },
-        data: [
-        {
-          type: "spline", 
-          showInLegend: true,
-          yValueFormatString: "##",
-          name: "Season 8",
-          dataPoints: [
-            { label: "Ep. 1", y: 11.76 },
-            { label: "Ep. 2", y: 10.29 },
-            { label: "Ep. 3", y: 12.02 },
-            { label: "Ep. 4", y: 11.80 },
-            { label: "Ep. 5", y: 12.48 },
-            { label: "Ep. 6", y: 13.61 }
-          ]
-        }]
-      });
-      chart3.render();
-
-      function toggleDataSeries(e) {
-        if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible ){
-          e.dataSeries.visible = false;
-        } else {
-          e.dataSeries.visible = true;
-        }
-        chart.render();
-      }
+      
   });
 
-    $.ajax({
-      url:'/admin',
-      type: 'GET',
-      success:function(data){
-        pieChartRend(data);
+  // THIS WILL RUN 
+  $.ajax({
+    url:'/admin',
+    type: 'GET',
+    success:function(data){
+      pieChartRend(data);
+    }
+  });
+  $.ajax({
+    url:'/admin-line',
+    type: 'GET',
+    success:function(data){
+      console.log(data)
+      sort1 = Object.keys(data[0]).sort((a, b) => b - a);
+      sort2 = Object.keys(data[1]).sort((a, b) => b - a);
+      data2 = [];
+      data3 = [];
+      for (let key of sort1) {
+        data2.push({label: key, y: data[0][key]})
       }
-    });
-    barGraphRend('a');
+      for (let key of sort2) {
+        data3.push({label: key, y: data[1][key]})
+      }
+      lineChartRend(data2, data3);
+      console.log(data2)
+      console.log(data3)
+    }
+  });
+  barGraphRend('a');
+
+
 
   function pieChartRend(data){
     var chart2 = new CanvasJS.Chart("chartContainer", {
@@ -175,6 +157,52 @@
         ]
       });
     chart.render();
+    }
+
+    function lineChartRend(data, data2){
+      var chart = new CanvasJS.Chart("chartContainer3", {
+        theme:"light2",
+        animationEnabled: true,
+        title:{
+          text: "Posts & Queries"
+        },
+        axisY :{
+          title: "Number of Viewers",
+        },
+        toolTip: {
+          shared: "true"
+        },
+        legend:{
+          cursor:"pointer",
+          itemclick : toggleDataSeries
+        },
+        data: [
+        {
+          type: "spline", 
+          showInLegend: true,
+          yValueFormatString: "##",
+          name: "Posts",
+          dataPoints: data
+        },
+        {
+          type: "spline", 
+          showInLegend: true,
+          yValueFormatString: "##",
+          name: "Queries",
+          dataPoints: data2
+        },
+        ]
+      });
+      chart.render();
+      
+      function toggleDataSeries(e) {
+        if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible ){
+          e.dataSeries.visible = false;
+        } else {
+          e.dataSeries.visible = true;
+        }
+        chart.render();
+      }
     }
  }
 </script>

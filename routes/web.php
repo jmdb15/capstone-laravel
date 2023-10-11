@@ -41,6 +41,7 @@ Route::get('/signup', function () {
 # ### ADMIN PAGES ### #
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin', [AdminController::class, 'index']);
+    Route::get('/admin-line', [AdminController::class, 'line']);
     Route::get('/create-post', [AdminController::class, 'create']);
     Route::post('/create-post/process', [AdminController::class, 'store']);
     Route::post('/create-post/action', [AdminController::class, 'action']);
