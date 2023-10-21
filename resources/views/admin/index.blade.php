@@ -51,8 +51,63 @@
 
     <div class="flex flex-col justify-between gap-y-[420px] xl:flex-row">
       <div id="chartContainer3" class="rounded-md shadow-xl min-w-sm basis-4/5" style="height: 370px; max-width: 920px;"></div>
-      <div class="h-[370px] w-96 rounded-lg border-2 border-gray-600">
-
+      <div class="h-[370px] w-96 rounded-lg border-2 border-gray-600 flex flex-col overflow-y-auto">
+        <div class="w-full h-16 py-0 px-2 flex">
+          <img src="{{url('images/Untitled-1.ico')}}" alt="" class="h-full w-auto p-2 rounded-full" />
+          <div class="flex flex-col gap-0 justify-start">
+            <h4 class="text-xl text-black font-bold mt-2">Name</h4>
+            <p class="text-gray-600 text-lg -mt-2">Lorem ipsum dolor sit amet.</p>
+          </div>
+        </div>
+        <div class="w-full h-16 py-0 px-2 flex">
+          <img src="{{url('images/Untitled-1.ico')}}" alt="" class="h-full w-auto p-2 rounded-full" />
+          <div class="flex flex-col gap-0 justify-start">
+            <h4 class="text-xl text-black font-bold mt-2">Name</h4>
+            <p class="text-gray-600 text-lg -mt-2">Lorem ipsum dolor sit amet.</p>
+          </div>
+        </div>
+        <div class="w-full h-16 py-0 px-2 flex">
+          <img src="{{url('images/Untitled-1.ico')}}" alt="" class="h-full w-auto p-2 rounded-full" />
+          <div class="flex flex-col gap-0 justify-start">
+            <h4 class="text-xl text-black font-bold mt-2">Name</h4>
+            <p class="text-gray-600 text-lg -mt-2">Lorem ipsum dolor sit amet.</p>
+          </div>
+        </div>
+        <div class="w-full h-16 py-0 px-2 flex">
+          <img src="{{url('images/Untitled-1.ico')}}" alt="" class="h-full w-auto p-2 rounded-full" />
+          <div class="flex flex-col gap-0 justify-start">
+            <h4 class="text-xl text-black font-bold mt-2">Name</h4>
+            <p class="text-gray-600 text-lg -mt-2">Lorem ipsum dolor sit amet.</p>
+          </div>
+        </div>
+        <div class="w-full h-16 py-0 px-2 flex">
+          <img src="{{url('images/Untitled-1.ico')}}" alt="" class="h-full w-auto p-2 rounded-full" />
+          <div class="flex flex-col gap-0 justify-start">
+            <h4 class="text-xl text-black font-bold mt-2">Name</h4>
+            <p class="text-gray-600 text-lg -mt-2">Lorem ipsum dolor sit amet.</p>
+          </div>
+        </div>
+        <div class="w-full h-16 py-0 px-2 flex">
+          <img src="{{url('images/Untitled-1.ico')}}" alt="" class="h-full w-auto p-2 rounded-full" />
+          <div class="flex flex-col gap-0 justify-start">
+            <h4 class="text-xl text-black font-bold mt-2">Name</h4>
+            <p class="text-gray-600 text-lg -mt-2">Lorem ipsum dolor sit amet.</p>
+          </div>
+        </div>
+        <div class="w-full h-16 py-0 px-2 flex">
+          <img src="{{url('images/Untitled-1.ico')}}" alt="" class="h-full w-auto p-2 rounded-full" />
+          <div class="flex flex-col gap-0 justify-start">
+            <h4 class="text-xl text-black font-bold mt-2">Name</h4>
+            <p class="text-gray-600 text-lg -mt-2">Lorem ipsum dolor sit amet.</p>
+          </div>
+        </div>
+        <div class="w-full h-16 py-0 px-2 flex">
+          <img src="{{url('images/Untitled-1.ico')}}" alt="" class="h-full w-auto p-2 rounded-full" />
+          <div class="flex flex-col gap-0 justify-start">
+            <h4 class="text-xl text-black font-bold mt-2">Name</h4>
+            <p class="text-gray-600 text-lg -mt-2">Lorem ipsum dolor sit amet.</p>
+          </div>
+        </div>
       </div>
     </div>
 

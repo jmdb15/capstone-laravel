@@ -15,7 +15,7 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 class Users extends Model implements AuthenticatableContract, AuthorizableContract, CanResetPasswordContract
 {
     protected $table = 'users';
-    protected $fillable = ['password', 'id', 'name', 'email', 'type']; //specific dcolumns for changes
+    protected $fillable = ['password', 'id', 'name', 'email', 'type', 'trusted', 'is_disabled']; //specific dcolumns for changes
     // protected $guarded = [];//for all columns changeable
     use Authenticatable, Authorizable, CanResetPassword;
     

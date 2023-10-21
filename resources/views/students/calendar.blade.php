@@ -36,12 +36,17 @@
     </div>
   </div>
 
-  <x-popover />
+  <button 
+  id="MODAL-TOGGLE"
+  data-modal-target="small-modal"
+  data-modal-toggle="small-modal"
+  class="hidden w-full md:w-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+    Small modal
+  </button>
 
-  
 @include('partials.__notifications', ['notifs' => $notifs])
 
-  <script>
+  <script defer>
     $(document).ready(function() {
       $.ajaxSetup({
         headers:{
@@ -50,81 +55,56 @@
       });
     });
 
-      var calendar = $('#calendar').fullCalendar({
-        editable: false,
-        header:{
-          left: 'prev,next today',
-          center: 'title',
-          right:'month,agendaWeek,agendaDay'
-        },
-        events:'/calendar', //This is the url to send request to
-        selectable:true,
-        selectHelper:true,
-        eventClick:function(event){//DO SOMETHING WHEN EVENT-VIEW IS CLICKED
-          $('#toggler').click();
-          $('#modaltype').val('Edit Event');
-          $('#eventid').val(event.id);
-          $('#title').val(event.title);
-          $('#description').val(event.description);
-          $('#startpicker').val(cformatDate(event.start));
-          $('#endpicker').val(cformatDate(event.end));
-          document.querySelector('#forcreate').style.display = 'none';
-          document.querySelector('#foredit').style.display = 'block';
-        },
-        initialView: 'dayGridMonth',
-        eventRender: function(event, element) { //RENDER SOMETHING TO EVERY EVENT-VIEW ELEMENT
-          element.attr('data-popover-target', 'popover-default'); //set to show popover above element
-          
-          element.on('mouseenter', function(e) {
-            document.getElementById('poptitle').innerHTML = event.title;
-            document.getElementById('popdesc').innerHTML = event.description;
-            document.getElementById('start').innerHTML = cformatDate(event.start);
-            document.getElementById('end').innerHTML = cformatDate(event.end);
-          }).on('mouseleave', function() {
-            // simulateHover(customPopover, false);
-          });
-        },
-      });
-    //SIMULATE HOVER ACTION
-    function simulateHover(targetElement, b) {
-      const mouseEnterEvent = new MouseEvent('mouseenter', {
-        bubbles: true,
-        cancelable: true,
-        view: window
-      });
-      const mouseLeaveEvent = new MouseEvent('mouseleave', {
-        bubbles: true,
-        cancelable: true,
-        view: window
-      });
-      if(b)
-        targetElement.dispatchEvent(mouseEnterEvent);
-      else
-        targetElement.dispatchEvent(mouseLeaveEvent);
-    }
+    var calendar = $('#calendar').fullCalendar({
+      editable: false,
+      header:{
+        left: 'prev,next today',
+        center: 'title',
+        right:'month,agendaWeek,agendaDay'
+      },
+      events:'/calendar', //This is the url to send request to
+      selectable:true,
+      selectHelper:true,
+      eventClick:function(event){//DO SOMETHING WHEN EVENT-VIEW IS CLICKED
+        $('#MODAL-TOGGLE').click();
+        $('#fortitle').html(event.title);
+        $('#fordescription').html(event.description);
+        $('#startpick').html(cformatDate(event.start));
+        $('#endpick').html(cformatDate(event.end));
+      },
+      initialView: 'dayGridMonth',
+      eventRender: function(event, element) { //RENDER SOMETHING TO EVERY EVENT-VIEW ELEMENT
+        element.attr('data-modal-target', 'small-modal');
+        element.attr('data-modal-toggle', 'small-modal');
+      },
+    });
+
     // GET PROPER DATE
     function cformatDate(date){
       var inputDate = new Date(date);
-      var year = inputDate.getFullYear();
-      var month = inputDate.getMonth() + 1;
-      var day = inputDate.getDate();
-      var hours = inputDate.getHours();
-      var minutes = inputDate.getMinutes();
-      var seconds = inputDate.getSeconds();
+      var daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-      var formattedMonth = (month < 10) ? "0" + month : month;
+      var dayOfWeek = daysOfWeek[inputDate.getUTCDay()];
+      var month = months[inputDate.getUTCMonth()];
+      var day = inputDate.getUTCDate();
+      var year = inputDate.getUTCFullYear();
+      var hours = inputDate.getUTCHours();
+      var minutes = inputDate.getUTCMinutes();
+
+      // Convert hours to 12-hour format and determine AM or PM
+      var amOrPm = hours >= 12 ? "PM" : "AM";
+      hours = hours % 12 || 12; // Convert to 12-hour format
+
+      // Zero-pad the day and minutes
       var formattedDay = (day < 10) ? "0" + day : day;
-      var formattedHours = ((hours < 10) ? "0" + hours : hours) - 8;
       var formattedMinutes = (minutes < 10) ? "0" + minutes : minutes;
-      var formattedSeconds = (seconds < 10) ? "0" + seconds : seconds;
-      
-      var formattedDateString = year + "-" + formattedMonth + "-" + formattedDay + " " + formattedHours + ":" + formattedMinutes + ":" + formattedSeconds;
+
+      var formattedDateString = dayOfWeek + ", " + month + " " + formattedDay + ", " + year + " " + hours + ":" + formattedMinutes + " " + amOrPm;
       return formattedDateString;
     }
-    function yes(e){
-      e.preventDefault();
-      console.log("clicked")
-    }
   </script>
+
+  <x-s_cal_modal />
 
 @include('partials.__footer')

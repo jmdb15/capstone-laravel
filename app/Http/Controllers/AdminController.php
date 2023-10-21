@@ -28,6 +28,17 @@ class AdminController extends Controller
         $posts = Posts::count();
         $comments = Comments::count();
         return view('admin.index', ['qrys' => $qrys, 'users' => $users, 'posts' => $posts, 'comments' => $comments]);
+            
+        // $new = DB::table('notifications')->select('notifications.users_id', 'notifications.content', 'users.name', 'users.image')
+        //             ->join('users', 'users.id','=','notifications.users_id')
+        //             ->where('notifications.posts_id', '=', 'null');
+        // $new2 = Notifications::leftJoin('users', 'notifications.users_id', '=', 'users.id')
+        //         ->whereNull("notifications.posts_id")
+        //         ->orderBy('notifications.created_at', 'desc')
+        //         ->select('notifications.content', 'notifications.id', 'users.image', 'users.name')
+        //         ->limit(5)
+        //         ->get();
+        // dd($new2);
     }
 
     public function line(Request $request){
@@ -61,7 +72,7 @@ class AdminController extends Controller
 
     public function create()
     {
-        $posts = Posts::get();
+        $posts = Posts::where('is_deleted', 0)->orderBy('created_at', 'DESC')->get();
         return view('admin.createpost', ['posts' => $posts]);
     }
 
@@ -104,12 +115,13 @@ class AdminController extends Controller
                 Posts::find($request->id)->update([
                     'is_deleted' => '1'
                 ]);
-                return back()->with('messages', 'Post is deleted.');
+                return back()->with('message', 'Post is deleted.');
             } else if ($request->for == 'query') {
                 Queries::find($request->id)->update([
                     'is_deleted' => '1'
                 ]);
-                return back()->with('messages', 'Question is deleted.');
+                // session()->flash('message', 'Student\' question is deleted.');
+                return 'successful';
             }
         }
     }
@@ -119,39 +131,20 @@ class AdminController extends Controller
         return view('admin.logs');
     }
 
-    public function forum()
+    public function forum(Request $request)
     {
-        // $vote_count = DB::select('((SELECT COUNT(*) as vote_count, comments_id from votes where checked = 1 GROUP BY comments_id) order by vote_count desc limit 1)');
-        // $comments = DB::select('SELECT comments.*, users.name, users.image FROM comments INNER JOIN users on comments.users_id = users.id WHERE comments.id ='. $vote_count[0]->comments_id);
-        $posts = Queries::with(['users'])->get();
-        foreach ($posts as $post) {
-            // $votes = DB::select('((SELECT COUNT(*) as vote_count, comments_id from votes WHERE queries_id = ' . $post->id . ' and checked = 1 GROUP BY comments_id) order by vote_count desc limit 1)');
-            // $comment_count = DB::select('SELECT COUNT(*) as c FROM comments WHERE queries_id = ' . $post->id);
-            // if (count($votes) == 0) {
-            //     $post['comments'] = DB::select('SELECT (0) as vote_count, (' . $comment_count[0]->c . ') as comment_count, comments.*, users.name, users.image FROM comments INNER JOIN users ON comments.users_id = users.id WHERE comments.queries_id = ' . $post->id . ' ORDER BY id DESC');
-            // } else {
-            //     $post['comments'] = DB::select('SELECT ' . $votes[0]->vote_count . ' as vote_count, (' . $comment_count[0]->c . ') as comment_count, comments.*, users.name, users.image FROM comments INNER JOIN users on comments.users_id = users.id WHERE comments.id = ' . $votes[0]->comments_id);
-            // }
+        $qrys = Queries::where('is_deleted', 0)->with('users')->get();
+        return view('admin.forum', ['posts'=>$qrys]);
+    }
 
-            $post['comments'] = DB::table('comments')->join('users', 'users.id','=','comments.users_id')
-                            ->select('comments.*', 'users.name', 'users.image')
-                            ->where('queries_id', $post->id)
-                            ->get();
-            foreach($post->comments as $c){
-                $c->vote_count  = DB::table('votes')
-                                ->where('comments_id', $c->id)
-                                ->where('queries_id', $post->id)
-                                ->where('checked', 1)
-                                ->count();
-                // $c['vote_count'] = 4;
-            }
-            $date = $post->query_date;
-            $date = Carbon::parse($date);
-            $customFormat = $date->format('F j, Y');
-            $post['query_date'] = $customFormat;
+    public function forum_modal(Request $request){
+        if($request->type && $request->type == 'delete'){
+            $comm = Comments::find($request->id);
+            $comm->delete();
+            return 'deleted';
         }
-        // dd($posts);
-        return view('admin.forum', ['posts' => $posts, 'open' => 'false', 'see' => 'false']);
+        $comments = Comments::where('queries_id',$request->id)->with('users')->orderBy('comment_date','DESC')->get();
+        return response()->json($comments);
     }
 
     public function filter(Request $request)

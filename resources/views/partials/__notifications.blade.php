@@ -7,16 +7,17 @@
       </div> --}}
         @foreach ($notifs as $notif)
             <a href="{{ ($notif->queries_id) ? '/forum/'.$notif->queries_id : '/post/'.$notif->posts_id }}" 
-                onclick="viewNotif({{$notif->id}})"
-                class="mx-auto">
-                <div class="ctm cursor-pointer flex h-[80px] my-4 relative pr-6 w-[280px] hover:bg-gray-100 rounded-lg shadow-sm transition-all overflow-hidden">
+                {{-- onclick="viewNotif({{$notif->id}})" --}}
+                id="{{$notif->id}}"
+                class="notifys mx-auto mt-0">
+                <div class="ctm cursor-pointer flex h-[80px] my-1 relative pr-6 w-[280px] hover:bg-gray-100 rounded-lg shadow-sm transition-all overflow-hidden">
                     <img src="{{url('images/Untitled-1.ico')}}" class="h-16 rouded-full mx-3" alt="">
                     <div class="flex flex-col w-[240px]">
                         <h2 class="font-bold">{{($notif->queries_id) ? 'Student' : 'Admin'}}</h2>
                         <p>{{$notif->content}}</p>
                     </div>
                     @if ($notif->is_read == 0)
-                        <span id="notif-indicator{{$notif->notid}}" class="absolute right-2 top-1/2 bg-blue-500 h-4 w-4 rounded-full">ׂׂׂ</span>
+                        <span id="notif-indicator{{$notif->id}}" class="absolute right-2 top-1/2 bg-blue-500 h-4 w-4 rounded-full">ׂׂׂ</span>
                     @endif
                 </div>
             </a>
@@ -29,12 +30,22 @@
 
   
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js" defer></script>
-<script>
-    function viewNotif(notifyid){
+<script defer>
+    allAs = document.querySelectorAll('.notifys');
+    allAs.forEach(function(a){
+        a.addEventListener('click', function(e){
+            id = a.id;
+            hre = a.href;
+            viewNotif(e, id, hre);
+        });
+    })
+
+    function viewNotif(e, notifyid, hre){
+        e.preventDefault();
         $('#notif-indicator'+notifyid).css("display", "none");
         $.ajaxSetup({
             headers:{
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
         $.ajax({
@@ -45,6 +56,7 @@
             },
             success: function(data){
                 console.log(data);
+                location.href = hre;
             }
         });
     }

@@ -38,11 +38,7 @@
     </form>
     <br><br>
     <x-messages />
-    <div class="flex flex-col gap-3 mx-2">
-      @foreach ($posts as $post) 
-        <x-card :post="$post" />
-      @endforeach
-    </div>
+    <x-post_table :posts="$posts"/>
   </div>
 </div>
   

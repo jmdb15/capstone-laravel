@@ -16,6 +16,7 @@
   <img class="modal-content" id="modalImage" src="" alt="Image" />
 </div>
 
+<x-messages />
 
 @include('partials.__notifications', ['notifs' => $notifs])
 

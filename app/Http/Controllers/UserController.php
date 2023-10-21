@@ -33,7 +33,9 @@ class UserController extends Controller
             $users = 'james';
             return response()->json(['newData' => $users2]);
         }
-        return view('students.index', ['users' => $users2]);
+        $badge = $this->badger();
+        dd($badge);
+        // return view('students.index', ['users' => $users2]);
     }
 
     # Sign in process
@@ -98,20 +100,24 @@ class UserController extends Controller
 
     public function postQuery(Request $request)
     {
-        $user_id = auth()->user()->id;
+        $user = auth()->user();
         $post = DB::table('queries')->insertGetId([
-            'users_id' => $user_id,
+            'users_id' => $user->id,
             'query' => $request->question,
         ]);
-        $this->informUsers($user_id, $post, $request->question);
-        return back()->with('messages', "Question is posted!");
+        DB::table('activities')->insert([
+                'users_id' => $user->id,
+                'activity' => "Posted his/her question."
+            ]);
+        $this->informUsers($user->id, $post, $request->question);
+        return back()->with('message', "Question is posted!");
     }
 
     public function forum()
     {
         $vote_count = DB::select('((SELECT COUNT(*) as vote_count, comments_id from votes where checked = 1 GROUP BY comments_id) order by vote_count desc limit 1)');
         // $comments = DB::select('SELECT comments.*, users.name, users.image FROM comments INNER JOIN users on comments.users_id = users.id WHERE comments.id ='. $vote_count[0]->comments_id);
-        $posts = Queries::with(['users'])->get();
+        $posts = Queries::with(['users'])->where('is_deleted',0)->get();
         foreach ($posts as $post) {
             $votes = DB::select('((SELECT COUNT(*) as vote_count, comments_id from votes WHERE queries_id = ' . $post->id . ' and checked = 1 GROUP BY comments_id) order by vote_count desc limit 1)');
             $comment_count = DB::select('SELECT COUNT(*) as c FROM comments WHERE queries_id = ' . $post->id);
@@ -142,29 +148,38 @@ class UserController extends Controller
         // }
         // return view('students.query', ['posts'=>$posts, 'queryId' => $id]);
         $posts = Queries::where('id', $id)->with('users')->get();
-        $data = Comments::select('comments.*', 'users.name', 'users.image', 'users.id as users_id')
-            ->join('users', 'users.id', '=', 'comments.users_id')
-            ->where('queries_id', $posts[0]->id)
-            ->get();
-        foreach ($data as $c) {
-            $votes = DB::select('SELECT COUNT(*) as vote_count from votes WHERE comments_id = ' . $c->id . ' and checked = 1 GROUP BY comments_id');
-            $c['vote_count'] = ($votes) ? $votes[0]->vote_count : 0;
+        if($posts[0]->is_deleted == 1){
+            return redirect('/forum')->with('errmessage', 'This question is deleted.');
+        }else{
+            $data = Comments::select('comments.*', 'users.name', 'users.image', 'users.id as users_id')
+                ->join('users', 'users.id', '=', 'comments.users_id')
+                ->where('queries_id', $posts[0]->id)
+                ->get();
+            foreach ($data as $c) {
+                $votes = DB::select('SELECT COUNT(*) as vote_count from votes WHERE comments_id = ' . $c->id . ' and checked = 1 GROUP BY comments_id');
+                $c['vote_count'] = ($votes) ? $votes[0]->vote_count : 0;
+            }
+            $posts[0]['comments'] = $data;
+            $notifs = $this->notifs();
+            return view('students.query', ['posts' => $posts, 'open' => 'true', 'see' => 'false', 'notifs' => $notifs]);
         }
-        $posts[0]['comments'] = $data;
-        $notifs = $this->notifs();
-        return view('students.query', ['posts' => $posts, 'open' => 'true', 'see' => 'false', 'notifs' => $notifs]);
     }
 
     public function copyLink($id)
     {
         $data = Posts::where('id', $id)->get();
-        $notifs = $this->notifs();
-        return view('students.posts', ['posts' => $data, 'notifs' => $notifs]);
+        if($data[0]->is_deleted == 1){
+            session()->flash('errmessage', 'This post is deleted.');
+            return redirect('/posts');
+        }else{
+            $notifs = $this->notifs();
+            return view('students.posts', ['posts' => $data, 'notifs' => $notifs]);
+        }
     }
 
     public function news()
     {
-        $posts = Posts::get();
+        $posts = Posts::where('is_deleted',0)->get();
         $notifs = $this->notifs();
         return view('students.posts', ['posts' => $posts, 'notifs' => $notifs]);
     }
@@ -350,7 +365,7 @@ class UserController extends Controller
         $user = auth()->user();
         $notifs = Notifications::where('users_id', $user->id)->orderBy('created_at', 'DESC')->get();
         return $notifs;
-        // return view('students.some', ['posts' => $posts, 'peruser' => $fil]);
+        // return view('students.some');
     }
 
     public function informUsers($id, $query_id, $query){
@@ -375,5 +390,34 @@ class UserController extends Controller
             } catch (ModelNotFoundException $e) {
                 return response()->json('no records');
             }
+    }
+
+    public function badger(){
+        $eligible = false;
+        $user = auth()->user();
+        $row = Users::find($user->id);
+        if($row->trusted == 0){
+            $comments = Comments::where('users_id', $user->id)->get();
+            if(count($comments) >= 10 ){
+                foreach($comments as $comment){
+                    $reacts = Votes::where('comments_id', $comment->id)->where('checked', 1)->get();
+                    if(count($reacts) < 10){
+                        $eligible = false;
+                    }else{
+                        $eligible = true;
+                    }
+                }
+            }else{
+                return '';
+            }
+            if($eligible){
+                $row->update([
+                    'trusted' => 1
+                ]);
+                return 'badger';
+            }
+        }else{
+            return 'trusted';
+        }
     }
 }

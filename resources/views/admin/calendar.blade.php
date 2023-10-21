@@ -220,20 +220,25 @@
     // GET PROPER DATE
     function cformatDate(date){
       var inputDate = new Date(date);
-      var year = inputDate.getFullYear();
-      var month = inputDate.getMonth() + 1;
-      var day = inputDate.getDate();
-      var hours = inputDate.getHours();
-      var minutes = inputDate.getMinutes();
-      var seconds = inputDate.getSeconds();
+      var daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-      var formattedMonth = (month < 10) ? "0" + month : month;
+      var dayOfWeek = daysOfWeek[inputDate.getUTCDay()];
+      var month = months[inputDate.getUTCMonth()];
+      var day = inputDate.getUTCDate();
+      var year = inputDate.getUTCFullYear();
+      var hours = inputDate.getUTCHours();
+      var minutes = inputDate.getUTCMinutes();
+
+      // Convert hours to 12-hour format and determine AM or PM
+      var amOrPm = hours >= 12 ? "PM" : "AM";
+      hours = hours % 12 || 12; // Convert to 12-hour format
+
+      // Zero-pad the day and minutes
       var formattedDay = (day < 10) ? "0" + day : day;
-      var formattedHours = ((hours < 10) ? "0" + hours : hours) - 8;
       var formattedMinutes = (minutes < 10) ? "0" + minutes : minutes;
-      var formattedSeconds = (seconds < 10) ? "0" + seconds : seconds;
-      
-      var formattedDateString = year + "-" + formattedMonth + "-" + formattedDay + " " + formattedHours + ":" + formattedMinutes + ":" + formattedSeconds;
+
+      var formattedDateString = dayOfWeek + ", " + month + " " + formattedDay + ", " + year + " " + hours + ":" + formattedMinutes + " " + amOrPm;
       return formattedDateString;
     }
     function yes(e){

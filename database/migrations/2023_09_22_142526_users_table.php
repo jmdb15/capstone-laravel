@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('type')->default('student');
+            $table->tinyInteger('trusted')->default(0);
             $table->tinyInteger('is_disabled')->default(0);
             $table->timestamps();
         });

@@ -34,6 +34,7 @@
     </div>
   </form>
 
+  <x-messages />
 
 @include('partials.__notifications', ['notifs' => $notifs])
 <script>

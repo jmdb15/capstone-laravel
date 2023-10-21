@@ -49,8 +49,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/forum', [AdminController::class, 'forum']);
     Route::get('/logs', [AdminController::class, 'logs']);
     Route::get('/admin/calendar', [CalendarController::class, 'index']);
-    Route::post('/admin/calendar/action', [CalendarController::class, 'action']);
+    Route::post('/calendar/action', [CalendarController::class, 'action']);
+    
+    
 });
+Route::post('/forum-modal', [AdminController::class, 'forum_modal']);
 
 # ### PROCESS ### #
 Route::post('/logs/filtered', [AdminController::class, 'filter']);

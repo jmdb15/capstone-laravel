@@ -4,63 +4,53 @@
 
 {{-- Main/Middle Section --}}
 
-<section id="mid" class="flex flex-col grow md:basis-2/3 h-fit m-8 content-center">
-
-  <form method="POST" action="javascript:void(0)" id="querier">
-  @csrf
-    <input type="hidden" name="uid" id="uid">
-    <input type="hidden" name="qid" id="qid">
-    <input type="hidden" name="cid" id="cid">
-    <input type="hidden" name="comment" id="cominput">
-      
-    <div class="flex flex-col">
-      @foreach ($posts as $post)
-      @php $def_profile = 'https://avatars.dicebear.com/api/initials/'.$post->users->name.'.svg'; @endphp
-        <div class="my-8 mx-auto relative"  x-data="{open: {{$open}}, open2: false, see: {{$see}}}">
-          <div class="max-w-md p-6 overflow-hidden rounded-t-lg shadow bg-gray-100 dark:bg-gray-900 dark:text-gray-100 h-min">
-            <article>
-              <div class="flex items-center mb-8 space-x-4">
-                <img src="{{$post->users->image ? asset('storage/student/'.$post->users->image) : $def_profile}}" alt="" class="w-10 h-10 rounded-full dark:bg-gray-500">
-                <div>
-                  <h3 class="text-sm font-medium">{{$post->users->name}}</h3>
-                  <time datetime="2021-02-18" class="text-xs dark:text-gray-400">{{$post->query_date}}</time>
-                </div>
-                {{-- DROPDOWN BUTTON --}}
-                <div class="flex justify-end px-4">
-                  <button id="dropdownButton" data-dropdown-toggle="dropdown{{$post->id}}" class="absolute top-4 right-4 inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5" type="button">
-                      <span class="sr-only">Open dropdown</span>
-                      <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
-                          <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
-                      </svg>
-                  </button>
-                  <!-- Dropdown menu -->
-                  <div id="dropdown{{$post->id}}" class="z-40 hidden text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                      <ul class="py-2" aria-labelledby="dropdownButton">
-                        <li id="copylinkbtn" class="block cursor-pointer px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white" 
-                            onclick="copylink({{$post->id}})">
-                            Copy link
-                        </li>
-                        {{-- <li>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Edit</a>
-                        </li> --}}
-                        <li onclick="deleteqry({{ $post->id }})">
-                            <span class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete</span>
-                        </li>
-                      </ul>
-                  </div>
-                </div>
-              </div>
-              <p class="mt-4 dark:text-gray-400">{{$post->query}}</p>
-            </article>
-          </div>
-          <x-commentbox :comments="$post->comments" :curqid="$post->id" />
+<div class="p-4 sm:ml-64" >
+  <div class="p-4 rounded-lg dark:border-gray-700 mt-14">
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg"  
+        x-data="{ open: false, image:'', id: '', name: '', email: '', type: '', created_at: '', modal_type:'' }">
+        <div class="flex items-center justify-between px-2 py-2 bg-white dark:bg-gray-900 border-b-2">
+          <h4 class="ml-2 text-xl">Student Queries</h4>
         </div>
-      @endforeach   
+        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th scope="col" class="px-6 py-3">
+                        Name
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Query Content
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Date
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Action
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+              @foreach ($posts as $post)
+                <x-forum_tr :post="$post" />
+              @endforeach
+            </tbody>
+          </table>
+          <button 
+  id="TABLE-TOGGLE"
+  data-modal-target="table-modal"
+  data-modal-toggle="table-modal"
+  class="hidden w-full md:w-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+    Small modal
+  </button>
+          {{-- <div class="bg-white p-2">
+            {{$users->links('vendor.pagination.tailwind')}}
+          </div> --}}
     </div>
-  </form>
-
+    
+  </div>
+</div>
 </section>
 
+<x-forum_table_modal />
 <x-messages />
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
@@ -72,69 +62,73 @@
       }
     });
   });
-  function reactsubmit(type, uid, cid, qid){
-    if((cid != 'null' && type == 'react') || (qid != 'null' && type=='comment')){
-      span = document.getElementById(`span${cid}`);
-      svg = document.getElementById(`heart${cid}`);
-      document.getElementById('uid').value = uid;
-      document.getElementById('cid').value = cid;
-      document.getElementById('qid').value = qid;
-      document.getElementById('cominput').value = document.getElementById('txtarea'+qid).value;
-      url = (type == 'react') ? "{{ url('ajax-request-react') }}" : "{{ url('ajax-request-comment') }}";
-      $.ajax({
-        type: 'POST',
-        url: url,
-        data: $('#querier').serialize(),
-        success: function(data){
-          if(data == 'add'){
-            svg.setAttribute('fill', "#f5356e");
-            svg.setAttribute('stroke', "#f5356e");
-            span.innerHTML = Number(span.innerText) + 1;
-          }else if(data == 'commented'){
-            console.log(data)
-          }else{
-            document.getElementById(`heart${cid}`).setAttribute('fill', "#707277");
-            document.getElementById(`heart${cid}`).setAttribute('stroke', "#707277");
-            span.innerHTML = Number(span.innerText) - 1;
-          }
-        },
-        error:function(xhr){
-          console.log(xhr.responseText);
+  function callForTable(id, query){
+    $('#tboy').empty();
+    $('#TABLE-TOGGLE').click();
+    $('#fortitle').html(query);
+    $.ajax({
+      url: '/forum-modal',
+      type: 'POST',
+      data:{ id: id },
+      success:function(data){
+        for (const d of data) {
+          $('#tboy').append(createTableRow(d.id, d.users.image, d.users.name, d.users.email, d.comment, d.comment_date));
         }
-      });
-    }
-  }
-  function copylink(v){
-      const textArea = document.createElement("textarea");
-      cpylinkbtn = document.querySelector('#copylinkbtn');
-      textArea.value = '127.0.0.1:8000/post/forum/'+v;
-      document.body.appendChild(textArea);
-      textArea.select();
-      try {
-          document.execCommand("copy");
-      } catch (err) {
-          console.error("Unable to copy to clipboard:", err);
-      } finally {
-          document.body.removeChild(textArea);
-          cpylinkbtn.innerText = 'Copied.';
       }
-      setTimeout(() => {
-        cpylinkbtn.innerText = 'Copy link';
-      }, 2000);
-    }
-    function deleteqry(id){
-      $.ajax({
-        url:'/create-post/action',
-        type: 'POST',
-        data: { 
-          for: 'query',
-          id: id,
-        },
-        success:function(data){
-          console.log(' deleted');
-        }
-      });
-    }
+    }); 
+  }
+
+  function createTableRow(id, img, name, email, comment, date){
+    image = (img) ? img : 'https://avatars.dicebear.com/api/initials/' + name + '.svg';
+    tr =  `<tr id="tr${id}" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+              <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+                  <img class="w-10 h-10 rounded-full" 
+                    src="${image}"
+                    alt="${name}'s image">
+                  <div class="pl-3">
+                      <div class="text-base font-semibold">${name}</div>
+                      <div class="font-normal text-gray-500">${email}</div>
+                  </div>  
+              </th>
+              <td class="px-6 py-4 w-[384px] max-w-lg">
+                <strong>${comment}</strong>
+              </td>
+              <td class="px-6 py-4">
+                  ${date}
+              </td>
+              <td class="px-6 py-4">
+                <!-- <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                <span class="text-gray-400 text-md">|</span> -->
+                <button class="font-medium text-red-600 dark:text-blue-500 hover:underline" onclick="deleteCom(${id})">Delete</button>
+              </td>
+            </tr>`;
+    return tr;
+  }
+
+  function deleteCom(id){
+    $.ajax({  
+      url: '/forum-modal',
+      type: 'POST',
+      data:{ id: id,
+      type: 'delete'},
+      success:function(data){
+        document.querySelector(`#tr${id}`).style.display = 'none';
+        console.log(data)
+      }
+    });
+  }
+  function deleteQry(id){
+    $.ajax({  
+      url: '/create-post/action',
+      type: 'POST',
+      data:{ id: id,
+      for: 'query'},
+      success:function(data){
+        document.querySelector(`#ptr${id}`).style.display = 'none';
+        console.log(data)
+      }
+    });
+  }
 </script>
 
 @include('partials.__admin_footer')

@@ -27,18 +27,18 @@
                       <textarea id="description" name="description" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="..."></textarea>
                     </div>
                     <div class="flex flex-col items-center justify-between" >
-                      <div class="flex items-center border-2 border-gray-400 rounded-lg px-2">
+                      <div class="flex items-center border-2 border-gray-400 rounded-lg px-2 w-full">
                         <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                           <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
                         </svg>
-                        <input type="text" name="start" id="startpicker" placeholder="Start" class="pl-2 outline-none border-none focus:outline-none active:outline-none">
+                        <input type="text" name="start" id="startpicker" placeholder="Start" class="pl-2 outline-none border-none focus:outline-none active:outline-none w-full">
                       </div>
                       <span class="text-lg">to</span>
-                      <div class="flex items-center border-2 border-gray-400 rounded-lg px-2">
+                      <div class="flex items-center border-2 border-gray-400 rounded-lg px-2 w-full">
                         <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                           <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
                         </svg>
-                        <input type="text" name="end" id="endpicker" placeholder="End" class="pl-2 outline-none border-none focus:outline-none active:outline-none">
+                        <input type="text" name="end" id="endpicker" placeholder="End" class="pl-2 outline-none border-none focus:outline-none active:outline-none w-full">
                       </div>
                     </div>
                     <div class="flex" id="foredit">
