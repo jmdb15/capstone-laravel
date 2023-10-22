@@ -364,8 +364,8 @@ class UserController extends Controller
     {
         $user = auth()->user();
         $notifs = Notifications::where('users_id', $user->id)->orderBy('created_at', 'DESC')->get();
-        return $notifs;
-        // return view('students.some');
+        // return $notifs;
+        return view('students.some');
     }
 
     public function informUsers($id, $query_id, $query){

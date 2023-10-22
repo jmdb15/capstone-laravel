@@ -60,9 +60,9 @@
       <hr class="h-0.5 my-2 mx-6 bg-black">
 
       <h2 class="w-full text-center text-3xl font-bold m-4">Official and Staff</h2>
-      <div class="flex flex-wrap p-4 m-4 justify-around">
+      <div class="flex flex-wrap p-0 m-4 justify-around">
         <!-- Item 1 -->
-        <div class="flex h-28 basis-1/2 shadow-lg p-6 my-3 min-w-fit max-w-fit">
+        <div class="flex h-28 basis-1/2 shadow-lg p-6 my-3 min-w-[220px] max-w-sm">
           <img src="{{ url('images/Untitled-1.ico') }}" class="mr-4" alt="">
           <div class="flex flex-col justify-around">
             <h4 class="text-xl">Jorge S. Arellano</h4>
@@ -70,7 +70,7 @@
           </div>
         </div>
         <!-- Item 2 -->
-        <div class="flex h-28 basis-1/2 shadow-lg p-6 my-3 min-w-max max-w-fit">
+        <div class="flex h-28 basis-1/2 shadow-lg p-6 my-3 min-w-[220px] max-w-sm">
           <img src="{{ url('images/Untitled-1.ico') }}" class="mr-4" alt="">
           <div class="flex flex-col justify-around">
             <h4 class="text-xl">Jorge S. Arellano</h4>
@@ -78,7 +78,7 @@
           </div>
         </div>
         <!-- Item 3 -->
-        <div class="flex h-28 basis-1/2 shadow-lg p-6 my-3 min-w-max max-w-fit">
+        <div class="flex h-28 basis-1/2 shadow-lg p-6 my-3 min-w-[220px] max-w-sm">
           <img src="{{ url('images/Untitled-1.ico') }}" class="mr-4" alt="">
           <div class="flex flex-col justify-around">
             <h4 class="text-xl">Jorge S. Arellano</h4>
@@ -86,7 +86,7 @@
           </div>
         </div>
         <!-- Item 4 -->
-        <div class="flex h-28 basis-1/2 shadow-lg p-6 my-3 min-w-max max-w-fit">
+        <div class="flex h-28 basis-1/2 shadow-lg p-6 my-3 min-w-[220px] max-w-sm">
           <img src="{{ url('images/Untitled-1.ico') }}" class="mr-4" alt="">
           <div class="flex flex-col justify-around">
             <h4 class="text-xl">Jorge S. Arellano</h4>
@@ -94,7 +94,7 @@
           </div>
         </div>
         <!-- Item 5 -->
-        <div class="flex h-28 basis-1/2 shadow-lg p-6 my-3 min-w-max max-w-fit">
+        <div class="flex h-28 basis-1/2 shadow-lg p-6 my-3 min-w-[220px] max-w-sm">
           <img src="{{ url('images/Untitled-1.ico') }}" class="mr-4" alt="">
           <div class="flex flex-col justify-around">
             <h4 class="text-xl">Jorge S. Arellano</h4>
@@ -102,7 +102,7 @@
           </div>
         </div>
         <!-- Item 6 -->
-        <div class="flex h-28 basis-1/2 shadow-lg p-6 my-3 min-w-max max-w-fit">
+        <div class="flex h-28 basis-1/2 shadow-lg p-6 my-3 min-w-[220px] max-w-sm">
           <img src="{{ url('images/Untitled-1.ico') }}" class="mr-4" alt="">
           <div class="flex flex-col justify-around">
             <h4 class="text-xl">Jorge S. Arellano</h4>
@@ -110,7 +110,7 @@
           </div>
         </div>
         <!-- Item 7 -->
-        <div class="flex h-28 basis-1/2 shadow-lg p-6 my-3 min-w-max max-w-fit">
+        <div class="flex h-28 basis-1/2 shadow-lg p-6 my-3 min-w-[220px] max-w-sm">
           <img src="{{ url('images/Untitled-1.ico') }}" class="mr-4" alt="">
           <div class="flex flex-col justify-around">
             <h4 class="text-xl">Jorge S. Arellano</h4>
@@ -118,7 +118,7 @@
           </div>
         </div>
         <!-- Item 8 -->
-        <div class="flex h-28 basis-1/2 shadow-lg p-6 my-3 min-w-max max-w-fit">
+        <div class="flex h-28 basis-1/2 shadow-lg p-6 my-3 min-w-[220px] max-w-sm">
           <img src="{{ url('images/Untitled-1.ico') }}" class="mr-4" alt="">
           <div class="flex flex-col justify-around">
             <h4 class="text-xl">Jorge S. Arellano</h4>
@@ -126,7 +126,7 @@
           </div>
         </div>
         <!-- Item 9 -->
-        <div class="flex h-28 basis-1/2 shadow-lg p-6 my-3 min-w-max max-w-fit">
+        <div class="flex h-28 basis-1/2 shadow-lg p-6 my-3 min-w-[220px] max-w-sm">
           <img src="{{ url('images/Untitled-1.ico') }}" class="mr-4" alt="">
           <div class="flex flex-col justify-around">
             <h4 class="text-xl">Jorge S. Arellano</h4>
@@ -134,7 +134,7 @@
           </div>
         </div>
         <!-- Item 10 -->
-        <div class="flex h-28 basis-1/2 shadow-lg p-6 my-3 min-w-max max-w-fit">
+        <div class="flex h-28 basis-1/2 shadow-lg p-6 my-3 min-w-[220px] max-w-sm">
           <img src="{{ url('images/Untitled-1.ico') }}" class="mr-4" alt="">
           <div class="flex flex-col justify-around">
             <h4 class="text-xl">Jorge S. Arellano</h4>
