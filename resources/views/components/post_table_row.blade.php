@@ -4,16 +4,16 @@
   $date = $date->format('F j, Y');
 @endphp
 
-<tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white overflow-hidden overflow-ellipsis max-w-lg">
+<tr class="bg-white border-b hover:bg-gray-50">
+    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap overflow-hidden overflow-ellipsis max-w-lg">
         {{ $post->caption }}
     </th>
     <td class="px-6 py-4">
         {{ $date }}
     </td>
     <td class="px-6 py-4">
-        <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+        <a href="#" class="font-medium text-blue-600 hover:underline">Edit</a>
         <span class="text-gray-400 text-md">|</span>
-        <a href="#" class="font-medium text-red-600 dark:text-blue-500 hover:underline">Delete</a>
+        <a href="#" class="font-medium text-red-600 hover:underline">Delete</a>
     </td>
 </tr>

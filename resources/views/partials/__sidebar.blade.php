@@ -1,16 +1,23 @@
 @php
-  $def_profile = 'https://avatars.dicebear.com/api/initials/'.auth()->user()->name.'.svg';
+  $def_profile = (auth()->user()) ? 'https://avatars.dicebear.com/api/initials/'.auth()->user()->name.'.svg' : 'https://avatars.dicebear.com/api/initials/avatar.svg';
 @endphp
 <main class="h-full w-full px-1 max-w-1920 flex justify-between fixed md:px-0">
 
   <section id="left" class="h-[calc(100%-70px)] mt-[70px] min-w-[324px] max-w-[324px] basis-1/4  hidden md:block">
     <!-- Sidebar Navigations -->
-    <a href="/profile/{{auth()->user()->id}}" class="hover:bg-gray-300 rounded-md">
+    @if (auth()->user())
+      <a href="/profile/{{auth()->user()->id}}" class="hover:bg-gray-300 rounded-md">
+        <div class="flex items-center h-8 m-4">
+          <img src="{{auth()->user()->image ? asset('storage/student/thumbnail/'.auth()->user()->image) : $def_profile}}" alt="Profile" class="h-10 rounded-full mr-2">
+          <h2 class="text-lg font-bold">{{auth()->user()->name}}</h2>
+        </div>
+      </a>
+    @else
       <div class="flex items-center h-8 m-4">
-        <img src="{{auth()->user()->image ? asset('storage/student/thumbnail/'.auth()->user()->image) : $def_profile}}" alt="Profile" class="h-10 rounded-full mr-2">
-        <h2 class="text-lg font-bold">{{auth()->user()->name}}</h2>
+        <img src="{{$def_profile}}" alt="Profile" class="h-10 rounded-full mr-2">
+        <h2 class="text-lg font-bold">Guest</h2>
       </div>
-    </a>
+    @endif
     <ul class="cursor-pointer">
       <a href="/orgs">
         <li class="flex items-center w-full p-2 pl-6 h-14 transition-all hover:bg-violet-500 hover:text-white rounded-md">

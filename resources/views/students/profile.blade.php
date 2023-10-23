@@ -43,27 +43,27 @@
         {{-- right side --}}
         <div class="w-10 ml-4 hidden md:flex justify-end items-center pr-4 ">
           @if ($show)
-            <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="text-white bg-slate-500 hover:bg-slate-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-3 h-min text-center inline-flex items-center dark:bg-slate-600 dark:hover:bg-slate-500 dark:focus:ring-slate-600" type="button">
+            <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" class="text-white bg-slate-500 hover:bg-slate-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm p-3 h-min text-center inline-flex items-center" type="button">
               <svg class="w-2.5 h-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
               </svg>
             </button>
           @endif
           <!-- Dropdown menu -->
-          <div id="dropdown" class="z-10 hidden bg-gray-100 divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-              <ul class="py-2 text-sm text-gray-800 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+          <div id="dropdown" class="z-10 hidden bg-gray-100 divide-y divide-gray-100 rounded-lg shadow w-44">
+              <ul class="py-2 text-sm text-gray-800" aria-labelledby="dropdownDefaultButton">
                 <li>
                   <a 
                     type="button"
                     data-modal-target="authentication-modal" 
                     data-modal-toggle="authentication-modal" 
                     x-on:click='open = !open, id="{{$user->id}}"'
-                    class="block px-4 py-2 hover:bg-gray-200 hover:cursor-pointer dark:hover:bg-gray-700 dark:hover:text-white">
+                    class="block px-4 py-2 hover:bg-gray-200 hover:cursor-pointer">
                       Change Password
                   </a>
                   {{-- <button 
                     x-on:click='open2 = !open2, id="{{$user->id}}", image="{{$user->image}}"'
-                    class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+                    class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center" type="button">
                     Change Password
                   </button> --}}
                 </li>
@@ -79,8 +79,8 @@
       <form action="/go-ask" method="post" class="w-full relative">
         @csrf
         
-        <label for="message" class="block mb-2 text-xl font-medium text-gray-700 dark:text-white">Do you have a question?</label>
-        <textarea id="message" name="question" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Ask everyone..."></textarea>
+        <label for="message" class="block mb-2 text-xl font-medium text-gray-700">Do you have a question?</label>
+        <textarea id="message" name="question" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Ask everyone..."></textarea>
 
         <button class="send absolute bottom-3 right-3 bg-blue-600 p-2 rounded-full" title="Send" id="send">
           <svg class="rotate-90" fill="none" viewBox="0 0 24 24" height="18" width="18" xmlns="http://www.w3.org/2000/svg">
@@ -100,16 +100,16 @@
         @foreach ($posts as $post)
           @php $def_profile = 'https://avatars.dicebear.com/api/initials/'.$post->users->name.'.svg'; @endphp
             <div class="my-2 mx-auto" x-data="{open2: false, see: {{$see}} }">
-              <div class="max-w-md p-6 overflow-hidden rounded-t-lg shadow bg-gray-100 dark:bg-gray-900 dark:text-gray-100 h-min">
+              <div class="max-w-md p-6 overflow-hidden rounded-t-lg shadow bg-gray-100 h-min">
                 <article>
                   <div class="flex items-center mb-8 space-x-4">
-                    <img src="{{$post->users->image ? asset('storage/student/'.$post->users->image) : $def_profile}}" alt="" class="w-10 h-10 rounded-full dark:bg-gray-500">
+                    <img src="{{$post->users->image ? asset('storage/student/'.$post->users->image) : $def_profile}}" alt="" class="w-10 h-10 rounded-full">
                     <div>
                       <h3 class="text-sm font-medium">{{$post->users->name}}</h3>
-                      <time datetime="2021-02-18" class="text-xs dark:text-gray-400">{{$post->query_date}}</time>
+                      <time datetime="2021-02-18" class="text-xs">{{$post->query_date}}</time>
                     </div>
                   </div>
-                  <p class="mt-4 dark:text-gray-400">{{$post->query}}</p>
+                  <p class="mt-4">{{$post->query}}</p>
                 </article>
               </div>
               <x-commentbox :comments="$post->comments" :curqid="$post->id" />

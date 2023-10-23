@@ -16,10 +16,12 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->string('name');
             $table->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('type')->default('student');
             $table->tinyInteger('trusted')->default(0);
             $table->tinyInteger('is_disabled')->default(0);
+            $table->rememberToken();
             $table->timestamps();
         });
     }

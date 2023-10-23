@@ -3,6 +3,7 @@
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CalendarController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Request;
 
@@ -19,24 +20,35 @@ use Illuminate\Support\Facades\Request;
 
 # ### STUDENT PAGES ### #
 Route::middleware(['auth', 'student'])->group(function () {
-    Route::get('/', [UserController::class, 'index']);
+    Route::get('/', [UserController::class, 'about']);
     Route::get('/about', [UserController::class, 'about']);
     Route::get('/orgs', function () {
         return view('students.organization');
     });
     Route::get('/forum', [UserController::class, 'forum'])->middleware('auth');
     Route::get('/forum/{id}', [UserController::class, 'viewQuery'])->middleware('auth');
-    Route::get('/profile/{id}', [UserController::class, 'viewProfile'])->middleware('auth');
+    Route::get('/profile/{id}', [UserController::class, 'viewProfile'])->name('profile');
     Route::get('/posts', [UserController::class, 'news'])->middleware('auth');
     Route::get('/post/{id}', [UserController::class, 'copyLink'])->middleware('auth');
 });
+
+Route::middleware(['guest'])->group(function () {
+    // Define routes accessible to guests here
+    Route::get('/about', [UserController::class, 'about']);
+    Route::get('/forum', [UserController::class, 'forum']);
+    Route::get('/forum/{id}', [UserController::class, 'viewQuery']);
+    Route::get('/posts', [UserController::class, 'news']);
+    Route::get('/post/{id}', [UserController::class, 'copyLink']);
+});
+Route::get('/setAsGuest', [UserController::class, 'setAsGuest'])->name('setAsGuest');
 
 Route::get('/login', function () {
     return view('login');
 })->name('login');
 Route::get('/signup', function () {
     return view('signup');
-})->middleware('guest');
+});
+Route::get('/verify', [UserController::class, 'verify']);
 
 # ### ADMIN PAGES ### #
 Route::middleware(['auth', 'admin'])->group(function () {
@@ -57,12 +69,12 @@ Route::post('/forum-modal', [AdminController::class, 'forum_modal']);
 
 # ### PROCESS ### #
 Route::post('/logs/filtered', [AdminController::class, 'filter']);
-Route::get('/calendar', [UserController::class, 'calendar'])->middleware('auth');
+Route::get('/calendar', [UserController::class, 'calendar']);
 Route::post('/login/process', [UserController::class, 'process']);
 Route::post('/store', [UserController::class, 'store']);
 Route::put('/update', [UserController::class, 'update']);
 Route::put('/changepass', [UserController::class, 'changepass']);
-Route::post('/logout', [UserController::class, 'logout']);
+Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 Route::post('/ajax-request-react', [UserController::class, 'ajaxRequestReact']);
 Route::post('/ajax-request-comment', [UserController::class, 'ajaxRequestComment']);
 Route::post('/go-ask', [UserController::class, 'postQuery']);
@@ -70,40 +82,12 @@ Route::get('/process-notifs', [UserController::class, 'notifs'])->middleware('au
 Route::post('/read-notifs', [UserController::class, 'readnotifs'])->middleware('auth');
 
 
-
-
-
-// Route::get('/', function(){
-//     return view('welcome');
-// });
-
-// Route::get('/user/{id}', [UserController::class, 'show'])->middleware('auth');//protect routes
-// Route::get('/login', function(){ return view('login'); })->name('login');
-// Route::get('/users', [UserController::class, 'index']);
-// Route::get('/user/{id}', [UserController::class, 'show']);
-// Route::get('/signup', function(){ return view('signup'); });
-
-// Route::get('/home', function () {
-//     return 'welcome home';
-// });
-// Route::get('/users', function(Request $request){
-//     dd($request);
-//     return null;
-// });
-
-// Route::get('/user/{id}/{grp}', function($id, $grp){
-//     return response($id.'-'.$grp, 200)->header('Content-type', 'text/plain');
-// });
-
-// Route::get('/request-json', function(){
-//     return response()->json(['name' => 'Hello', 'age' => '22']);
-// });
-
-// Route::get('/request-dl', function(){
-//     $path = public_path().'/sample.txt';
-//     $name = 'sample.txt';
-//     $header = array(
-//         'Content-type : application/text-plain',
-//     );
-//     return response()->download($path, $name, $header);
-// });
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});

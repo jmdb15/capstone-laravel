@@ -1,6 +1,6 @@
 <div class="fixed top-0 left-0 z-[48] pt-4 bg-slate-300 h-screen w-2/3 text-center lg:hidden items-center justify-center" x-show="openMobile">
     <div class="pl-4 flex flex-wrap items-center justify-start w-full lg:w-auto">
-        <a href="/" class="flex items-center space-x-2 text-2xl font-medium text-indigo-500 dark:text-gray-100">
+        <a href="/" class="flex items-center space-x-2 text-2xl font-medium text-indigo-500">
             <img alt="logo" src="{{ url('images/Untitled-1.ico') }}" class="h-14 w-14 aspect-square" width="36" height="36" decoding="async" data-nimg="1" loading="lazy" style="color:transparent" />
         </a>
         <h2 class="text-xl ml-3">TALK to RAJAH</h2>
@@ -41,11 +41,13 @@
                 <img src="{{ url('images/icons/info.png') }}" alt="" class="w-4 h-4 aspect-square"> About
             </li>
         </a>
-        <a href="/profile/{{auth()->user()->id}}" >
-            <li class="mr-3 px-4 py-3 flex gap-x-2 items-center nav__item hover:bg-slate-600 hover:text-white">
-                <img src="{{ url('images/icons/user.png') }}" alt="" class="w-5 h-4 aspect-square"> Profile
-            </li>
-        </a>
+        @if (auth()->user())
+            <a href="/profile/{{auth()->user()->id}}" >
+                <li class="mr-3 px-4 py-3 flex gap-x-2 items-center nav__item hover:bg-slate-600 hover:text-white">
+                    <img src="{{ url('images/icons/user.png') }}" alt="" class="w-5 h-4 aspect-square"> Profile
+                </li>
+            </a>
+        @endif
         <form action="/logout" method="POST">
             @csrf
             <li class="mr-3 px-4 py-3 nav__item hover:bg-slate-600 hover:text-white">

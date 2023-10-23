@@ -1,8 +1,8 @@
 @php
   $def_profile = 'https://avatars.dicebear.com/api/initials/'.$post->users->name.'.svg';
 @endphp
-<tr id="ptr{{$post->id}}" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-  <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+<tr id="ptr{{$post->id}}" class="bg-white border-b hover:bg-gray-50">
+  <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap">
       <img class="w-10 h-10 rounded-full" 
         src="{{$post->users->image ? asset('storage/student/'.$post->users->image) : $def_profile}}"
         alt="{{$post->users->name}} image">
@@ -18,9 +18,9 @@
       {{ $post->query_date }}
   </td>
   <td class="px-6 py-4">
-    <span class="text-md font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer" onclick="callForTable({{$post->id}}, '{{$post->query}}')">View</span>
+    <span class="text-md font-medium text-blue-600 hover:underline cursor-pointer" onclick="callForTable({{$post->id}}, '{{$post->query}}')">View</span>
     {{-- function to open modal and ajax call to populate table  --}}
     <span class="text-gray-400 text-md">|</span>
-    <span class="text-md font-medium text-red-600 dark:text-blue-500 hover:underline cursor-pointer" onclick="deleteQry({{$post->id}})">Delete</span>
+    <span class="text-md font-medium text-red-600 hover:underline cursor-pointer" onclick="deleteQry({{$post->id}})">Delete</span>
   </td>
 </tr>

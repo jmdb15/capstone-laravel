@@ -18,14 +18,29 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\Rule;
 use Intervention\Image\Facades\Image;
+use App\Notifications\VerifyEmailNotification;
 
 
 class UserController extends Controller
 {
     public function index(Request $request)
     {
+        $ipp = $request->ip();
+
+        $apiKey = '4ede6738dfd64a8982e1f4c783836c1b';
+        $apiUrl = 'https://api.ipgeolocation.io/ipgeo?apiKey='.$apiKey;
+
+        $response = Http::get($apiUrl);
+
+        if ($response->successful()) {
+            // $city = $response->city;
+            // $zip = $response->zipcode;
+            $locationData = $response->json();
+        }
+
         $users2 = ['jemuel', 'claire', 'anne', 'banag'];
         $users = 'jemuel';
         if ($request->ajax()) {
@@ -34,8 +49,8 @@ class UserController extends Controller
             return response()->json(['newData' => $users2]);
         }
         $badge = $this->badger();
-        dd($badge);
-        // return view('students.index', ['users' => $users2]);
+        // dd($badge);, 'city' => $city, 'zip' => $zip
+        return view('students.index', ['users' => $users2, 'ipp' => $ipp, 'response' => $locationData]);
     }
 
     # Sign in process
@@ -79,7 +94,7 @@ class UserController extends Controller
         $user = Users::create($validated);
         Auth::login($user);
 
-        return redirect('/login'); # redirect somewhere
+        return redirect('/verify'); # redirect somewhere
     }
 
     # Log out
@@ -90,6 +105,10 @@ class UserController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/')->with('message', 'Logout successful');
+    }
+
+    public function verify(){
+        return view('auth.verify-email');
     }
 
     public function about()
@@ -362,10 +381,12 @@ class UserController extends Controller
 
     public function notifs()
     {
-        $user = auth()->user();
-        $notifs = Notifications::where('users_id', $user->id)->orderBy('created_at', 'DESC')->get();
-        // return $notifs;
-        return view('students.some');
+        if(auth()->user()){
+            $user = auth()->user();
+            $notifs = Notifications::where('users_id', $user->id)->orderBy('created_at', 'DESC')->get();
+            return $notifs;
+        }
+        // return view('students.some');
     }
 
     public function informUsers($id, $query_id, $query){
@@ -419,5 +440,14 @@ class UserController extends Controller
         }else{
             return 'trusted';
         }
+    }
+
+    public function setAsGuest(){
+        Auth::guard(null)->loginUsingId(1, true); // Log in as a "guest" user
+        Activities::insert([
+            'users_id' => 'none',
+            'activity' => 'A Guest logged in.'
+        ]);
+        return redirect('/about');
     }
 }

@@ -157,11 +157,11 @@ class AdminController extends Controller
             }
             $endDate = $request->enddate;
             $logs = Activities::select('activities.*', 'users.name', 'users.image', 'users.email')
-                ->join('users', 'users.id', '=', 'activities.users_id')
+                ->leftJoin('users', 'activities.users_id', '=', 'users.id')
                 ->where('name', 'like', '%' . $request->text . '%')
                 ->whereBetween('activities.created_at', [$startDate, $endDate])
                 ->get()
-                ->groupBy('users_id');
+                ->groupBy('created_at');
             return response()->json($logs);
         }
     }

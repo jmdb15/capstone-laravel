@@ -10,6 +10,7 @@
         <h1 class="text-4xl font-bold text-white text-center">{{ $title }}</h1>
       </a>
     </header>
+
     <div class="overflow-x-auto relative mx-auto" 
     x-data="{ open: false, open2: false, image:'', id: '', name: '', email: '', type: '', created_at: '', modal_type:'' }">
       <table class="max-w-7xl mx-auto text-sm text-gray-500 text-center">
@@ -38,7 +39,7 @@
           @endforeach
         </tbody>
       </table>
-      <x-modal />
+      <x-orig_modal />
       <x-changepass />
     </div>
   </section>

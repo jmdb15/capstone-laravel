@@ -49,15 +49,20 @@
             </div>
             <div class="my-3 flex gap-1">
               <input type="checkbox" name="checkbox" id="checkbox" class="cursor-pointer">
-              <span>Remember me</span> <span class="flex-grow"></span> <span class="text-blue-600 cursor-pointer">Forgot Password?</span>
+              <span>Remember me</span> <span class="flex-grow"></span> <span class="text-blue-600 cursor-pointer hover:underline"><a href="/forgot-password">Forgot Password?</a></span>
             </div>
-            <button type="submit" class="bg-violet-500 rounded text-white py-3">Login</button>
+            <button type="submit" class="bg-violet-500 rounded text-white py-3 hover:brightness-105">Login</button>
           </div>
         </form>
         <div class="self-center mt-6 flex gap-1">
-          <span>Don't have an account?</span><span class="text-blue-600"><a href="/signup">Sign Up</a></span>
+          <span>Don't have an account?</span><span class="text-blue-600"><a href="/signup" class="hover:underline">Sign Up</a></span>
         </div>
       </div>
+      <p class="text-center my-3">or</p>
+      <form class="w-full grid place-items-center" action="{{ route('setAsGuest') }}" method="GET">
+      @csrf
+        <button class="h-10 w-[72%] rounded-md bg-gray-200 hover:opacity-90" type="submit">Login as Guest</button>
+      </form>
     </div>
     <!-- left side -->
     <div class="w-3/5 bg-violet-500 flex flex-row">

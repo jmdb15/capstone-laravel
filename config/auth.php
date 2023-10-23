@@ -40,6 +40,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'guest' => [ // Define a new guard named 'guest'
+            'driver' => 'session', // You can use 'passport' or 'sanctum' if needed
+            'provider' => 'guests', // Define a new user provider for 'guests'
+        ],
     ],
 
     /*

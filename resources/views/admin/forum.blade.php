@@ -5,14 +5,14 @@
 {{-- Main/Middle Section --}}
 
 <div class="p-4 sm:ml-64" >
-  <div class="p-4 rounded-lg dark:border-gray-700 mt-14">
+  <div class="p-4 rounded-lg mt-14">
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg"  
         x-data="{ open: false, image:'', id: '', name: '', email: '', type: '', created_at: '', modal_type:'' }">
-        <div class="flex items-center justify-between px-2 py-2 bg-white dark:bg-gray-900 border-b-2">
+        <div class="flex items-center justify-between px-2 py-2 bg-white border-b-2">
           <h4 class="ml-2 text-xl">Student Queries</h4>
         </div>
-        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <table class="w-full text-sm text-left text-gray-500">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                 <tr>
                     <th scope="col" class="px-6 py-3">
                         Name
@@ -38,7 +38,7 @@
   id="TABLE-TOGGLE"
   data-modal-target="table-modal"
   data-modal-toggle="table-modal"
-  class="hidden w-full md:w-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+  class="hidden w-full md:w-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center" type="button">
     Small modal
   </button>
           {{-- <div class="bg-white p-2">
@@ -80,8 +80,8 @@
 
   function createTableRow(id, img, name, email, comment, date){
     image = (img) ? img : 'https://avatars.dicebear.com/api/initials/' + name + '.svg';
-    tr =  `<tr id="tr${id}" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-              <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap dark:text-white">
+    tr =  `<tr id="tr${id}" class="bg-white border-b hover:bg-gray-50">
+              <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap">
                   <img class="w-10 h-10 rounded-full" 
                     src="${image}"
                     alt="${name}'s image">
@@ -97,9 +97,9 @@
                   ${date}
               </td>
               <td class="px-6 py-4">
-                <!-- <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                <!-- <a href="#" class="font-medium text-blue-600 hover:underline">Edit</a>
                 <span class="text-gray-400 text-md">|</span> -->
-                <button class="font-medium text-red-600 dark:text-blue-500 hover:underline" onclick="deleteCom(${id})">Delete</button>
+                <button class="font-medium text-red-600 hover:underline" onclick="deleteCom(${id})">Delete</button>
               </td>
             </tr>`;
     return tr;

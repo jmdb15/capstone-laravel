@@ -2,8 +2,8 @@
     </section>
 
     <section id="right" class="h-[calc(100%-70px)] mt-[70px] min-w-[324px] max-w-[324px] overflow-y-auto basis-1/4 hidden flex-col items-center lg:flex">
-      {{-- <div class="hidden p-4 rounded-lg bg-gray-50 dark:bg-gray-800" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-          <p class="text-sm text-gray-500 dark:text-gray-400">This is some placeholder content the <strong class="font-medium text-gray-800 dark:text-white">Profile tab's associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>
+      {{-- <div class="hidden p-4 rounded-lg bg-gray-50" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+          <p class="text-sm text-gray-500">This is some placeholder content the <strong class="font-medium text-gray-800">Profile tab's associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>
       </div> --}}
       <div class="flex justify-start items-center gap-x-4 w-full py-4 pl-8">
           <span class="text-2xl font-bold">Notifications</span>
@@ -12,28 +12,32 @@
             <path d="M14.8297 20.01C14.4097 21.17 13.2997 22 11.9997 22C11.2097 22 10.4297 21.68 9.87969 21.11C9.55969 20.81 9.31969 20.41 9.17969 20C9.30969 20.02 9.43969 20.03 9.57969 20.05C9.80969 20.08 10.0497 20.11 10.2897 20.13C10.8597 20.18 11.4397 20.21 12.0197 20.21C12.5897 20.21 13.1597 20.18 13.7197 20.13C13.9297 20.11 14.1397 20.1 14.3397 20.07C14.4997 20.05 14.6597 20.03 14.8297 20.01Z" fill="#292D32"/>
         </svg>
       </div>
-
-        @foreach ($notifs as $notif)
-            <a href="{{ ($notif->queries_id) ? '/forum/'.$notif->queries_id : '/post/'.$notif->posts_id }}" 
-                {{-- onclick="viewNotif({{$notif->id}})" --}}
-                id="{{$notif->id}}"
-                class="notifys mx-auto mt-0">
-                <div class="ctm cursor-pointer flex h-[80px] my-1 relative pr-6 w-[280px] hover:bg-gray-100 rounded-lg shadow-sm transition-all overflow-hidden">
-                    @if ($notif->posts_id)
-                        <img src="{{url('images/CSSP.png')}}" class="h-16 rounded-full mx-3" alt="">
-                    @else
-                        <img src="https://avatars.dicebear.com/api/initials/avatar.svg" class="h-16 rounded-full mx-3" alt="">
-                    @endif
-                    <div class="flex flex-col w-[240px]">
-                        <h2 class="font-bold">{{($notif->queries_id) ? 'Student' : 'Admin'}}</h2>
-                        <p>{{$notif->content}}</p>
+       
+        @if (auth()->user())
+            @foreach ($notifs as $notif)
+                <a href="{{ ($notif->queries_id) ? '/forum/'.$notif->queries_id : '/post/'.$notif->posts_id }}" 
+                    {{-- onclick="viewNotif({{$notif->id}})" --}}
+                    id="{{$notif->id}}"
+                    class="notifys mx-auto mt-0">
+                    <div class="ctm cursor-pointer flex h-[80px] my-1 relative pr-6 w-[280px] hover:bg-gray-100 rounded-lg shadow-sm transition-all overflow-hidden">
+                        @if ($notif->posts_id)
+                            <img src="{{url('images/CSSP.png')}}" class="h-16 rounded-full mx-3" alt="">
+                        @else
+                            <img src="https://avatars.dicebear.com/api/initials/avatar.svg" class="h-16 rounded-full mx-3" alt="">
+                        @endif
+                        <div class="flex flex-col w-[240px]">
+                            <h2 class="font-bold">{{($notif->queries_id) ? 'Student' : 'Admin'}}</h2>
+                            <p>{{$notif->content}}</p>
+                        </div>
+                        @if ($notif->is_read == 0)
+                            <span id="notif-indicator{{$notif->id}}" class="absolute right-2 top-1/2 bg-blue-500 h-4 w-4 rounded-full">ׂׂׂ</span>
+                        @endif
                     </div>
-                    @if ($notif->is_read == 0)
-                        <span id="notif-indicator{{$notif->id}}" class="absolute right-2 top-1/2 bg-blue-500 h-4 w-4 rounded-full">ׂׂׂ</span>
-                    @endif
-                </div>
-            </a>
-        @endforeach
+                </a>
+            @endforeach
+        @else
+            <h2 class="text-xl font-light text-center">Login to get the latest announcements.</h2>
+        @endif
     </section>
         
     <x-chatbot />
