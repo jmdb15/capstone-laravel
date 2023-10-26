@@ -31,7 +31,7 @@
                 placeholder="Enter your bulsu email" 
                 name="email" 
                 id="email"
-                value="{{ old('email') }}"
+@if(isset($_COOKIE['email'])) value="{{ $_COOKIE['email'] }}"  @else value="{{ old('email') }}" @endif
                 pattern=".+@bulsu.edu.ph"
                 required
               />
@@ -43,12 +43,13 @@
                 type="password" 
                 placeholder="Enter your password" 
                 name="password" 
+@if(isset($_COOKIE['password'])) value="{{ $_COOKIE['password'] }}" @endif
                 id="password" 
                 required
               />
             </div>
             <div class="my-3 flex gap-1">
-              <input type="checkbox" name="checkbox" id="checkbox" class="cursor-pointer">
+              <input type="checkbox" name="remember" id="checkbox" class="cursor-pointer" @if(isset($_COOKIE['email'])) checked @endif>
               <span>Remember me</span> <span class="flex-grow"></span> <span class="text-blue-600 cursor-pointer hover:underline"><a href="/forgot-password">Forgot Password?</a></span>
             </div>
             <button type="submit" class="bg-violet-500 rounded text-white py-3 hover:brightness-105">Login</button>

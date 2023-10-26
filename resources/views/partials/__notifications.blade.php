@@ -19,7 +19,7 @@
                     {{-- onclick="viewNotif({{$notif->id}})" --}}
                     id="{{$notif->id}}"
                     class="notifys mx-auto mt-0">
-                    <div class="ctm cursor-pointer flex h-[80px] my-1 relative pr-6 w-[280px] hover:bg-gray-100 rounded-lg shadow-sm transition-all overflow-hidden">
+                    <div class="ctm cursor-pointer flex h-[80px] my-1 relative pr-6 pt-2 w-[280px] hover:bg-gray-100 rounded-lg shadow-sm transition-all overflow-hidden">
                         @if ($notif->posts_id)
                             <img src="{{url('images/CSSP.png')}}" class="h-16 rounded-full mx-3" alt="">
                         @else

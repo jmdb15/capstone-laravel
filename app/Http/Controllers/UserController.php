@@ -60,19 +60,29 @@ class UserController extends Controller
         $formattedDate = $currentDateTime->toDateString(); // "2023-10-04"
         $user = Users::where('email', '=', $request->email)->first();
         if ($user && Hash::check($request->password, $user->password)) {
-            Auth::login($user);
-            $act = Activities::where('users_id', $user->id)->where('activity', 'Logged in')->where('created_at', $formattedDate)->first();
-            if ($act == null) {
-                Activities::insert([
-                    'users_id' => $user->id,
-                    'activity' => 'Logged in'
-                ]);
-            }
-            if (Auth::check()) {
-                if (auth()->user()->type == 'student') {
-                    return redirect('/about');
-                } else if (auth()->user()->type == 'admin') {
-                    return redirect('/admin');
+            if(Auth::attempt(['email' => $request->email, 'password' => $request->password], $request->remember)){
+                // Set cookie   
+                if(isset($request->remember) && !empty($request->remember)){
+                    setCookie('email',$request->email,time()+3600);
+                    setCookie('password',$request->password,time()+3600);
+                }else{
+                    setCookie('email','');
+                    setCookie('password','');
+                }
+
+                $act = Activities::where('users_id', $user->id)->where('activity', 'Logged in')->where('created_at', $formattedDate)->first();
+                if ($act == null) {
+                    Activities::insert([
+                        'users_id' => $user->id,
+                        'activity' => 'Logged in'
+                    ]);
+                }
+                if (Auth::check()) {
+                    if (auth()->user()->type == 'student') {
+                        return redirect('/about');
+                    } else if (auth()->user()->type == 'admin') {
+                        return redirect('/admin');
+                    }
                 }
             }
         } else {
