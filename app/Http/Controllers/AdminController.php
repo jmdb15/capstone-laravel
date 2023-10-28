@@ -79,33 +79,37 @@ class AdminController extends Controller
     public function store(Request $request)
     {
         $image = array();
-        if ($request->hasFile('image')) {
-            $files = $request->file('image');
-            foreach ($files as $i => $file) {
-                if ($file->isValid()) {
-                    $fileNameWithExtension = $file;
-                    $fileName = pathInfo($fileNameWithExtension, PATHINFO_FILENAME);
-                    $extension = $file->getClientOriginalExtension();
-                    $fileNameToStore = $fileName . '_' . time() . '.' . $extension;
-                    $file->storeAs('public/posts/', $fileNameToStore);
-                    array_push($image, $fileNameToStore);
+        if($request->hasFile('image') || $request->caption != null){
+            if ($request->hasFile('image')) {
+                $files = $request->file('image');
+                foreach ($files as $i => $file) {
+                    if ($file->isValid()) {
+                        $fileNameWithExtension = $file;
+                        $fileName = pathInfo($fileNameWithExtension, PATHINFO_FILENAME);
+                        $extension = $file->getClientOriginalExtension();
+                        $fileNameToStore = $fileName . '_' . time() . '.' . $extension;
+                        $file->storeAs('public/posts/', $fileNameToStore);
+                        array_push($image, $fileNameToStore);
+                    }
                 }
+            $post = DB::table('posts')->insertGetId([
+                    'links' => implode('|', $image),
+                    'caption' => $request->caption
+                ]);
+                $this->informUsers($post, $request->caption);
+                return back()->with('message', 'Post uploaded!');
             }
-           $post = DB::table('posts')->insertGetId([
-                'links' => implode('|', $image),
+            // $post = Posts::insert([
+            //     'caption' => $request->caption
+            // ]);
+            $post = DB::table('posts')->insertGetId([
                 'caption' => $request->caption
             ]);
             $this->informUsers($post, $request->caption);
             return back()->with('message', 'Post uploaded!');
+        }else{
+            return back()->with('errmessage', 'Please provide a cation or an image.');
         }
-        // $post = Posts::insert([
-        //     'caption' => $request->caption
-        // ]);
-        $post = DB::table('posts')->insertGetId([
-            'caption' => $request->caption
-        ]);
-        $this->informUsers($post, $request->caption);
-        return back()->with('message', 'Post uploaded!');
     }
 
     public function action(Request $request)
@@ -129,6 +133,11 @@ class AdminController extends Controller
     public function logs()
     {
         return view('admin.logs');
+    }
+
+    public function logsAction(Request $request){
+        Activities::destroy($request->id);
+        return session()->flash('message', 'Log activity is deleted successfully.');
     }
 
     public function forum(Request $request)

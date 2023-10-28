@@ -4,6 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
+div[modal-backdrop=""] {
+  opacity: 50%;
+}
+
 [x-cloak] {
     display: none;
 }

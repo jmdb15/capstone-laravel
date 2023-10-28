@@ -78,6 +78,7 @@
     const timeElapsed = Date.now();
     let today = new Date(timeElapsed);    
     today = today.toDateString();
+    
     $('#new-comment-name'+qid).html(namee)
     $('#new-comment-date'+qid).html(today);
     $('#new-comment-msg'+qid).html(document.getElementById(`txtarea${qid}`).value);

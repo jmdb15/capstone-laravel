@@ -19,4 +19,8 @@ class Votes extends Model
     {
         return $this->belongsTo(Comments::class);
     }
+    public function notifications()
+    {
+        return $this->hasMany(Notifications::class);
+    }
 }

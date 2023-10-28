@@ -52,4 +52,8 @@ class Queries extends Model
     {
         return $this->belongsTo(Users::class);
     }
+    public function notifications()
+    {
+        return $this->hasMany(Notifications::class);
+    }
 }

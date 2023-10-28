@@ -121,6 +121,11 @@ class UserController extends Controller
         return view('auth.verify-email');
     }
 
+    public function faculty(){
+        $notifs = $this->notifs();
+        return view('students.faculty', ['show' => true, 'notifs' => $notifs]);
+    }
+
     public function about()
     {
         $notifs = $this->notifs();
@@ -220,7 +225,7 @@ class UserController extends Controller
         //     $post['comments'] = Comments::where('queries_id', $post->id)
         //                                     ->join('votes', )
         // }
-        $posts = Queries::where('users_id', $id)->with('users')->get();
+        $posts = Queries::where('users_id', $id)->with('users')->where('is_deleted', 0)->get();
         foreach ($posts as $post) {
             $post['comments'] = Comments::select('comments.*', 'users.name', 'users.image', 'users.id as users_id')
                 ->join('users', 'users.id', '=', 'comments.users_id')

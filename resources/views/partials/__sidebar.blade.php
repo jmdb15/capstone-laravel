@@ -31,10 +31,12 @@
           Calendar of Events
         </li>
       </a>
-      <li class="flex items-center w-full p-2 pl-6 h-14 transition-all hover:bg-violet-500 hover:text-white rounded-md">
-        <span class="iconify" data-icon="ic:round-group" style="color: black; padding-right: 10px;" data-width="30" data-height="30"></span>
-        CSSP Faculty
-      </li>
+      <a href="/faculty">
+        <li class="flex items-center w-full p-2 pl-6 h-14 transition-all hover:bg-violet-500 hover:text-white rounded-md">
+          <span class="iconify" data-icon="ic:round-group" style="color: black; padding-right: 10px;" data-width="30" data-height="30"></span>
+          CSSP Faculty
+        </li>
+      </a>
       <a href="/about">
         <li class="flex items-center w-full p-2 pl-6 h-14 transition-all hover:bg-violet-500 hover:text-white rounded-md">
           <span class="iconify" data-icon="mdi:about" style="color: black; padding-right: 10px;" data-width="30" data-height="30"></span>

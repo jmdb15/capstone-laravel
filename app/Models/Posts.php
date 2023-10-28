@@ -31,4 +31,8 @@ class Posts extends Model
             $model->created_at = Carbon::now();
         });
     }
+    public function notifications()
+    {
+        return $this->hasMany(Notifications::class);
+    }
 }

@@ -15,4 +15,20 @@ class Notifications extends Model
         'posts_id',
         'is_read',
     ];
+    public function posts()
+    {
+        return $this->belongsTo(Posts::class);
+    }
+    public function Votes()
+    {
+        return $this->belongsTo(Votes::class);
+    }
+    public function queries()
+    {
+        return $this->belongsTo(Queries::class);
+    }
+    public function comments()
+    {
+        return $this->belongsTo(Comments::class);
+    }
 }

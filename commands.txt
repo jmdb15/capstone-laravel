@@ -1,5 +1,6 @@
 npm install
 composer install
+composer global require laravel/installer
 cp .env.example .env or copy .env.example .env
 php artisan key:generate
 php artisan migrate

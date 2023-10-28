@@ -1,5 +1,5 @@
 @php
-  $def_profile = 'https://avatars.dicebear.com/api/initials/'.$post->users->name.'.svg';
+  $def_profile = 'https://avatars.dicebear.com/api/initials/avatars.svg';
 @endphp
 <tr id="ptr{{$post->id}}" class="bg-white border-b hover:bg-gray-50">
   <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap">
@@ -21,6 +21,6 @@
     <span class="text-md font-medium text-blue-600 hover:underline cursor-pointer" onclick="callForTable({{$post->id}}, '{{$post->query}}')">View</span>
     {{-- function to open modal and ajax call to populate table  --}}
     <span class="text-gray-400 text-md">|</span>
-    <span class="text-md font-medium text-red-600 hover:underline cursor-pointer" onclick="deleteQry({{$post->id}})">Delete</span>
+    <span class="text-md font-medium text-red-600 hover:underline cursor-pointer" onclick="confirmDel({{$post->id}}, 'query')">Delete</span>
   </td>
 </tr>

@@ -35,6 +35,7 @@ Route::middleware(['auth', 'student'])->group(function () {
 Route::middleware(['guest'])->group(function () {
     // Define routes accessible to guests here
     Route::get('/about', [UserController::class, 'about']);
+    Route::get('/faculty', [UserController::class, 'faculty']);
     Route::get('/forum', [UserController::class, 'forum']);
     Route::get('/forum/{id}', [UserController::class, 'viewQuery']);
     Route::get('/posts', [UserController::class, 'news']);
@@ -60,10 +61,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/users', [AdminController::class, 'users']);
     Route::get('/admin/forum', [AdminController::class, 'forum']);
     Route::get('/logs', [AdminController::class, 'logs']);
+    Route::post('/logs/action', [AdminController::class, 'logsAction']);
     Route::get('/admin/calendar', [CalendarController::class, 'index']);
     Route::post('/calendar/action', [CalendarController::class, 'action']);
-    
-    
 });
 Route::post('/forum-modal', [AdminController::class, 'forum_modal']);
 
