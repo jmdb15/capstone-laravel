@@ -331,13 +331,16 @@ class UserController extends Controller
     {
         $vote = Votes::where('users_id', $request->uid)->where('comments_id', $request->cid)->get(); //get()
         if (count($vote) > 0) {
-            $check = $vote[0]->checked == 1 ? 0 : 1;
-            DB::table('votes')
-                ->where('users_id', $request->uid)
-                ->where('comments_id', $request->cid)
-                ->update(['checked' => $check]);
-            $ret = ($check) ? 'add' : 'minus';
-            return $ret;
+            if($request->uid != auth()->user()->id ){
+                $check = $vote[0]->checked == 1 ? 0 : 1;
+                DB::table('votes')
+                    ->where('users_id', $request->uid)
+                    ->where('comments_id', $request->cid)
+                    ->update(['checked' => $check]);
+                $ret = ($check) ? 'add' : 'minus';
+                return $ret;
+            }
+            return '';
         } else {
             DB::table('votes')->insert([
                 'users_id' => $request->uid,
@@ -372,11 +375,13 @@ class UserController extends Controller
             'activity' => "Commented on someone's question"
         ]);
         $qry = Queries::select('users_id', 'query')->where('id', $request->qid)->first();
-        DB::table('notifications')->insert([
-            'users_id' => $qry->users_id,
-            'content' => $request->name . ' commented on your "'.$qry->query.'"',
-            'queries_id' => $request->qid,
-        ]);
+        if($qry->users_id != auth()->user()->id){
+            DB::table('notifications')->insert([
+                'users_id' => $qry->users_id,
+                'content' => $request->name . ' commented on your "'.$qry->query.'"',
+                'queries_id' => $request->qid,
+            ]);
+        }
         return 'commented';
     }
 

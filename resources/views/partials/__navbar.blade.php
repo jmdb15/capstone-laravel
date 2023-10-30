@@ -52,8 +52,7 @@
             </ul>
         </div>
         <x-mobilenavdropdown />
-        <img src="https://avatars.dicebear.com/api/initials/avatar.svg"
-        {{-- <img src="{{ (auth()->user()->image) ? "asset('storage/student/{{auth()->user()->image}}')" : 'https://avatars.dicebear.com/api/initials/avatar.svg' }}" --}}
+        <img src="{{auth()->user()->image ? asset('storage/student/thumbnail/'.auth()->user()->image) : $def_profile}}"
           alt=""
           class='h-12 w-12 aspect-square rounded-full transition-all cursor-pointer hover:scale-105 hidden lg:block' 
           x-on:click="open = !open" />

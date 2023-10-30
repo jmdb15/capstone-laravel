@@ -13,7 +13,10 @@
         </svg>
         <div>
           <h5 class="text-xl font-bold tracking-tight text-gray-900">Total Users</h5>
-          <p class="font-normal text-lg text-gray-600">{{ $users }}</p>
+          <div class="flex justify-between items-center">
+            <p class="font-medium text-lg text-gray-600">{{ $users }}</p>
+            <p class="bg-green-50 text-green-500 font-light px-1.5 rounded-sm text-xs">+{{$userinc}}%</p>
+          </div>
         </div>
       </div>
       
@@ -50,69 +53,15 @@
     </div>
 
     <div class="flex flex-col justify-between gap-y-[420px] xl:flex-row">
+      {{-- Line Graph Container --}}
       <div id="chartContainer3" class="rounded-md shadow-xl min-w-sm basis-4/5" style="height: 370px; max-width: 920px;"></div>
-      <div class="h-[370px] w-96 rounded-lg border-2 border-gray-600 flex flex-col overflow-y-auto">
-        <div class="w-full h-16 py-0 px-2 flex">
-          <img src="{{url('images/Untitled-1.ico')}}" alt="" class="h-full w-auto p-2 rounded-full" />
-          <div class="flex flex-col gap-0 justify-start">
-            <h4 class="text-xl text-black font-bold mt-2">Name</h4>
-            <p class="text-gray-600 text-lg -mt-2">Lorem ipsum dolor sit amet.</p>
-          </div>
-        </div>
-        <div class="w-full h-16 py-0 px-2 flex">
-          <img src="{{url('images/Untitled-1.ico')}}" alt="" class="h-full w-auto p-2 rounded-full" />
-          <div class="flex flex-col gap-0 justify-start">
-            <h4 class="text-xl text-black font-bold mt-2">Name</h4>
-            <p class="text-gray-600 text-lg -mt-2">Lorem ipsum dolor sit amet.</p>
-          </div>
-        </div>
-        <div class="w-full h-16 py-0 px-2 flex">
-          <img src="{{url('images/Untitled-1.ico')}}" alt="" class="h-full w-auto p-2 rounded-full" />
-          <div class="flex flex-col gap-0 justify-start">
-            <h4 class="text-xl text-black font-bold mt-2">Name</h4>
-            <p class="text-gray-600 text-lg -mt-2">Lorem ipsum dolor sit amet.</p>
-          </div>
-        </div>
-        <div class="w-full h-16 py-0 px-2 flex">
-          <img src="{{url('images/Untitled-1.ico')}}" alt="" class="h-full w-auto p-2 rounded-full" />
-          <div class="flex flex-col gap-0 justify-start">
-            <h4 class="text-xl text-black font-bold mt-2">Name</h4>
-            <p class="text-gray-600 text-lg -mt-2">Lorem ipsum dolor sit amet.</p>
-          </div>
-        </div>
-        <div class="w-full h-16 py-0 px-2 flex">
-          <img src="{{url('images/Untitled-1.ico')}}" alt="" class="h-full w-auto p-2 rounded-full" />
-          <div class="flex flex-col gap-0 justify-start">
-            <h4 class="text-xl text-black font-bold mt-2">Name</h4>
-            <p class="text-gray-600 text-lg -mt-2">Lorem ipsum dolor sit amet.</p>
-          </div>
-        </div>
-        <div class="w-full h-16 py-0 px-2 flex">
-          <img src="{{url('images/Untitled-1.ico')}}" alt="" class="h-full w-auto p-2 rounded-full" />
-          <div class="flex flex-col gap-0 justify-start">
-            <h4 class="text-xl text-black font-bold mt-2">Name</h4>
-            <p class="text-gray-600 text-lg -mt-2">Lorem ipsum dolor sit amet.</p>
-          </div>
-        </div>
-        <div class="w-full h-16 py-0 px-2 flex">
-          <img src="{{url('images/Untitled-1.ico')}}" alt="" class="h-full w-auto p-2 rounded-full" />
-          <div class="flex flex-col gap-0 justify-start">
-            <h4 class="text-xl text-black font-bold mt-2">Name</h4>
-            <p class="text-gray-600 text-lg -mt-2">Lorem ipsum dolor sit amet.</p>
-          </div>
-        </div>
-        <div class="w-full h-16 py-0 px-2 flex">
-          <img src="{{url('images/Untitled-1.ico')}}" alt="" class="h-full w-auto p-2 rounded-full" />
-          <div class="flex flex-col gap-0 justify-start">
-            <h4 class="text-xl text-black font-bold mt-2">Name</h4>
-            <p class="text-gray-600 text-lg -mt-2">Lorem ipsum dolor sit amet.</p>
-          </div>
-        </div>
-      </div>
+      
     </div>
 
     <div class="relative mt-10 flex flex-col justify-between max-w-2xl gap-96 xl:gap-6 xl:flex-row h-fit">
+      {{-- Bar Graph Container --}}
       <div id="chartContainer2" class="w-fit shadow-xl"></div>
+      {{-- Pie Graph Container --}}
       <div id="chartContainer" class="w-fit mt-12 xl:mt-0 shadow-xl"></div>
     </div>
 
@@ -138,26 +87,29 @@
     type: 'GET',
     success:function(data){
       pieChartRend(data);
+      console.log(data)
     }
   });
   $.ajax({
     url:'/admin-line',
     type: 'GET',
     success:function(data){
-      console.log(data)
       sort1 = Object.keys(data[0]).sort((a, b) => b - a);
       sort2 = Object.keys(data[1]).sort((a, b) => b - a);
+      sort3 = Object.keys(data[2]).sort((a, b) => b - a);
+      data1 = [];
       data2 = [];
       data3 = [];
       for (let key of sort1) {
-        data2.push({label: key, y: data[0][key]})
+        data1.push({label: key, y: data[0][key]})
       }
       for (let key of sort2) {
-        data3.push({label: key, y: data[1][key]})
+        data2.push({label: key, y: data[1][key]})
       }
-      lineChartRend(data2, data3);
-      console.log(data2)
-      console.log(data3)
+      for (let key of sort3) {
+        data3.push({label: key, y: data[2][key]})
+      }
+      lineChartRend(data1, data2, data3);
     }
   });
   barGraphRend('a');
@@ -170,7 +122,7 @@
       exportEnabled: true,
       animationEnabled: true,
       title: {
-        text: "User Activities"
+        text: "Account Log ins"
       },
       data: [{
         type: "pie",
@@ -181,9 +133,9 @@
         indexLabelFontSize: 15,
         indexLabel: "{label} - {y}",
         dataPoints: [
-          { y: data[0].count, label: data[0].activity },
-          { y: data[1].count, label: data[1].activity },
-          { y: data[2].count, label: data[2].activity },
+          { y: data[0], label: 'Guest'  },
+          { y: data[1], label: 'Verified' },
+          { y: data[2], label: 'Unverified' },
         ]
       }]
     });
@@ -193,6 +145,7 @@
     function barGraphRend(data){
       var chart = new CanvasJS.Chart("chartContainer2", {
         theme: "light2", // "light2", "dark1", "dark2"
+        exportEnabled: true,
         animationEnabled: false, // change to true		
         title:{
           text: "Latest User Activities"
@@ -214,15 +167,16 @@
     chart.render();
     }
 
-    function lineChartRend(data, data2){
+    function lineChartRend(data1, data2, data3){
       var chart = new CanvasJS.Chart("chartContainer3", {
         theme:"light2",
+        exportEnabled: true,
         animationEnabled: true,
         title:{
-          text: "Posts & Queries"
+          text: "Posts, Queries, & Comments"
         },
         axisY :{
-          title: "Number of Viewers",
+          title: "Total for the past month",
         },
         toolTip: {
           shared: "true"
@@ -237,7 +191,7 @@
           showInLegend: true,
           yValueFormatString: "##",
           name: "Posts",
-          dataPoints: data
+          dataPoints: data1
         },
         {
           type: "spline", 
@@ -245,6 +199,13 @@
           yValueFormatString: "##",
           name: "Queries",
           dataPoints: data2
+        },
+        {
+          type: "spline", 
+          showInLegend: true,
+          yValueFormatString: "##",
+          name: "Comments",
+          dataPoints: data3
         },
         ]
       });

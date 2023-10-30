@@ -34,6 +34,10 @@
               @endforeach
             </tbody>
           </table>
+          <div class="bg-white p-2">
+            {{$posts->appends(request()->input())->links('vendor.pagination.tailwind')}}
+          </div>
+
           <button 
             id="TABLE-TOGGLE"
             data-modal-target="table-modal"
@@ -90,9 +94,9 @@
       }
     });
   });
+
   function callForTable(id, query){
     $('#tboy').empty();
-    $('#TABLE-TOGGLE').click();
     $('#fortitle').html(query);
     $.ajax({
       url: '/forum-modal',
@@ -102,6 +106,7 @@
         for (const d of data) {
           $('#tboy').append(createTableRow(d.id, d.users.image, d.users.name, d.users.email, d.comment, d.comment_date));
         }
+        $('#TABLE-TOGGLE').click();
       }
     }); 
   }

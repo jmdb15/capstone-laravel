@@ -20,14 +20,50 @@ class AdminController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $results = DB::select('SELECT COUNT(*) as count, activity FROM activities GROUP BY activity');
+            // $results = DB::select('SELECT COUNT(*) as count, activity FROM activities GROUP BY activity');
+            $guest = Activities::where('activity', '=', 'A Guest logged in.')->count();
+            $verified = Users::whereNull('email_verified_at')->count();
+            $notVerified = Users::whereNotNull('email_verified_at')->count();
+            $loginCounts = DB::table('activities')
+                ->select(DB::raw('SUM(CASE WHEN users.email_verified_at IS NOT NULL THEN 1 ELSE 0 END) as verified_count'), DB::raw('SUM(CASE WHEN users.email_verified_at IS NULL THEN 1 ELSE 0 END) as unverified_count'))
+                ->join('users', 'activities.users_id', '=', 'users.id')
+                ->where('activities.activity', '=', 'Logged in')
+                ->whereBetween('activities.created_at', [now()->subMonth(), now()])
+                ->first();
+            
+            $verifiedCount = $loginCounts->verified_count;
+            $unverifiedCount = $loginCounts->unverified_count;
+            
+            $results = [$guest, $verifiedCount, $unverifiedCount];
+
             return response()->json($results);
         }
-        $qrys = Queries::count();
-        $users = Users::count();
-        $posts = Posts::count();
+        // Query to get the value from the previous month
+        $previousMonthValue = Users::whereYear('created_at', now()->subMonth()->year)
+            ->whereMonth('created_at', now()->subMonth()->month)
+            ->count();
+
+        // Query to get the value from the current month
+        $currentMonthValue = Users::whereYear('created_at', now()->year)
+            ->whereMonth('created_at', now()->month)
+            ->count();
+
+        if ($previousMonthValue > 0) {
+            $percentageIncrease = (($currentMonthValue - $previousMonthValue) / $previousMonthValue) * 100;
+        } else {
+            if(Users::count() === $currentMonthValue){
+                $percentageIncrease = 100;
+            }else{
+                $percentageIncrease = 0; // Handle the case when there were no users in the previous month
+            }
+        }
+
+
+        $qrys = Queries::where('is_deleted', '=', '0')->count();
+        $users = Users::where('type', '!=', 'admin')->count();
+        $posts = Posts::where('is_deleted', '=', '0')->count();
         $comments = Comments::count();
-        return view('admin.index', ['qrys' => $qrys, 'users' => $users, 'posts' => $posts, 'comments' => $comments]);
+        return view('admin.index', ['qrys' => $qrys, 'users' => $users, 'posts' => $posts, 'comments' => $comments, 'userinc' => $percentageIncrease, 'prev' => $previousMonthValue, 'curr' => $currentMonthValue, 'user' => Users::count()]);
             
         // $new = DB::table('notifications')->select('notifications.users_id', 'notifications.content', 'users.name', 'users.image')
         //             ->join('users', 'users.id','=','notifications.users_id')
@@ -47,32 +83,52 @@ class AdminController extends Controller
             $startDate = $endDate->copy()->subWeek();
             $results = [];
             $results2 = [];
+            $results3 = [];
             while ($startDate <= $endDate) {
                 $countPosts = DB::table('posts')
                     ->whereDate('created_at', $startDate->toDateString())
+                    ->where('is_deleted','=',0)
                     ->count();
                 $countQueries = DB::table('queries')
                     ->whereDate('query_date', $startDate->toDateString())
+                    ->where('is_deleted','=',0)
+                    ->count();
+                $countComments = DB::table('comments')
+                    ->whereDate('comment_date', $startDate->toDateString())
                     ->count();
                 $starDate = $startDate->format('d');
                 $results[$starDate] = $countPosts;
                 $results2[$starDate] = $countQueries;
+                $results3[$starDate] = $countComments;
                 $startDate->addDay();
             }
-            $ret = [$results, $results2];
+            $ret = [$results, $results2, $results3];
             return $ret;
         }
     }
 
-    public function users()
+    public function users(Request $request)
     {
-        $users = Users::paginate(3);
-        return view('admin.users', compact('users'));
+        $keyword = $request->input('search', '');
+        $query = Users::query();
+
+        if ($keyword) {
+            $query->where(function ($q) use ($keyword) {
+                $q->where('name', 'like', "%$keyword%")
+                ->orWhere('email', 'like', "%$keyword%")
+                ->orWhere('id', 'like', "%$keyword%");
+            });
+        }
+
+        $users = $query->paginate(1); // You can adjust the number of activities per page as needed
+
+        // dd($logs);
+        return view('admin.users', compact('users'), ['s' => $keyword]);
     }
 
     public function create()
     {
-        $posts = Posts::where('is_deleted', 0)->orderBy('created_at', 'DESC')->get();
+        $posts = Posts::where('is_deleted', 0)->orderBy('created_at', 'DESC')->paginate(1);
         return view('admin.createpost', ['posts' => $posts]);
     }
 
@@ -130,9 +186,53 @@ class AdminController extends Controller
         }
     }
 
-    public function logs()
+    public function logs(Request $request)
     {
-        return view('admin.logs');
+        $startDate = $request->input('filter-radio', '');
+        $rd = $request->input('filter-radio', '');
+        $keyword = $request->input('search', '');
+
+        $query = Activities::query();
+        $query->select('activities.*', 'users.name', 'users.email');
+
+        $show = 'All';
+        if ($startDate) {
+            switch($request['filter-radio']){
+                case 1: 
+                    $show = 'Last Day';
+                    $startDate = now()->subDay()->toDateString();
+                    break;
+                case 7: 
+                    $show = 'Last 7 days';
+                    $startDate = now()->subWeek()->toDateString();
+                    break;
+                case 30: 
+                    $show = 'Last Month';
+                    $startDate = now()->subMonth()->toDateString();
+                    break;
+                case 365: 
+                    $show = 'Last Year';
+                    $startDate = now()->subYear()->toDateString();
+                    break;
+                default: 
+                    $show = 'All';
+                    $startDate = '2001-01-01';
+                    break;
+            }
+            $enddate = now();
+            $query->whereBetween('activities.created_at', [$startDate, $enddate]);
+        }
+
+        if ($keyword) {
+            $query->where(function ($q) use ($keyword) {
+                $q->where('users.name', 'like', "%$keyword%")
+                ->orWhere('users.email', 'like', "%$keyword%");
+            });
+        }
+
+        $query->leftJoin('users', 'activities.users_id', '=', 'users.id');
+        $logs = $query->paginate(10); // You can adjust the number of activities per page as needed
+        return view('admin.logs', compact('logs'), ['d' => $rd, 's' => $keyword, 'show' => $show]);
     }
 
     public function logsAction(Request $request){
@@ -142,7 +242,7 @@ class AdminController extends Controller
 
     public function forum(Request $request)
     {
-        $qrys = Queries::where('is_deleted', 0)->with('users')->get();
+        $qrys = Queries::where('is_deleted', 0)->with('users')->paginate(2);
         return view('admin.forum', ['posts'=>$qrys]);
     }
 
@@ -169,8 +269,7 @@ class AdminController extends Controller
                 ->leftJoin('users', 'activities.users_id', '=', 'users.id')
                 ->where('name', 'like', '%' . $request->text . '%')
                 ->whereBetween('activities.created_at', [$startDate, $endDate])
-                ->get()
-                ->groupBy('created_at');
+                ->paginate(10);
             return response()->json($logs);
         }
     }

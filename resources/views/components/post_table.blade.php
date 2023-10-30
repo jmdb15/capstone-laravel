@@ -20,6 +20,10 @@
             @endforeach
         </tbody>
     </table>
+    <div class="bg-white p-2">
+      {{$posts->appends(request()->input())->links('vendor.pagination.tailwind')}}
+    </div>
+    
     {{-- <nav class="flex items-center justify-between pt-4" aria-label="Table navigation">
         <span class="text-sm font-normal text-gray-500">Showing <span class="font-semibold text-gray-900">1-10</span> of <span class="font-semibold text-gray-900">1000</span></span>
         <ul class="inline-flex -space-x-px text-sm h-8">
