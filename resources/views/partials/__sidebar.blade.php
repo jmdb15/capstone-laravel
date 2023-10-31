@@ -1,5 +1,5 @@
 @php
-  $def_profile = (auth()->user()) ? 'https://avatars.dicebear.com/api/initials/'.auth()->user()->name.'.svg' : 'https://avatars.dicebear.com/api/initials/avatar.svg';
+  $def_profile = 'https://avatars.dicebear.com/api/initials/avatar.svg';
 @endphp
 <main class="h-full w-full px-1 max-w-1920 flex justify-between fixed md:px-0">
 

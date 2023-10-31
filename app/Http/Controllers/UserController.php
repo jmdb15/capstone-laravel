@@ -22,7 +22,8 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\Rule;
 use Intervention\Image\Facades\Image;
 use App\Notifications\VerifyEmailNotification;
-
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -123,7 +124,9 @@ class UserController extends Controller
 
     public function faculty(){
         $notifs = $this->notifs();
-        return view('students.faculty', ['show' => true, 'notifs' => $notifs]);
+        $jsonContent = File::get(public_path('json/faculty copy.json'));
+        $data = json_decode($jsonContent);
+        return view('students.faculty', ['show' => true, 'notifs' => $notifs, 'data' => $data]);
     }
 
     public function about()
@@ -213,7 +216,7 @@ class UserController extends Controller
 
     public function news()
     {
-        $posts = Posts::where('is_deleted',0)->get();
+        $posts = Posts::where('is_deleted',0)->orderBy('created_at', 'DESC')->get();
         $notifs = $this->notifs();
         return view('students.posts', ['posts' => $posts, 'notifs' => $notifs]);
     }
@@ -403,8 +406,9 @@ class UserController extends Controller
     {
         if(auth()->user()){
             $user = auth()->user();
-            $notifs = Notifications::where('users_id', $user->id)->orderBy('created_at', 'DESC')->get();
+            $notifs = Notifications::where('users_id', $user->id)->with('queries.users')->orderBy('created_at', 'DESC')->get();
             return $notifs;
+            // dd($notifs);
         }
         // return view('students.some');
     }

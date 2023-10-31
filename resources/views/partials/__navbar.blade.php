@@ -21,6 +21,9 @@
 
   
 </nav> --}}
+@php
+  $def_profile = 'https://avatars.dicebear.com/api/initials/avatar.svg';
+@endphp
 <body class="bg-gray-200 h-screen w-screen grid place-items-center overflow-y-scroll overflow-x-hidden" x-data="{nos: false}" :class="{'no-scroll': nos}">
   
 <div class="w-screen h-[70px] bg-violet-500 fixed top-0 left-0 z-[49]">
@@ -52,7 +55,7 @@
             </ul>
         </div>
         <x-mobilenavdropdown />
-        <img src="{{auth()->user()->image ? asset('storage/student/thumbnail/'.auth()->user()->image) : $def_profile}}"
+        <img @if (auth()->user()) src="{{(auth()->user()->image) ? asset('storage/student/thumbnail/'.auth()->user()->image) : $def_profile}}" @else src="{{$def_profile}}" @endif
           alt=""
           class='h-12 w-12 aspect-square rounded-full transition-all cursor-pointer hover:scale-105 hidden lg:block' 
           x-on:click="open = !open" />

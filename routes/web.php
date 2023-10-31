@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Request;
 Route::middleware(['auth', 'student'])->group(function () {
     Route::get('/', [UserController::class, 'about']);
     Route::get('/about', [UserController::class, 'about']);
+    Route::get('/aboutt', [UserController::class, 'notifs']);
     Route::get('/orgs', function () {
         return view('students.organization');
     });

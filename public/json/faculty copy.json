@@ -1,0 +1,272 @@
+{
+  "Faculty" : {
+    "Philosophy Department":[
+      {
+        "name": "Aricheta, Jose Luis",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Celestino, Joseph Roy",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Cruz, Melito",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Cunanan, Augusto",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Fernando, Celso",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Mercado, Erwin",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Punzalan, Jovita",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Roxas, David Floyd",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Zapata, Danny",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Agustin, Pia Boughdette",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Chozas, Jessica",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Espiritu, John Robert",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Faustino, Julie Ann",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Faustino, Raymundo Jr.",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Ochoa, Josefina",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Ranas, Estrella",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Rotaquio, Marionne",
+        "image": "",
+        "email": ""
+      }
+    ],
+    "Public Administration Department":[
+      {
+        "name": "Cruz, Teodulo",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Verdillo, Patricia Mico",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Villavicencio, Felicidad",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Danganan, Regina",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Dr. Ricardo B. Capule, Jr.",
+        "image": "",
+        "email": ""
+      }
+    ],
+    "Social Science Department":[
+      {
+        "name": "Berboso, Mark Jayson",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "De Vera, Kristine Analiza",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Dela Merced, Ria",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Lopez, Bobby",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Naguit, Reynaldo",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Sanchez, Leony",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Velasco, Nicolo",
+        "image": "",
+        "email": ""
+      }
+    ]
+  },
+  "Part-time Instructor":{
+    "Philosophy Department":[
+      {
+        "name": "De Mesa, Jan Elmer",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Lapuz, Rosemarie Jane",
+        "image": "",
+        "email": ""
+      }
+    ],
+    "Psychology Department" :[
+      {
+        "name": "Cruz, Clemuel",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Reyes, Maydee",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Romero, Queenie Rose",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Ignacio, Jennifer",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Kobayashi, Masahiro",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Padua, Charie",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Jose, Denmark",
+        "image": "",
+        "email": ""
+      }
+    ],
+    "Social Science Department":[
+      {
+        "name": "Capitle, Arjay",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Sarmiento, Allen Grace",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Dela Paz, Nicanor",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Gavieres, Jegil Gyle",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Jose, Andrei Miguel",
+        "image": "",
+        "email": ""
+      }
+    ]
+  },
+  "Adjunct Faculty":{
+    "Psychology Department":[
+      {
+        "name": "Canare, Keileen",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Mercado, Anna Liza",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "San Luis, Rose Ann",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Tan, Sarah Christine",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Rañopa, Josephus",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Romero, Albert",
+        "image": "",
+        "email": ""
+      },
+      {
+        "name": "Valenzuela, Victoria",
+        "image": "",
+        "email": ""
+      }
+    ]
+  }
+}

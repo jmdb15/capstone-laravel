@@ -120,7 +120,7 @@ class AdminController extends Controller
             });
         }
 
-        $users = $query->paginate(1); // You can adjust the number of activities per page as needed
+        $users = $query->paginate(10); // You can adjust the number of activities per page as needed
 
         // dd($logs);
         return view('admin.users', compact('users'), ['s' => $keyword]);
@@ -128,7 +128,7 @@ class AdminController extends Controller
 
     public function create()
     {
-        $posts = Posts::where('is_deleted', 0)->orderBy('created_at', 'DESC')->paginate(1);
+        $posts = Posts::where('is_deleted', 0)->orderBy('created_at', 'DESC')->paginate(10);
         return view('admin.createpost', ['posts' => $posts]);
     }
 
@@ -150,7 +150,8 @@ class AdminController extends Controller
                 }
             $post = DB::table('posts')->insertGetId([
                     'links' => implode('|', $image),
-                    'caption' => $request->caption
+                    'caption' => $request->caption,
+                    'created_at'=> now()->toDateString()
                 ]);
                 $this->informUsers($post, $request->caption);
                 return back()->with('message', 'Post uploaded!');
@@ -164,6 +165,7 @@ class AdminController extends Controller
             $this->informUsers($post, $request->caption);
             return back()->with('message', 'Post uploaded!');
         }else{
+            // dd($request->all());
             return back()->with('errmessage', 'Please provide a cation or an image.');
         }
     }
@@ -242,7 +244,7 @@ class AdminController extends Controller
 
     public function forum(Request $request)
     {
-        $qrys = Queries::where('is_deleted', 0)->with('users')->paginate(2);
+        $qrys = Queries::where('is_deleted', 0)->with('users')->paginate(10);
         return view('admin.forum', ['posts'=>$qrys]);
     }
 

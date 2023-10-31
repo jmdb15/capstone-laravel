@@ -13,6 +13,9 @@
         </svg>
       </div>
        <div class="flex flex-col items-center justify-center overflow-y-auto pt-10">
+        @php
+            $def_profile = 'https://avatars.dicebear.com/api/initials/avatar.svg';
+        @endphp
             @if (auth()->user())
                 @foreach ($notifs as $notif)
                     <a href="{{ ($notif->queries_id) ? '/forum/'.$notif->queries_id : '/post/'.$notif->posts_id }}" 
@@ -23,10 +26,10 @@
                             @if ($notif->posts_id)
                                 <img src="{{url('images/CSSP.png')}}" class="h-16 rounded-full mx-3" alt="">
                             @else
-                                <img src="https://avatars.dicebear.com/api/initials/avatar.svg" class="h-16 rounded-full mx-3" alt="">
+                                <img src="{{$notif->queries->users->image ? asset('storage/student/thumbnail/'.auth()->user()->image) : $def_profile}}" class="h-16 rounded-full mx-3" alt="">
                             @endif
                             <div class="flex flex-col w-[240px]">
-                                <h2 class="font-bold">{{($notif->queries_id) ? 'Student' : 'Admin'}}</h2>
+                                <h2 class="font-bold">{{($notif->queries_id) ? $notif->queries->users->name : 'Admin'}}</h2>
                                 <p>{{$notif->content}}</p>
                             </div>
                             @if ($notif->is_read == 0)

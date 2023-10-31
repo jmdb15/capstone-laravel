@@ -1,0 +1,73 @@
+{
+  "Faculty" : {
+    "Philosophy Department":[
+      "Aricheta, Jose Luis",
+      "Celestino, Joseph Roy",
+      "Cruz, Melito",
+      "Cunanan, Augusto",
+      "Fernando, Celso",
+      "Mercado, Erwin",
+      "Punzalan, Jovita",
+      "Recto, Angel",
+      "Roxas, David Floyd",
+      "Zapata, Danny",
+      "Agustin, Pia Boughdette",
+      "Chozas, Jessica",
+      "Espiritu, John Robert",
+      "Faustino, Julie Ann",
+      "Faustino, Raymundo Jr.",
+      "Ochoa, Josefina",
+      "Ranas, Estrella",
+      "Rotaquio, Marionne"
+    ],
+    "Public Administration Department":[
+      "Cruz, Teodulo",
+      "Verdillo, Patricia Mico",
+      "Villavicencio, Felicidad",
+      "Danganan, Regina",
+      "Dr. Ricardo B. Capule, Jr."
+    ],
+    "Social Science Department":[
+      "Berboso, Mark Jayson",
+      "De Vera, Kristine Analiza",
+      "Dela Merced, Ria",
+      "Lopez, Bobby",
+      "Naguit, Reynaldo",
+      "Sanchez, Leony",
+      "Velasco, Nicolo"
+    ]
+  },
+  "Part-time Instructor":{
+    "Philosophy Department":[
+      "De Mesa, Jan Elmer",
+      "Lapuz, Rosemarie Jane"
+    ],
+    "Psychology Department" :[
+      "Cruz, Clemuel",
+      "Reyes, Maydee",
+      "Romero, Queenie Rose",
+      "Ignacio, Jennifer",
+      "Kobayashi, Masahiro",
+      "Padua, Charie",
+      "Jose, Denmark"
+    ],
+    "Social Science Department":[
+      "Capitle, Arjay",
+      "Sarmiento, Allen Grace",
+      "Dela Paz, Nicanor",
+      "Gavieres, Jegil Gyle",
+      "Jose, Andrei Miguel"
+    ]
+  },
+  "Adjunct Faculty":{
+    "Psychology Department":[
+      "Canare, Keileen",
+      "Mercado, Anna Liza",
+      "San Luis, Rose Ann",
+      "Tan, Sarah Christine",
+      "Rañopa, Josephus",
+      "Romero, Albert",
+      "Valenzuela, Victoria"
+    ]
+  }
+}
