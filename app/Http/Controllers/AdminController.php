@@ -126,8 +126,20 @@ class AdminController extends Controller
         return view('admin.users', compact('users'), ['s' => $keyword]);
     }
 
-    public function create()
-    {
+    public function create(Request $request)
+    {   
+        if($request->ajax()){
+            if($request->for == 'read'){
+                $post = Posts::find($request->id);
+                return response()->json($post);
+            }else if($request->for == 'edit'){
+                $post = Posts::find($request->id);
+                $post->update([
+                    'caption' => $request->caption
+                ]);
+                return session()->flash('message', 'Post edited successfully.');
+            }
+        }
         $posts = Posts::where('is_deleted', 0)->orderBy('created_at', 'DESC')->paginate(10);
         return view('admin.createpost', ['posts' => $posts]);
     }
@@ -166,7 +178,7 @@ class AdminController extends Controller
             return back()->with('message', 'Post uploaded!');
         }else{
             // dd($request->all());
-            return back()->with('errmessage', 'Please provide a cation or an image.');
+            return back()->with('errmessage', 'Please provide a caption or an image.');
         }
     }
 

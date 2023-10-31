@@ -67,6 +67,15 @@
                     Change Password
                   </button> --}}
                 </li>
+                @if (auth()->user()->email_verified_at == null)
+                  <li>
+                    <a href="/verify"
+                      type="button"
+                      class="block px-4 py-2 hover:bg-gray-200 hover:cursor-pointer">
+                        Verify Account
+                    </a>
+                  </li>
+                @endif
               </ul>
           </div>
 

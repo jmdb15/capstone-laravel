@@ -12,8 +12,8 @@
         {{ $date }}
     </td>
     <td class="px-6 py-4">
-        <a href="#" class="font-medium text-blue-600 hover:underline">Edit</a>
+        <a class="font-medium cursor-pointer text-blue-600 hover:underline"  onclick="showpost({{$post->id}})">Edit</a>
         <span class="text-gray-400 text-md">|</span>
-        <a href="#" onclick="confirmDel({{$post->id}})" class="font-medium text-red-600 hover:underline">Delete</a>
+        <a onclick="confirmDel({{$post->id}})" class="font-medium cursor-pointer text-red-600 hover:underline">Delete</a>
     </td>
 </tr>

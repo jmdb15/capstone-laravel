@@ -1,4 +1,79 @@
 @include('partials.__header')
+<style>
+.carousel {
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.carousel-container {
+    display: flex;
+    transition: transform 0.5s;
+}
+
+.carousel-item {
+    flex: 0 0 200px;
+    margin-right: 10px;
+    height: 150px;
+    width: auto;
+    object-fit: fill;
+    cursor: pointer;
+}
+
+.carousel-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    transition: transform 0.2s;
+}
+
+.carousel-item img:hover {
+    transform: scale(1.05);
+}
+.carousel-arrows {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin: 10px 0;
+    font-size: 30px;
+}
+
+.arrow {
+    cursor: pointer;
+}
+
+/* Additional styles for image overlay */
+.image-overlay {
+    display: none;
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.expanded-image {
+    display: block;
+    max-width: 80%;
+    max-height: 80%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.close-button {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    font-size: 30px;
+    cursor: pointer;
+    color: white;
+}
+</style>
 <body class="bg-gray-200" x-data="{nos: false}" :class="{'no-scroll': nos}">
 @include('partials.__sidenavbar')
 
@@ -21,7 +96,8 @@
     <br>
     <x-messages />
     <x-post_table :posts="$posts"/>
-    <x-createpost />
+    <x-createpost_modal />
+    <x-showpostmodal />
   </div>
 </div>
 
@@ -57,9 +133,6 @@
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script>
-  document.querySelector('#select_image').addEventListener('click', function(){
-    document.querySelector('#post_image').click();
-  });
   $(document).ready(function(){
       $.ajaxSetup({
           headers:{
@@ -67,6 +140,46 @@
           }
       });
     });
+  function showpost(id){
+    localStorage.setItem('id', id);
+    $.ajax({
+      url:'/create-post',
+      type: 'GET',
+      data: {
+        for: 'read',
+          id: id
+        },
+      success:function(data){
+        // console.log(data)
+        $("#show-images").html('');
+        if(data.caption != null){
+          $('#modal-caption').val(data.caption);
+        }
+        if(data.links != null){
+          files = data.links.split('|');
+          showImagePost(files);
+        }
+        $('#show-post-button').click();
+        document.querySelector('#modal-caption').focus();
+      }
+    });
+  }
+  function editpost(){
+    const id = localStorage.getItem('id');
+    const capt = $('#modal-caption').val();
+    $.ajax({
+      url:'/create-post',
+      type: 'GET',
+      data: {
+          for: 'edit',
+          id: id,
+          caption: capt
+        },
+      success:function(data){
+        location.reload();
+      }
+    });
+  }
   function deletethis(){
     id = localStorage.getItem('log_id');
     document.querySelector('#backdrop').classList.toggle('hidden');
@@ -101,44 +214,139 @@
   function handleDrop(event) {
       event.preventDefault();
       const input = document.getElementById("dropzone-file");
-      const imageContainer = document.getElementById("image-container");
-
+      const imageContainer = document.getElementById("putsomething");
+      
       // Clear the previous images
       imageContainer.innerHTML = '';
 
       // Get the dropped files
       const files = event.dataTransfer.files;
-
+      let allDivs = '';
       // Display the dropped images
       for (let i = 0; i < files.length; i++) {
           const file = files[i];
-          const image = document.createElement("img");
-          image.src = URL.createObjectURL(file);
-          image.classList = 'h-10 w-10 object-contain';
-          imageContainer.appendChild(image);
+          const div = `<div class="carousel-item">
+                          <img src="${URL.createObjectURL(file)}" alt="Image ${i}" onclick="openImageView(this)">
+                       </div>`;
+          allDivs += div;
       }
+      const carous = `<div class="carousel">
+                        <div class="carousel-container">
+                          ${allDivs}
+                        </div>
+                      </div>
+                      <div class="carousel-arrows">
+                        <div class="arrow left-arrow" onclick="moveCarousel(-1)">&#9665;</div>
+                        <div class="arrow right-arrow" onclick="moveCarousel(1)">&#9655;</div>
+                      </div>
 
+                      <div id="image-overlay" class="image-overlay">
+                        <span class="close-button" onclick="closeImageView()">&times;</span>
+                        <img id="expanded-image" class="expanded-image">
+                      </div>`;
+      imageContainer.innerHTML = carous;
+                                      
+      initiateCarouselFuncs();
       // Set the dropped files as the input's files
       input.files = files;
   }
   function displayImages() {
     const input = document.getElementById("dropzone-file");
-    const imageContainer = document.getElementById("image-container");
+    const imageContainer = document.getElementById("putsomething");
+      
+      // Clear the previous images
+      imageContainer.innerHTML = '';
 
-    // Clear the previous images
-    imageContainer.innerHTML = '';
+      // Get the dropped files
+      const files = input.files;
+      let allDivs = '';
+      // Display the dropped images
+      for (let i = 0; i < files.length; i++) {
+          const file = files[i];
+          const div = `<div class="carousel-item">
+                          <img src="${URL.createObjectURL(file)}" alt="Image ${i}" onclick="openImageView(this)">
+                       </div>`;
+          allDivs += div;
+      }
+      const carous = `<div class="carousel">
+                        <div class="carousel-container">
+                          ${allDivs}
+                        </div>
+                      </div>
+                      <div class="carousel-arrows">
+                        <div class="arrow left-arrow" onclick="moveCarousel(-1)">&#9665;</div>
+                        <div class="arrow right-arrow" onclick="moveCarousel(1)">&#9655;</div>
+                      </div>
 
-    // Get the selected files
-    const files = input.files;
+                      <div id="image-overlay" class="image-overlay">
+                        <span class="close-button" onclick="closeImageView()">&times;</span>
+                        <img id="expanded-image" class="expanded-image">
+                      </div>`;
+      imageContainer.innerHTML = carous;
+                                      
+      initiateCarouselFuncs();
+  }
 
-    // Display the uploaded images
+  function initiateCarouselFuncs(){
+    const carouselContainer = document.querySelector(".carousel-container");
+      let currentIndex = 0;
+
+      document.querySelector(".carousel").addEventListener("click", (event) => {
+          const item = event.target.closest(".carousel-item");
+          if (item) {
+              openImageView(item.querySelector("img"));
+          }
+      });
+
+      function moveCarousel(direction) {
+        currentIndex += direction;
+        const itemWidth = document.querySelector(".carousel-item").offsetWidth;
+        const transformValue = `translateX(${-currentIndex * itemWidth}px)`;
+        carouselContainer.style.transform = transformValue;
+      }
+
+      function openImageView(clickedImage) {
+        const imageOverlay = document.getElementById("image-overlay");
+        const expandedImage = document.getElementById("expanded-image");
+
+        expandedImage.src = clickedImage.src;
+        imageOverlay.style.display = "block";
+      }
+      document.querySelector(".left-arrow").addEventListener("click", () => moveCarousel(-1));
+      document.querySelector(".right-arrow").addEventListener("click", () => moveCarousel(1));
+  }
+  function closeImageView() {
+    document.getElementById("image-overlay").style.display = "none";
+  }
+  function showImagePost(files){
+    let imageContainer = document.getElementById("show-images");
+    let allDivs = '';
+      // Display the dropped images
     for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        const image = document.createElement("img");
-        image.src = URL.createObjectURL(file);
-        image.classList = 'h-10 w-10 object-contain';
-        imageContainer.appendChild(image);
+        const div = `<div class="carousel-item">
+                        <img src="{{ asset('storage/posts/${file}') }}" alt="Image ${i}" onclick="openImageView(this)">
+                      </div>`;
+        allDivs += div;
+        
     }
+    const carous = `<div class="carousel">
+                      <div class="carousel-container">
+                        ${allDivs}
+                      </div>
+                    </div>
+                    <div class="carousel-arrows">
+                      <div class="arrow left-arrow" onclick="moveCarousel(-1)">&#9665;</div>
+                      <div class="arrow right-arrow" onclick="moveCarousel(1)">&#9655;</div>
+                    </div>
+
+                    <div id="image-overlay" class="image-overlay">
+                      <span class="close-button" onclick="closeImageView()">&times;</span>
+                      <img id="expanded-image" class="expanded-image">
+                    </div>`;
+    imageContainer.innerHTML = carous;
+                                    
+    initiateCarouselFuncs();
   }
 </script>
 
