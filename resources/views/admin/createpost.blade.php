@@ -335,7 +335,7 @@
                     </div>
 
                     <div id="image-overlay" class="image-overlay">
-                      <span class="close-button" onclick="closeImageView()">&times;</span>
+                    <span class="close-button" onclick="seImageView()">&times;</span>
                       <img id="expanded-image" class="expanded-image">
                     </div>`;
     imageContainer.innerHTML = carous;

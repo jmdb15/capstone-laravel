@@ -127,6 +127,7 @@ class AdminController extends Controller
     public function update(Request $request){
         $user = Users::find($request->id);
         $user->update([
+            'email' => $request->email,
             'type' => $request->type,
         ]);
         // return response()->json('');

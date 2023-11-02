@@ -2,8 +2,8 @@
   @php $links = explode('|', $post->links); @endphp
   <!-- Image wrapper -->
   @if (count($links) == 1)
-      <figure class="max-w-lg">
-        <img class="h-auto max-w-full rounded-lg" src="{{url('storage/posts/'.$links[0])}}" alt="image description">
+      <figure class="max-w-lg grid place-items-center">
+        <img class="h-auto max-w-full rounded-lg" src="{{url('storage/posts/'.$links[0])}}" alt="image description" onclick="openModal(this)">
         <figcaption class="mt-2 text-sm text-center text-white">{{$post->caption}}</figcaption>
       </figure>
   @else

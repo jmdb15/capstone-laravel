@@ -13,12 +13,6 @@
         </div>
     </div>
     <p class="ml-5 mt-3 font-normal text-black">{{$post->caption}}</p>
-    {{-- <a href="#" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
-        Read more
-          <svg class="w-3.5 h-3.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-        </svg>
-    </a> --}}
   </div>  
   <div class="flex justify-end px-4">
       <button id="dropdownButton" data-dropdown-toggle="dropdown{{$post->id}}" class="absolute top-4 right-4 inline-block text-gray-500 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg text-sm p-1.5" type="button">
@@ -34,9 +28,6 @@
                 onclick="copylink('{{$post->id}}')">
                 Copy link
             </li>
-            {{-- <li>
-                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit</a>
-            </li>  --}}
           </ul>
       </div>
     </div>

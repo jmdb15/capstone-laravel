@@ -8,7 +8,7 @@
 @endphp
 
 {{-- Personal Details --}}
-    <div class="flex flex-col bg-gray-50 min-h-64 h-[440px] w-[85%] md:h-96 rounded-md ">
+    <div class="flex flex-col bg-gray-50 min-h-64 h-[440px] w-[96%] md:h-96 rounded-md ">
       <img src="{{url('images/cssp_white.png')}}" class="object-cover w-full overflow-y-hidden h-[40%] md:h-[60%]" alt="">
       <div class="flex flex-col relative h-[40%] md:flex-row pt-4">
         {{-- left side --}}
@@ -61,11 +61,6 @@
                     class="block px-4 py-2 hover:bg-gray-200 hover:cursor-pointer">
                       Change Password
                   </a>
-                  {{-- <button 
-                    x-on:click='open2 = !open2, id="{{$user->id}}", image="{{$user->image}}"'
-                    class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center" type="button">
-                    Change Password
-                  </button> --}}
                 </li>
                 @if (auth()->user()->email_verified_at == null)
                   <li>
@@ -83,8 +78,9 @@
       </div>
     </div>
 
+  {{-- @if(auth()->user()->type == 'student') --}}
     {{-- FORM FOR FORUM QUESTION --}}
-    <div id="post_query" class="w-[80%] px-4 pt-4 pb-8 mx-auto mt-8 shadow-md rounded-md bg-gray-100">
+    <div id="post_query" class="w-[96%] max-w-[562px] px-4 pt-4 pb-8 mx-auto mt-8 shadow-md rounded-md bg-gray-100">
       <form action="/go-ask" method="post" class="w-full relative">
         @csrf
         
@@ -100,8 +96,9 @@
 
       </form>
     </div>
+  {{-- @endif --}}
 
-      <form method="POST" action="javascript:void(0)" id="querier">
+      <form method="POST" action="javascript:void(0)" id="querier" class="w-full p-0">
       @csrf
         <input type="hidden" name="name" id="namee">
         <input type="hidden" name="uid" id="uid">
@@ -110,14 +107,14 @@
         <input type="hidden" name="comment" id="cominput">
 
     {{-- QUERIES POSTED --}}
-    <section class="flex flex-col h-fit mt-10">
+    <section class="flex flex-col h-fit mt-10 w-full">
       @if (count($posts) == 0)
         <h1 class="mx-auto text-4xl text-center text-gray-400 mt-10 ">You have no questions posted yet.</h1>
       @else
         @foreach ($posts as $post)
           @php $def_profile = 'https://avatars.dicebear.com/api/initials/avatar.svg'; @endphp
-            <div class="my-2 mx-auto" x-data="{open2: false, see: {{$see}} }">
-              <div class="b4-card max-w-md p-6 overflow-hidden rounded-t-lg shadow bg-gray-100 h-min">
+            <div class="my-2 mx-auto w-[96%] max-w-[562px]" x-data="{open2: false, see: {{$see}} }">
+              <div class="b4-card w-full p-6 overflow-hidden rounded-t-lg shadow bg-gray-100 h-min">
                 <article>
                   <div class="flex items-center mb-8 space-x-4">
                     <img src="{{$post->users->image ? asset('storage/student/'.$post->users->image) : $def_profile}}" alt="" class="w-10 h-10 rounded-full">

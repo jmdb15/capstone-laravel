@@ -1,4 +1,108 @@
 @include('partials.__header')
+<style>
+  .modal {
+      display: none;
+      position: fixed;
+      z-index: 12345;
+      padding-top: 50px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.9);
+      place-items: center;
+    }
+
+    .modal-content {
+      display: block;
+      margin: 0 auto;
+      max-width: 90vw;
+      max-height: 90vh;
+    }
+
+    #viewImageCloseButton {
+      position: absolute;
+      top: 70px;
+      left: 0px;
+      font-size: 2em;
+      cursor: pointer;
+      color: #fff;
+    }
+  .carousel {
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.carousel-container {
+    display: flex;
+    transition: transform 0.5s;
+}
+
+.carousel-item {
+    flex: 0 0 200px;
+    margin-right: 10px;
+    height: 150px;
+    width: auto;
+    object-fit: fill;
+    cursor: pointer;
+}
+
+.carousel-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    transition: transform 0.2s;
+}
+
+.carousel-item img:hover {
+    transform: scale(1.05);
+}
+.carousel-arrows {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin: 10px 0;
+    font-size: 30px;
+}
+
+.arrow {
+    cursor: pointer;
+}
+
+/* Additional styles for image overlay */
+.image-overlay {
+    display: none;
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+}
+
+.expanded-image {
+    display: block;
+    max-width: 80%;
+    max-height: 80%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.close-button {
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    font-size: 30px;
+    cursor: pointer;
+    color: white;
+}
+</style>
 @include('partials.__navbar')
 @include('partials.__sidebar', ['show' => true])
 
@@ -18,7 +122,7 @@
     @endforeach
   </div>
  
-  
+
   <x-toast />
 
 {{-- View Image Modal --}}
@@ -32,7 +136,22 @@
 @include('partials.__notifications', ['notifs' => $notifs])
 
 <x-createpost_modal />  
-<script>
+<script defer>
+  function openModal(imageSrc) {
+    var modal = document.getElementById("imageModal");
+    var modalImg = document.getElementById("modalImage");
+
+    // Set the source of the modal image to the clicked image
+    modalImg.src = imageSrc.src;
+
+    // Display the modal
+    modal.style.display = "grid";
+
+    // Function to close the modal when clicking the close button
+    document.getElementById("viewImageCloseButton").onclick = function() {
+      modal.style.display = "none";
+    }
+  }
   function copylink(v) {
     const textArea = document.createElement("textarea");
     cpylinkbtn = document.querySelector('#copylinkbtn' + v);
@@ -51,6 +170,152 @@
     setTimeout(() => {
       cpylinkbtn.innerText = 'Copy link';
     }, 2000);
+  }
+  function hideBd(){
+      document.querySelector('#backdrop').classList.toggle('hidden');
+  }
+  // Function to allow dropping in the drop zone
+  function allowDrop(event) {
+      event.preventDefault();
+  }
+
+  // Function to handle the drop event
+  function handleDrop(event) {
+      event.preventDefault();
+      const input = document.getElementById("dropzone-file");
+      const imageContainer = document.getElementById("putsomething");
+      
+      // Clear the previous images
+      imageContainer.innerHTML = '';
+
+      // Get the dropped files
+      const files = event.dataTransfer.files;
+      let allDivs = '';
+      // Display the dropped images
+      for (let i = 0; i < files.length; i++) {
+          const file = files[i];
+          const div = `<div class="carousel-item">
+                          <img src="${URL.createObjectURL(file)}" alt="Image ${i}" onclick="openImageView(this)">
+                       </div>`;
+          allDivs += div;
+      }
+      const carous = `<div class="carousel">
+                        <div class="carousel-container">
+                          ${allDivs}
+                        </div>
+                      </div>
+                      <div class="carousel-arrows">
+                        <div class="arrow left-arrow" onclick="moveCarousel(-1)">&#9665;</div>
+                        <div class="arrow right-arrow" onclick="moveCarousel(1)">&#9655;</div>
+                      </div>
+
+                      <div id="image-overlay" class="image-overlay">
+                        <span class="close-button" onclick="closeImageView()">&times;</span>
+                        <img id="expanded-image" class="expanded-image">
+                      </div>`;
+      imageContainer.innerHTML = carous;
+                                      
+      initiateCarouselFuncs();
+      // Set the dropped files as the input's files
+      input.files = files;
+  }
+  function displayImages() {
+    const input = document.getElementById("dropzone-file");
+    const imageContainer = document.getElementById("putsomething");
+      
+      // Clear the previous images
+      imageContainer.innerHTML = '';
+
+      // Get the dropped files
+      const files = input.files;
+      let allDivs = '';
+      // Display the dropped images
+      for (let i = 0; i < files.length; i++) {
+          const file = files[i];
+          const div = `<div class="carousel-item">
+                          <img src="${URL.createObjectURL(file)}" alt="Image ${i}" onclick="openImageView(this)">
+                       </div>`;
+          allDivs += div;
+      }
+      const carous = `<div class="carousel">
+                        <div class="carousel-container">
+                          ${allDivs}
+                        </div>
+                      </div>
+                      <div class="carousel-arrows">
+                        <div class="arrow left-arrow" onclick="moveCarousel(-1)">&#9665;</div>
+                        <div class="arrow right-arrow" onclick="moveCarousel(1)">&#9655;</div>
+                      </div>
+
+                      <div id="image-overlay" class="image-overlay">
+                        <span class="close-button" onclick="closeImageView()">&times;</span>
+                        <img id="expanded-image" class="expanded-image">
+                      </div>`;
+      imageContainer.innerHTML = carous;
+                                      
+      initiateCarouselFuncs();
+  }
+
+  function initiateCarouselFuncs(){
+    const carouselContainer = document.querySelector(".carousel-container");
+      let currentIndex = 0;
+
+      document.querySelector(".carousel").addEventListener("click", (event) => {
+          const item = event.target.closest(".carousel-item");
+          if (item) {
+              openImageView(item.querySelector("img"));
+          }
+      });
+
+      function moveCarousel(direction) {
+        currentIndex += direction;
+        const itemWidth = document.querySelector(".carousel-item").offsetWidth;
+        const transformValue = `translateX(${-currentIndex * itemWidth}px)`;
+        carouselContainer.style.transform = transformValue;
+      }
+
+      function openImageView(clickedImage) {
+        const imageOverlay = document.getElementById("image-overlay");
+        const expandedImage = document.getElementById("expanded-image");
+
+        expandedImage.src = clickedImage.src;
+        imageOverlay.style.display = "block";
+      }
+      document.querySelector(".left-arrow").addEventListener("click", () => moveCarousel(-1));
+      document.querySelector(".right-arrow").addEventListener("click", () => moveCarousel(1));
+  }
+  function closeImageView() {
+    document.getElementById("image-overlay").style.display = "none";
+  }
+  function showImagePost(files){
+    let imageContainer = document.getElementById("show-images");
+    let allDivs = '';
+      // Display the dropped images
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const div = `<div class="carousel-item">
+                        <img src="{{ asset('storage/posts/${file}') }}" alt="Image ${i}" onclick="openImageView(this)">
+                      </div>`;
+        allDivs += div;
+        
+    }
+    const carous = `<div class="carousel">
+                      <div class="carousel-container">
+                        ${allDivs}
+                      </div>
+                    </div>
+                    <div class="carousel-arrows">
+                      <div class="arrow left-arrow" onclick="moveCarousel(-1)">&#9665;</div>
+                      <div class="arrow right-arrow" onclick="moveCarousel(1)">&#9655;</div>
+                    </div>
+
+                    <div id="image-overlay" class="image-overlay">
+                      <span class="close-button" onclick="closeImageView()">&times;</span>
+                      <img id="expanded-image" class="expanded-image">
+                    </div>`;
+    imageContainer.innerHTML = carous;
+                                    
+    initiateCarouselFuncs();
   }
 </script>
 

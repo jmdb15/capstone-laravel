@@ -4,7 +4,7 @@
 
 {{-- Main/Middle Section --}}
 
-  <form method="POST" action="javascript:void(0)" id="querier">
+  <form method="POST" action="javascript:void(0)" id="querier" class="w-full px-0">
   @csrf
     <input type="hidden" name="name" id="namee">
     <input type="hidden" name="uid" id="uid">
@@ -12,11 +12,11 @@
     <input type="hidden" name="cid" id="cid">
     <input type="hidden" name="comment" id="cominput">
       
-    <div class="flex flex-col">
+    <div class="flex flex-col w-full p-0">
       @foreach ($posts as $post)
-      @php $def_profile = 'https://avatars.dicebear.com/api/initials/'.$post->users->name.'.svg'; @endphp
-        <div class="my-8 mx-auto" x-data="{open2: {{$open}}, see: {{$see}}}">
-          <div class="b4-card max-w-md p-6 overflow-hidden rounded-t-lg bg-gray-100 h-min">
+      @php $def_profile = 'https://avatars.dicebear.com/api/initials/avatar.svg'; @endphp
+        <div class="my-8 mx-auto w-[96%] max-w-[562px]" x-data="{open2: {{$open}}, see: {{$see}}}">
+          <div class="b4-card w-full p-6 overflow-hidden rounded-t-lg bg-gray-100 h-min">
             <article>
               <div class="flex items-center mb-8 space-x-4">
                 <img src="{{$post->users->image ? asset('storage/student/'.$post->users->image) : $def_profile}}" alt="" class="w-10 h-10 rounded-full">
@@ -96,7 +96,7 @@
                     <div class="comment-container">
                       <div class="user">
                         <div class="user-pic">
-                          <img src="{{ auth()->user()->image ? asset('storage/student/'.auth()->user()->image) : $def_profile}}" alt="">
+                          <img src="{{ auth()->user()->image ? asset('storage/student/'.auth()->user()->image) : 'https://avatars.dicebear.com/api/initials/avatar.svg'}}" alt="">
                         </div>
                         <div class="user-info">
                           <span>${namee}</span>
