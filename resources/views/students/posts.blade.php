@@ -17,7 +17,8 @@
       <x-card :post="$post" />
     @endforeach
   </div>
-
+ 
+  
   <x-toast />
 
 {{-- View Image Modal --}}
