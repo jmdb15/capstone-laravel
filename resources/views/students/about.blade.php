@@ -19,7 +19,7 @@
           {{-- <button data-open-modal class="px-4 py-2 mb-4 text-white rounded-md bg-green-600 hover:bg-green-500 md:hidden">Edit</button> --}}
           <img src="{{url('images/CSSP.png')}}" class="h-40 w-40 object-contain sm:basis-1/3 sm:h-full max-h-44" alt="">
           <div class="flex flex-col items-center">
-            <img src="https://avatars.dicebear.com/api/initials/avatar.svg" class="sm:grow max-sm:w-24 max-sm:mt-4 h-24" alt="">
+            <img src="https://avatars.dicebear.com/api/initials/avatar.svg" class="sm:grow rounded-full max-sm:w-24 max-sm:mt-4 h-24" alt="">
             <h3 class="text-2xl font-bold basis-1/3 text-center">Sherwin M. Parinas</h3>
             <p class="text-xl basis-2/3 text-center">Dean, College of Social Sciences and Philosophy</p>
           </div>
@@ -58,91 +58,27 @@
       </div>
 
       <hr class="h-0.5 my-2 mx-6 bg-black">
+      
+      <h2 class="text-3xl font-bold my-10">COURSES OFFERED</h2>
 
-      <h2 class="w-full text-center text-3xl font-bold m-4">Official and Staff</h2>
-      <div class="flex flex-wrap p-0 m-4 justify-around">
-        <!-- Item 1 -->
-        <div class="flex h-28 basis-1/2 shadow-lg p-6 my-3 min-w-[220px] max-w-sm">
-          <img src="https://avatars.dicebear.com/api/initials/avatar.svg" class="mr-4" alt="">
-          <div class="flex flex-col justify-around">
-            <h4 class="text-xl">Jorge S. Arellano</h4>
-            <p>College Secretary</p>
-          </div>
-        </div>
-        <!-- Item 2 -->
-        <div class="flex h-28 basis-1/2 shadow-lg p-6 my-3 min-w-[220px] max-w-sm">
-          <img src="https://avatars.dicebear.com/api/initials/avatar.svg" class="mr-4" alt="">
-          <div class="flex flex-col justify-around">
-            <h4 class="text-xl">Agnes DR. Crisostomo, Ph. D.</h4>
-            <p>Department Head, Psychology Department</p>
-          </div>
-        </div>
-        <!-- Item 3 -->
-        <div class="flex h-28 basis-1/2 shadow-lg p-6 my-3 min-w-[220px] max-w-sm">
-          <img src="https://avatars.dicebear.com/api/initials/avatar.svg" class="mr-4" alt="">
-          <div class="flex flex-col justify-around">
-            <h4 class="text-xl">Marissa R. Enriquez</h4>
-            <p>Department Head, Public Administration Department</p>
-          </div>
-        </div>
-        <!-- Item 4 -->
-        <div class="flex h-28 basis-1/2 shadow-lg p-6 my-3 min-w-[220px] max-w-sm">
-          <img src="https://avatars.dicebear.com/api/initials/avatar.svg" class="mr-4" alt="">
-          <div class="flex flex-col justify-around">
-            <h4 class="text-xl">Catherine L. Roxas</h4>
-            <p>Department Head, Social Sciences Department</p>
-          </div>
-        </div>
-        <!-- Item 5 -->
-        <div class="flex h-28 basis-1/2 shadow-lg p-6 my-3 min-w-[220px] max-w-sm">
-          <img src="https://avatars.dicebear.com/api/initials/avatar.svg" class="mr-4" alt="">
-          <div class="flex flex-col justify-around">
-            <h4 class="text-xl">Sherwin M. Pariñas</h4>
-            <p>Department Head, Philosophy and Humanities</p>
-          </div>
-        </div>
-        <!-- Item 6 -->
-        <div class="flex h-28 basis-1/2 shadow-lg p-6 my-3 min-w-[220px] max-w-sm">
-          <img src="https://avatars.dicebear.com/api/initials/avatar.svg" class="mr-4" alt="">
-          <div class="flex flex-col justify-around">
-            <h4 class="text-xl">Eduardo G. Valcos, Ph. D.</h4>
-            <p>Research & Values Formation Coordinator</p>
-          </div>
-        </div>
-        <!-- Item 7 -->
-        <div class="flex h-28 basis-1/2 shadow-lg p-6 my-3 min-w-[220px] max-w-sm">
-          <img src="https://avatars.dicebear.com/api/initials/avatar.svg" class="mr-4" alt="">
-          <div class="flex flex-col justify-around">
-            <h4 class="text-xl">Rafael R. Baesa</h4>
-            <p>Extension Coordinator</p>
-          </div>
-        </div>
-        <!-- Item 8 -->
-        <div class="flex h-28 basis-1/2 shadow-lg p-6 my-3 min-w-[220px] max-w-sm">
-          <img src="https://avatars.dicebear.com/api/initials/avatar.svg" class="mr-4" alt="">
-          <div class="flex flex-col justify-around">
-            <h4 class="text-xl">Maria Pretty Lay Abdala</h4>
-            <p>Maria Pretty Lay Abdala</p>
-          </div>
-        </div>
-        <!-- Item 9 -->
-        <div class="flex h-28 basis-1/2 shadow-lg p-6 my-3 min-w-[220px] max-w-sm">
-          <img src="https://avatars.dicebear.com/api/initials/avatar.svg" class="mr-4" alt="">
-          <div class="flex flex-col justify-around">
-            <h4 class="text-xl">Eva Jennelyn Galang</h4>
-            <p>College Clerk</p>
-          </div>
-        </div>
-        <!-- Item 10 -->
-        <div class="flex h-28 basis-1/2 shadow-lg p-6 my-3 min-w-[220px] max-w-sm">
-          <img src="https://avatars.dicebear.com/api/initials/avatar.svg" class="mr-4" alt="">
-          <div class="flex flex-col justify-around">
-            <h4 class="text-xl">Jaybee Christian Bernardo</h4>
-            <p>College Custodian</p>
-          </div>
-        </div>
+      <div class="mb-4 p-2">
+        <h2 class="text-xl font-bold mb-2">Bachelor of Science in Social Work</h2>
+        <p class="text-md p-2">
+          Social Work education in the undergraduate level shall be geared towards the preparation of students for generalist social work practice. Professional education in social work requires the acquisition and application of beginning level of knowledge, attitudes, values and skills in enhancing the social functioning of individuals, families, groups and communities, linking people (client systems) with needed resources, improving the operation of social service delivery networks, and promoting social justice through organizing and advocacy.
+        </p>
       </div>
-
+      <div class="mb-4 p-2">
+        <h2 class="text-xl font-bold mb-2">Bachelor of Science in Psychology</h2>
+        <p class="text-md p-2">
+          Psychology is the scientific study of behavior and mental processes. Psychology as a discipline and professional practice contributes to national development through basic and applied research and interventions aimed at solving problem and promoting optimal development and functioning at the individual, family, group, organizations/institutions, community and national levels.
+        </p>
+      </div>
+      <div class="mb-4 p-2">
+        <h2 class="text-xl font-bold mb-2">Bachelor in Public Administration</h2>
+        <p class="text-md p-2">
+          Public Administration is a degree program that prepares people for careers in public administration and governance for the public interest. It is also a formation course for students who want to devout their life to public service in government and civil society.
+        </p>
+      </div>
       <!-- End of middle section's contents -->
 
 @include('partials.__notifications', ['notifs' => $notifs])
