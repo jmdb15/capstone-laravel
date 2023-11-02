@@ -22,9 +22,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::share('title', 'Student Admin');
-        View::composer('students.index', function($view){
-            $view->with('students', Users::all());
-        });
+        View::share('title', 'CSSP Rajah');
+        // View::composer('students.index', function($view){
+        //     $view->with('students', Users::all());
+        // });
     }
 }

@@ -1,4 +1,4 @@
-@include('partials.__header', ['title' => 'Student End'])
+@include('partials.__header')
   <div class="flex h-screen">
     <!-- right side -->
     <div class="w-2/5 absolute inset-y-0 right-0">

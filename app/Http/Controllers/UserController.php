@@ -24,6 +24,7 @@ use Intervention\Image\Facades\Image;
 use App\Notifications\VerifyEmailNotification;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -79,7 +80,7 @@ class UserController extends Controller
                     ]);
                 }
                 if (Auth::check()) {
-                    if (auth()->user()->type == 'student') {
+                    if (auth()->user()->type == 'student' || auth()->user()->type == 'organization') {
                         return redirect('/about');
                     } else if (auth()->user()->type == 'admin') {
                         return redirect('/admin');
@@ -152,9 +153,7 @@ class UserController extends Controller
 
     public function forum()
     {
-        $vote_count = DB::select('((SELECT COUNT(*) as vote_count, comments_id from votes where checked = 1 GROUP BY comments_id) order by vote_count desc limit 1)');
-        // $comments = DB::select('SELECT comments.*, users.name, users.image FROM comments INNER JOIN users on comments.users_id = users.id WHERE comments.id ='. $vote_count[0]->comments_id);
-        $posts = Queries::with(['users'])->where('is_deleted',0)->get();
+        $posts = Queries::with(['users'])->where('is_deleted',0)->orderBy('query_date','DESC')->get();
         foreach ($posts as $post) {
             $votes = DB::select('((SELECT COUNT(*) as vote_count, comments_id from votes WHERE queries_id = ' . $post->id . ' and checked = 1 GROUP BY comments_id) order by vote_count desc limit 1)');
             $comment_count = DB::select('SELECT COUNT(*) as c FROM comments WHERE queries_id = ' . $post->id);
@@ -169,21 +168,13 @@ class UserController extends Controller
             $customFormat = $date->format('F j, Y');
             $post['query_date'] = $customFormat;
         }
-        // dd($posts);
         $notifs = $this->notifs();
-        // dd($posts);
         // dd($posts);
         return view('students.query', ['posts' => $posts, 'open' => 'false', 'see' => 'true', 'notifs' => $notifs]);
     }
 
     public function viewQuery($id)
     {
-        // foreach($posts as $post){
-        //     foreach($post->comments as $comment){
-        //         $comment['name'] = Users::select('name', 'image')->find($comment->users_id);
-        //     }
-        // }
-        // return view('students.query', ['posts'=>$posts, 'queryId' => $id]);
         $posts = Queries::where('id', $id)->with('users')->get();
         if($posts[0]->is_deleted == 1){
             return redirect('/forum')->with('errmessage', 'This question is deleted.');
@@ -191,6 +182,7 @@ class UserController extends Controller
             $data = Comments::select('comments.*', 'users.name', 'users.image', 'users.id as users_id')
                 ->join('users', 'users.id', '=', 'comments.users_id')
                 ->where('queries_id', $posts[0]->id)
+                ->orderBy('comment_date','DESC')
                 ->get();
             foreach ($data as $c) {
                 $votes = DB::select('SELECT COUNT(*) as vote_count from votes WHERE comments_id = ' . $c->id . ' and checked = 1 GROUP BY comments_id');
@@ -270,23 +262,14 @@ class UserController extends Controller
 
     public function update(Request $request)
     {
-        // $validated = $request->validate([
-        //     "id" => ['required', 'min:10'],
-        //     "name" => ['required', 'min:4'],
-        //     "email" => ['required', "email"],
-        //     "type" => ['required', "email"]
-        // ]);
-
         $user = Users::find(auth()->user()->id);
-        // $user->id = $request->id;
-        // $user->name = $request->name;
-        // $user->email = $request->email;
-        // $user->type = $request->type;
-
         if ($request->hasFile('image')) {
-            $request->validate([
-                'image' => 'mimes:jpeg, png, bmp, jpg, tiff | max:5120'
+            $validator = Validator::make($request->all(), [
+                'image' => 'mimes:jpeg,png,bmp,jpg,tiff|max:51200',
             ]);
+            if ($validator->fails()) {
+                return back()->with('errmessage', 'Data was not updated successfully: '. $validator->error());
+            }
             $fileNameWithExtension = $request->file('image');
             $fileName = pathInfo($fileNameWithExtension, PATHINFO_FILENAME);
             $extension = $request->file('image')->getClientOriginalExtension();
@@ -300,8 +283,11 @@ class UserController extends Controller
             $user->image = $fileNameToStore;
         }
 
-        $user->update();
-        return back()->with('message', 'Data updated successfully.');
+        if($user->update()){
+            return back()->with('message', 'Data updated successfully.');
+        }else{
+            return back()->with('errmessage', 'Data was not updated successfully.');
+        }
     }
 
     public function createThumbnail($path, $width, $height)

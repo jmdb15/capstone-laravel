@@ -17,7 +17,7 @@
     <!-- Slider indicators -->
       <div class="absolute z-30 flex space-x-3 -translate-x-1/2 bottom-6 left-1/2">
         @foreach ($links as $img)
-          <button type="button" class="w-3 h-3 rounded-full" aria-current="false" aria-label="Slide {{ $loop->iteration }}" data-carousel-slide-to="{{ $loop->iteration }}"></button>
+          <button type="button" class="w-3 h-3 rounded-full bg-gray-500" aria-current="false" aria-label="Slide {{ $loop->iteration }}" data-carousel-slide-to="{{ $loop->iteration }}"></button>
         @endforeach
       </div>
       <!-- Slider controls -->

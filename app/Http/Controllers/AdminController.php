@@ -110,8 +110,8 @@ class AdminController extends Controller
     public function users(Request $request)
     {
         $keyword = $request->input('search', '');
+        $keytype = $request->input('usertype', 'student');
         $query = Users::query();
-
         if ($keyword) {
             $query->where(function ($q) use ($keyword) {
                 $q->where('name', 'like', "%$keyword%")
@@ -119,12 +119,20 @@ class AdminController extends Controller
                 ->orWhere('id', 'like', "%$keyword%");
             });
         }
-
-        $users = $query->paginate(10); // You can adjust the number of activities per page as needed
-
-        // dd($logs);
-        return view('admin.users', compact('users'), ['s' => $keyword]);
+        $query->where('type', '=', $keytype);
+        $users = $query->paginate(10); 
+        return view('admin.users', compact('users'), ['s' => $keyword, 'type' => $keytype]);
     }
+
+    public function update(Request $request){
+        $user = Users::find($request->id);
+        $user->update([
+            'type' => $request->type,
+        ]);
+        // return response()->json('');
+        return back()->with('message', 'User updated successfully');
+    }
+
 
     public function create(Request $request)
     {   
@@ -161,6 +169,7 @@ class AdminController extends Controller
                     }
                 }
             $post = DB::table('posts')->insertGetId([
+                    'users_id' => auth()->user()->id,
                     'links' => implode('|', $image),
                     'caption' => $request->caption,
                     'created_at'=> now()->toDateString()
@@ -172,6 +181,7 @@ class AdminController extends Controller
             //     'caption' => $request->caption
             // ]);
             $post = DB::table('posts')->insertGetId([
+                'users_id' => auth()->user()->id,
                 'caption' => $request->caption
             ]);
             $this->informUsers($post, $request->caption);

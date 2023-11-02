@@ -2,6 +2,16 @@
 @include('partials.__navbar')
 @include('partials.__sidebar', ['show' => true])
 
+  @if(auth()->user()->type == 'organization')
+    <div class="flex items-center px-3 py-2 rounded-lg bg-gray-50 w-full mb-10">
+        <img src="{{url('images/cssp.png')}}" alt="CSSP logo" class="h-10 w-10">
+        @error('image')
+          <p class="text-red-500 text-sm mt-2 text-center mb-0">{{ $message }}</p>
+        @enderror
+        <input data-modal-target="create-post-modal" data-modal-toggle="create-post-modal" type="text" id="chat" class="hover:bg-gray-100 cursor-pointer block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Create post" />
+    </div>
+  @endif
+
   <div class="flex flex-col gap-3 mx-2">
     @foreach ($posts as $post)
       <x-card :post="$post" />
@@ -20,6 +30,7 @@
 
 @include('partials.__notifications', ['notifs' => $notifs])
 
+<x-createpost_modal />  
 <script>
   function copylink(v) {
     const textArea = document.createElement("textarea");

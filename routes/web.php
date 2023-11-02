@@ -3,9 +3,7 @@
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CalendarController;
-use App\Models\User;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,10 +26,10 @@ Route::middleware(['auth', 'student'])->group(function () {
     });
     Route::get('/forum', [UserController::class, 'forum'])->middleware('auth');
     Route::get('/forum/{id}', [UserController::class, 'viewQuery'])->middleware('auth');
-    Route::get('/profile/{id}', [UserController::class, 'viewProfile'])->name('profile');
     Route::get('/posts', [UserController::class, 'news'])->middleware('auth');
     Route::get('/post/{id}', [UserController::class, 'copyLink'])->middleware('auth');
 });
+Route::get('/profile/{id}', [UserController::class, 'viewProfile'])->name('profile');
 
 Route::middleware(['guest'])->group(function () {
     // Define routes accessible to guests here
@@ -57,9 +55,9 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin', [AdminController::class, 'index']);
     Route::get('/admin-line', [AdminController::class, 'line']);
     Route::get('/create-post', [AdminController::class, 'create']);
-    Route::post('/create-post/process', [AdminController::class, 'store']);
     Route::post('/create-post/action', [AdminController::class, 'action']);
     Route::get('/users', [AdminController::class, 'users']);
+    Route::put('/update-user', [AdminController::class, 'update']);
     Route::get('/admin/forum', [AdminController::class, 'forum']);
     Route::get('/logs', [AdminController::class, 'logs']);
     Route::post('/logs/action', [AdminController::class, 'logsAction']);
@@ -69,6 +67,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
 Route::post('/forum-modal', [AdminController::class, 'forum_modal']);
 
 # ### PROCESS ### #
+Route::post('/create-post/process', [AdminController::class, 'store']);
 Route::post('/logs/filtered', [AdminController::class, 'filter']);
 Route::get('/calendar', [UserController::class, 'calendar']);
 Route::post('/login/process', [UserController::class, 'process']);

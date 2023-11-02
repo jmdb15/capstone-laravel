@@ -4,7 +4,7 @@
 @php
   $cuser = auth()->user();
   $show = ($cuser->id == $user->id) ? true : false;
-  $def = 'https://avatars.dicebear.com/api/initials/'.$user->name.'.svg';
+  $def = 'https://avatars.dicebear.com/api/initials/avatar.svg';
 @endphp
 
 {{-- Personal Details --}}
@@ -101,15 +101,23 @@
       </form>
     </div>
 
+      <form method="POST" action="javascript:void(0)" id="querier">
+      @csrf
+        <input type="hidden" name="name" id="namee">
+        <input type="hidden" name="uid" id="uid">
+        <input type="hidden" name="qid" id="qid">
+        <input type="hidden" name="cid" id="cid">
+        <input type="hidden" name="comment" id="cominput">
+
     {{-- QUERIES POSTED --}}
     <section class="flex flex-col h-fit mt-10">
       @if (count($posts) == 0)
-        <h1 class="mx-auto text-4xl text-center text-white mt-10 ">You have no questions posted yet.</h1>
+        <h1 class="mx-auto text-4xl text-center text-gray-400 mt-10 ">You have no questions posted yet.</h1>
       @else
         @foreach ($posts as $post)
-          @php $def_profile = 'https://avatars.dicebear.com/api/initials/'.$post->users->name.'.svg'; @endphp
+          @php $def_profile = 'https://avatars.dicebear.com/api/initials/avatar.svg'; @endphp
             <div class="my-2 mx-auto" x-data="{open2: false, see: {{$see}} }">
-              <div class="max-w-md p-6 overflow-hidden rounded-t-lg shadow bg-gray-100 h-min">
+              <div class="b4-card max-w-md p-6 overflow-hidden rounded-t-lg shadow bg-gray-100 h-min">
                 <article>
                   <div class="flex items-center mb-8 space-x-4">
                     <img src="{{$post->users->image ? asset('storage/student/'.$post->users->image) : $def_profile}}" alt="" class="w-10 h-10 rounded-full">
@@ -126,6 +134,8 @@
           @endforeach   
         @endif
     </section>
+    
+  </form>
 
 <x-messages />
   
@@ -189,13 +199,42 @@
         }
       });
     }
-    const timeElapsed = Date.now();
-    let today = new Date(timeElapsed);    
-    today = today.toDateString();
-    $('#new-comment-name'+qid).html(namee)
-    $('#new-comment-date'+qid).html(today);
-    $('#new-comment-msg'+qid).html(document.getElementById(`txtarea${qid}`).value);
-    document.getElementById(`txtarea${qid}`).value = '';
+    if(type=='comment'){
+      const timeElapsed = Date.now();
+      let today = new Date(timeElapsed);    
+      today = today.toDateString();
+  
+      let newCom = `<div>
+                  <div class="comments">
+                    <div class="comment-react">
+                        <button>
+                            <svg fill="none" viewBox="0 0 24 24" height="16" width="16" xmlns="http://www.w3.org/2000/svg">
+                              <path id="heart" fill="#070400" stroke="#070400" stroke-linecap="round" stroke-width="2" d="M19.4626 3.99415C16.7809 2.34923 14.4404 3.01211 13.0344 4.06801C12.4578 4.50096 12.1696 4.71743 12 4.71743C11.8304 4.71743 11.5422 4.50096 10.9656 4.06801C9.55962 3.01211 7.21909 2.34923 4.53744 3.99415C1.01807 6.15294 0.221721 13.2749 8.33953 19.2834C9.88572 20.4278 10.6588 21 12 21C13.3412 21 14.1143 20.4278 15.6605 19.2834C23.7783 13.2749 22.9819 6.15294 19.4626 3.99415Z"></path>
+                            </svg>
+                        </button>
+                      <hr>
+                      <span>0</span>
+                    </div>
+                    <div class="comment-container">
+                      <div class="user">
+                        <div class="user-pic">
+                          <img src="{{ auth()->user()->image ? asset('storage/student/'.auth()->user()->image) : 'https://avatars.dicebear.com/api/initials/avatar.svg'}}" alt="">
+                        </div>
+                        <div class="user-info">
+                          <span>${namee}</span>
+                          <p>${today}</p>
+                        </div>
+                      </div>
+                      <p class="comment-content">${document.getElementById(`txtarea${qid}`).value}</p>
+                    </div>
+                  </div>
+                </div>`;
+  
+      const orig = document.querySelector(`#comment-container-${qid}`).innerHTML;
+      document.querySelector(`#comment-container-${qid}`).innerHTML = '';
+      document.querySelector(`#comment-container-${qid}`).innerHTML += newCom + orig;
+      document.getElementById(`txtarea${qid}`).value = '';
+    }
   }
 </script>
 <x-changepass />

@@ -26,12 +26,11 @@
       </div>
   </td>
   <td class="px-6 py-4">
-    <button 
-        {{-- data-modal-target="authentication-modal" 
-        data-modal-toggle="authentication-modal"  --}}
-        x-on:click='open = !open, id="{{$user->id}}", name = "{{$user->name}}", email = "{{$user->email}}", type="{{$user->type}}", created_at="{{$user->created_at}}"'
-        class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center" type="button">
-        Edit User
-    </button>
+    <a
+    data-modal-target="edit-user-modal" 
+    data-modal-toggle="edit-user-modal"  
+    class="font-medium cursor-pointer text-blue-600 hover:underline"  
+      x-on:click='open= !open, id="{{$user->id}}", name = "{{$user->name}}", email = "{{$user->email}}", type="{{$user->type}}", created_at="{{$user->created_at}}"'
+      >Edit</a>
   </td>
 </tr>

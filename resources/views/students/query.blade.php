@@ -16,13 +16,13 @@
       @foreach ($posts as $post)
       @php $def_profile = 'https://avatars.dicebear.com/api/initials/'.$post->users->name.'.svg'; @endphp
         <div class="my-8 mx-auto" x-data="{open2: {{$open}}, see: {{$see}}}">
-          <div class="max-w-md p-6 overflow-hidden rounded-t-lg shadow bg-gray-100 h-min">
+          <div class="b4-card max-w-md p-6 overflow-hidden rounded-t-lg bg-gray-100 h-min">
             <article>
               <div class="flex items-center mb-8 space-x-4">
                 <img src="{{$post->users->image ? asset('storage/student/'.$post->users->image) : $def_profile}}" alt="" class="w-10 h-10 rounded-full">
                 <div>
                   <h3 class="text-sm font-medium">{{$post->users->name}}</h3>
-                  <time datetime="2021-02-18" class="text-xs">{{$post->created_at}}</time>
+                  <time class="text-xs">{{$post->query_date}}</time>
                 </div>
               </div>
               <p class="mt-4">{{$post->query}}</p>
@@ -108,7 +108,9 @@
                   </div>
                 </div>`;
   
-      document.querySelector('.card').innerHTML += newCom;
+      const orig = document.querySelector(`#comment-container-${qid}`).innerHTML;
+      document.querySelector(`#comment-container-${qid}`).innerHTML = '';
+      document.querySelector(`#comment-container-${qid}`).innerHTML += newCom + orig;
       document.getElementById(`txtarea${qid}`).value = '';
     }
   }

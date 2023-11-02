@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->increments('id');
+            $table->string('users_id');
             $table->text('links')->nullable();
             $table->text('caption')->nullable();
             $table->smallInteger('is_deleted')->default(0);
