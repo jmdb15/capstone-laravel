@@ -20,19 +20,19 @@ use Illuminate\Support\Facades\Route;
 Route::middleware(['auth', 'student'])->group(function () {
     Route::get('/', [UserController::class, 'about']);
     Route::get('/about', [UserController::class, 'about']);
-    Route::get('/aboutt', [UserController::class, 'notifs']);
-    Route::get('/orgs', function () {
-        return view('students.organization');
-    });
     Route::get('/forum', [UserController::class, 'forum'])->middleware('auth');
     Route::get('/forum/{id}', [UserController::class, 'viewQuery'])->middleware('auth');
     Route::get('/posts', [UserController::class, 'news'])->middleware('auth');
     Route::get('/post/{id}', [UserController::class, 'copyLink'])->middleware('auth');
+    Route::get('/verify', [UserController::class, 'verify']);
+    Route::get('/notifications', [UserController::class, 'notifications']);
 });
 Route::get('/profile/{id}', [UserController::class, 'viewProfile'])->name('profile');
 
 Route::middleware(['guest'])->group(function () {
     // Define routes accessible to guests here
+    Route::get('/orgs', [UserController::class, 'orgs']);
+    Route::get('/org/{id}', [UserController::class, 'viewOrgs']);
     Route::get('/about', [UserController::class, 'about']);
     Route::get('/faculty', [UserController::class, 'faculty']);
     Route::get('/forum', [UserController::class, 'forum']);
@@ -48,7 +48,6 @@ Route::get('/login', function () {
 Route::get('/signup', function () {
     return view('signup');
 });
-Route::get('/verify', [UserController::class, 'verify']);
 
 # ### ADMIN PAGES ### #
 Route::middleware(['auth', 'admin'])->group(function () {

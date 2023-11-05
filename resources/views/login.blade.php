@@ -3,7 +3,7 @@
     <!-- right side -->
     <div class="w-2/5 absolute inset-y-0 right-0">
       <!-- content -->
-      <div class="flex flex-col items-start font-montserrat  mt-20">
+      <div class="flex flex-col items-start font-montserrat  mt-10">
         <!-- heading -->
         <h1
           class="text-3xl font-raleway font-bold self-center"
@@ -32,7 +32,6 @@
                 name="email" 
                 id="email"
 @if(isset($_COOKIE['email'])) value="{{ $_COOKIE['email'] }}"  @else value="{{ old('email') }}" @endif
-                pattern=".+@bulsu.edu.ph"
                 required
               />
             </div>
@@ -52,7 +51,7 @@
               <input type="checkbox" name="remember" id="checkbox" class="cursor-pointer" @if(isset($_COOKIE['email'])) checked @endif>
               <span>Remember me</span> <span class="flex-grow"></span> <span class="text-blue-600 cursor-pointer hover:underline"><a href="/forgot-password">Forgot Password?</a></span>
             </div>
-            <button type="submit" class="bg-violet-500 rounded text-white py-3 hover:brightness-105">Login</button>
+            <button type="submit" class="bg-violet-500 rounded text-white py-1.5 hover:brightness-105">Login</button>
           </div>
         </form>
         <div class="self-center mt-6 flex gap-1">
@@ -62,7 +61,7 @@
       <p class="text-center my-3">or</p>
       <form class="w-full grid place-items-center" action="{{ route('setAsGuest') }}" method="GET">
       @csrf
-        <button class="h-10 w-[72%] rounded-md bg-gray-200 hover:opacity-90" type="submit">Login as Guest</button>
+        <button class="py-1.5 w-[68%] rounded-md bg-gray-200 hover:opacity-90" type="submit">Login as Guest</button>
       </form>
     </div>
     <!-- left side -->

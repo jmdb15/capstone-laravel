@@ -20,7 +20,6 @@ class AdminController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            // $results = DB::select('SELECT COUNT(*) as count, activity FROM activities GROUP BY activity');
             $guest = Activities::where('activity', '=', 'A Guest logged in.')->count();
             $verified = Users::whereNull('email_verified_at')->count();
             $notVerified = Users::whereNotNull('email_verified_at')->count();
@@ -30,55 +29,53 @@ class AdminController extends Controller
                 ->where('activities.activity', '=', 'Logged in')
                 ->whereBetween('activities.created_at', [now()->subMonth(), now()])
                 ->first();
-            
             $verifiedCount = $loginCounts->verified_count;
             $unverifiedCount = $loginCounts->unverified_count;
-            
             $results = [$guest, $verifiedCount, $unverifiedCount];
-
             return response()->json($results);
         }
-        // Query to get the value from the previous month
-        $previousMonthValue = Users::whereYear('created_at', now()->subMonth()->year)
-            ->whereMonth('created_at', now()->subMonth()->month)
-            ->count();
-
-        // Query to get the value from the current month
-        $currentMonthValue = Users::whereYear('created_at', now()->year)
-            ->whereMonth('created_at', now()->month)
-            ->count();
-
-        if ($previousMonthValue > 0) {
-            $percentageIncrease = (($currentMonthValue - $previousMonthValue) / $previousMonthValue) * 100;
+        $prevUserCount = Users::where('created_at', '<=', now()->subDays(30))->count();
+        $currUserCount = Users::where('type', '!=', 'admin')->where('created_at', '>=', now()->subDays(30))->count();
+        $prevQryCount = Queries::where('query_date', '<=', now()->subDays(30))->count();
+        $currQryCount = Queries::where('query_date', '>=', now()->subDays(30))->count();
+        $prevPostCount = Posts::where('created_at', '<=', now()->subDays(30))->count();
+        $currPostCount = Posts::where('created_at', '>=', now()->subDays(30))->count();
+        $prevComCount = Comments::where('comment_date', '<=', now()->subDays(30))->count();
+        $currComCount = Comments::where('comment_date', '>=', now()->subDays(30))->count();
+        if ($prevUserCount > 0) {
+            $userInc = ($currUserCount / $prevUserCount);
+            $userInc = number_format((float)$userInc, 2, '.', '');
         } else {
-            if(Users::count() === $currentMonthValue){
-                $percentageIncrease = 100;
-            }else{
-                $percentageIncrease = 0; // Handle the case when there were no users in the previous month
-            }
+            $userInc = (Users::where('type', '!=', 'admin')->count() === $currUserCount) ? 100 : 0; // Handle the case when there were no users in the previous month
         }
-
-
+        if ($prevQryCount > 0) {
+            $qryInc = ($currQryCount / $prevQryCount);
+            $qryInc = number_format((float)$qryInc, 2, '.', '');
+        } else {
+            $qryInc = (Queries::count() === $currQryCount) ? 100 : 0; // Handle the case when there were no users in the previous month
+        }
+        if ($prevPostCount > 0) {
+            $postInc = ($currPostCount / $prevPostCount);
+            $postInc = number_format((float)$postInc, 2, '.', '');
+        } else {
+            $postInc = (Posts::count() === $currPostCount) ? 100 : 0; // Handle the case when there were no users in the previous month
+        }
+        if ($prevComCount > 0) {
+            $comInc = ($currComCount / $prevComCount);
+            $comInc = number_format((float)$comInc, 2, '.', '');
+        } else {
+            $comInc = (Comments::count() === $currComCount) ? 100 : 0; // Handle the case when there were no users in the previous month
+        }
         $qrys = Queries::where('is_deleted', '=', '0')->count();
         $users = Users::where('type', '!=', 'admin')->count();
         $posts = Posts::where('is_deleted', '=', '0')->count();
         $comments = Comments::count();
-        return view('admin.index', ['qrys' => $qrys, 'users' => $users, 'posts' => $posts, 'comments' => $comments, 'userinc' => $percentageIncrease, 'prev' => $previousMonthValue, 'curr' => $currentMonthValue, 'user' => Users::count()]);
-            
-        // $new = DB::table('notifications')->select('notifications.users_id', 'notifications.content', 'users.name', 'users.image')
-        //             ->join('users', 'users.id','=','notifications.users_id')
-        //             ->where('notifications.posts_id', '=', 'null');
-        // $new2 = Notifications::leftJoin('users', 'notifications.users_id', '=', 'users.id')
-        //         ->whereNull("notifications.posts_id")
-        //         ->orderBy('notifications.created_at', 'desc')
-        //         ->select('notifications.content', 'notifications.id', 'users.image', 'users.name')
-        //         ->limit(5)
-        //         ->get();
-        // dd($new2);
+        return view('admin.index', ['qrys' => $qrys, 'users' => $users, 'posts' => $posts, 'comments' => $comments, 'userInc' => $userInc, 'qryInc' => $qryInc, 'postInc' => $postInc, 'comInc' => $comInc, 'user' => Users::count()]);
     }
 
-    public function line(Request $request){
-        if($request->ajax()){
+    public function line(Request $request)
+    {
+        if ($request->ajax()) {
             $endDate = Carbon::now();
             $startDate = $endDate->copy()->subWeek();
             $results = [];
@@ -87,11 +84,11 @@ class AdminController extends Controller
             while ($startDate <= $endDate) {
                 $countPosts = DB::table('posts')
                     ->whereDate('created_at', $startDate->toDateString())
-                    ->where('is_deleted','=',0)
+                    ->where('is_deleted', '=', 0)
                     ->count();
                 $countQueries = DB::table('queries')
                     ->whereDate('query_date', $startDate->toDateString())
-                    ->where('is_deleted','=',0)
+                    ->where('is_deleted', '=', 0)
                     ->count();
                 $countComments = DB::table('comments')
                     ->whereDate('comment_date', $startDate->toDateString())
@@ -109,24 +106,43 @@ class AdminController extends Controller
 
     public function users(Request $request)
     {
-        $keyword = $request->input('search', '');
+        if ($request->ajax()) {
+            $user = Users::find($request->id);
+            $user->update(['is_disabled' => 1]);
+            return response()->json($user);
+        }
+        $keyword = $request->input('filtertext', '');
         $keytype = $request->input('usertype', 'student');
+        $isVerified = $request->input('is_verified', 'verified');
         $query = Users::query();
         if ($keyword) {
             $query->where(function ($q) use ($keyword) {
                 $q->where('name', 'like', "%$keyword%")
-                ->orWhere('email', 'like', "%$keyword%")
-                ->orWhere('id', 'like', "%$keyword%");
+                    ->orWhere('email', 'like', "%$keyword%")
+                    ->orWhere('id', 'like', "%$keyword%");
             });
         }
+        ($isVerified == 'verified') ? $query->whereNotNull('email_verified_at') : $query->whereNull('email_verified_at');
         $query->where('type', '=', $keytype);
-        $users = $query->paginate(10); 
-        return view('admin.users', compact('users'), ['s' => $keyword, 'type' => $keytype]);
+        $query->where('is_disabled', '=', 0);
+
+        if ($request->has('delete')) {
+            // $filteredUsers = $query->get(); // Retrieve filtered users
+            $query->paginate(10);
+            $query->update(['is_disabled' => 1]);
+
+            return redirect()->back()->with('message', 'All matching users have been disabled.', ['s' => $keyword, 'type' => $keytype, 'ver' => $isVerified]);
+        } else {
+            $users = $query->paginate(10);
+            return view('admin.users', compact('users'), ['s' => $keyword, 'type' => $keytype, 'ver' => $isVerified]);
+        }
     }
 
-    public function update(Request $request){
+    public function update(Request $request)
+    {
         $user = Users::find($request->id);
         $user->update([
+            'name' => $request->name,
             'email' => $request->email,
             'type' => $request->type,
         ]);
@@ -136,12 +152,12 @@ class AdminController extends Controller
 
 
     public function create(Request $request)
-    {   
-        if($request->ajax()){
-            if($request->for == 'read'){
+    {
+        if ($request->ajax()) {
+            if ($request->for == 'read') {
                 $post = Posts::find($request->id);
                 return response()->json($post);
-            }else if($request->for == 'edit'){
+            } else if ($request->for == 'edit') {
                 $post = Posts::find($request->id);
                 $post->update([
                     'caption' => $request->caption
@@ -156,7 +172,7 @@ class AdminController extends Controller
     public function store(Request $request)
     {
         $image = array();
-        if($request->hasFile('image') || $request->caption != null){
+        if ($request->hasFile('image') || $request->caption != null) {
             if ($request->hasFile('image')) {
                 $files = $request->file('image');
                 foreach ($files as $i => $file) {
@@ -169,11 +185,11 @@ class AdminController extends Controller
                         array_push($image, $fileNameToStore);
                     }
                 }
-            $post = DB::table('posts')->insertGetId([
+                $post = DB::table('posts')->insertGetId([
                     'users_id' => auth()->user()->id,
                     'links' => implode('|', $image),
                     'caption' => $request->caption,
-                    'created_at'=> now()->toDateString()
+                    'created_at' => now()->setTimezone('Asia/Singapore')
                 ]);
                 $this->informUsers($post, $request->caption);
                 return back()->with('message', 'Post uploaded!');
@@ -183,11 +199,12 @@ class AdminController extends Controller
             // ]);
             $post = DB::table('posts')->insertGetId([
                 'users_id' => auth()->user()->id,
-                'caption' => $request->caption
+                'caption' => $request->caption,
+                'created_at' => now()->setTimezone('Asia/Singapore')
             ]);
             $this->informUsers($post, $request->caption);
             return back()->with('message', 'Post uploaded!');
-        }else{
+        } else {
             // dd($request->all());
             return back()->with('errmessage', 'Please provide a caption or an image.');
         }
@@ -222,24 +239,24 @@ class AdminController extends Controller
 
         $show = 'All';
         if ($startDate) {
-            switch($request['filter-radio']){
-                case 1: 
+            switch ($request['filter-radio']) {
+                case 1:
                     $show = 'Last Day';
                     $startDate = now()->subDay()->toDateString();
                     break;
-                case 7: 
+                case 7:
                     $show = 'Last 7 days';
                     $startDate = now()->subWeek()->toDateString();
                     break;
-                case 30: 
+                case 30:
                     $show = 'Last Month';
                     $startDate = now()->subMonth()->toDateString();
                     break;
-                case 365: 
+                case 365:
                     $show = 'Last Year';
                     $startDate = now()->subYear()->toDateString();
                     break;
-                default: 
+                default:
                     $show = 'All';
                     $startDate = '2001-01-01';
                     break;
@@ -251,7 +268,7 @@ class AdminController extends Controller
         if ($keyword) {
             $query->where(function ($q) use ($keyword) {
                 $q->where('users.name', 'like', "%$keyword%")
-                ->orWhere('users.email', 'like', "%$keyword%");
+                    ->orWhere('users.email', 'like', "%$keyword%");
             });
         }
 
@@ -260,7 +277,8 @@ class AdminController extends Controller
         return view('admin.logs', compact('logs'), ['d' => $rd, 's' => $keyword, 'show' => $show]);
     }
 
-    public function logsAction(Request $request){
+    public function logsAction(Request $request)
+    {
         Activities::destroy($request->id);
         return session()->flash('message', 'Log activity is deleted successfully.');
     }
@@ -268,16 +286,17 @@ class AdminController extends Controller
     public function forum(Request $request)
     {
         $qrys = Queries::where('is_deleted', 0)->with('users')->paginate(10);
-        return view('admin.forum', ['posts'=>$qrys]);
+        return view('admin.forum', ['posts' => $qrys]);
     }
 
-    public function forum_modal(Request $request){
-        if($request->type && $request->type == 'delete'){
+    public function forum_modal(Request $request)
+    {
+        if ($request->type && $request->type == 'delete') {
             $comm = Comments::find($request->id);
             $comm->delete();
             return 'deleted';
         }
-        $comments = Comments::where('queries_id',$request->id)->with('users')->orderBy('comment_date','DESC')->get();
+        $comments = Comments::where('queries_id', $request->id)->with('users')->orderBy('comment_date', 'DESC')->get();
         return response()->json($comments);
     }
 
@@ -299,12 +318,13 @@ class AdminController extends Controller
         }
     }
 
-    public function informUsers($post_id, $caption){
+    public function informUsers($post_id, $caption)
+    {
         $users = Users::get();
-        foreach($users as $user){
+        foreach ($users as $user) {
             Notifications::insert([
                 'users_id' => $user->id,
-                'content' => 'There is a new post: "'.$caption.'"',
+                'content' => 'There is a new post: "' . $caption . '"',
                 'posts_id' => $post_id,
             ]);
         }

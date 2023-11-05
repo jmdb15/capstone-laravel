@@ -177,26 +177,6 @@
         var month = enddate.getMonth() + 1; // Months are zero-indexed, so add 1
         var day = enddate.getDate();
         var enddate = year + '-' + (month < 10 ? '0' : '') + month + '-' + (day < 10 ? '0' : '') + day;
-        // $.ajax({
-        //     url: '/logs/filtered',
-        //     type: 'POST',
-        //     data:{
-        //         text: value,
-        //         startdate: startdate,
-        //         enddate: enddate,
-        //     },
-        //     success:function(data){
-        //         $(`#tboy`).empty();
-        //         newData = data.data;
-        //         console.log(data)
-        //         console.log(newData)
-        //         // for (const key in newData) {
-        //         //     // data[key].forEach(d=>{
-        //                 populateTable('tboy', newData);
-        //         //     // })
-        //         // }    
-        //     }
-        // })
     }
 
     function selectDd(date){

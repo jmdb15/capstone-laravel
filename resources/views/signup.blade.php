@@ -3,7 +3,7 @@
     <!-- right side -->
     <div class="w-2/5 absolute inset-y-0 right-0">
       <!-- content -->
-      <div class="flex flex-col items-start font-montserrat  mt-20">
+      <div class="flex flex-col items-start font-montserrat  mt-10">
         <!-- heading -->
         <h1
           class="text-3xl font-raleway font-bold self-center"
@@ -101,7 +101,7 @@
               <input type="checkbox" name="checkbox" id="checkbox" required>
               <span>I agree to the</span> <span class="text-blue-600">Terms & Privacy Policy</span>
             </div>
-            <button name="submit" class="bg-violet-500 rounded text-white">Sign Up</button>
+            <button name="submit" class="bg-violet-500 py-1.5 rounded text-white">Sign Up</button>
           </div>
         </form>
         <div class="self-center mt-6 flex gap-1">

@@ -10,7 +10,7 @@
     $color = (count($first) > 0) ? '#f5356e' : '#707277';
 @endphp
 <div class="comments" x-show="open2">
-  @if (auth()->user())
+  @if (auth()->user() && auth()->user()->email_verified_at != null)
     <div class="comment-react">
         <button onclick="reactsubmit('react', {{$cuid}}, '{{auth()->user()->name}}', {{$cid}}, {{$c->queries_id}})">
             <svg fill="none" viewBox="0 0 24 24" height="16" width="16" xmlns="http://www.w3.org/2000/svg">
@@ -35,6 +35,9 @@
     <div class="user">
       <div class="user-pic">
         <img src="{{$c->image ? asset('storage/student/'.$c->image) : $def_profile_comment}}" alt="">
+        @if ($c->trusted == 1)
+          <img src="{{asset('images/icons/badge.png')}}" alt="badge" class="h-6 w-6 bg-green-200 absolute -bottom-3 -right-1">      
+        @endif
       </div>
       <div class="user-info">
         <span>{{$c->name}}</span>

@@ -9,7 +9,7 @@ div[modal-backdrop=""] {
 }
 
 [x-cloak] {
-    display: none;
+  display: none;
 }
 
 html.dark {
@@ -22,7 +22,7 @@ html.dark {
   padding: 0;
 }
 
-#mid::-webkit-scrollbar{
+#mid::-webkit-scrollbar {
   display: none;
 }
 
@@ -35,7 +35,7 @@ a:hover {
   max-width: 1920px;
 }
 
-.canvasjs-chart-canvas{
+.canvasjs-chart-canvas {
   border-radius: 12px;
 }
 
@@ -144,15 +144,15 @@ span {
   width: 100%;
   height: fit-content;
   background-color: #f3f4f6;
-  box-shadow: 0px 18px 7px rgba(0, 0, 0, 0.01),
-    0px 10px 6px rgba(0, 0, 0, 0.05), 0px 4px 4px rgba(0, 0, 0, 0.09),
-    0px 2px 6px rgba(0, 0, 0, 0.1), 0px 0px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 18px 7px rgba(0, 0, 0, 0.01), 0px 10px 6px rgba(0, 0, 0, 0.05),
+    0px 4px 4px rgba(0, 0, 0, 0.09), 0px 2px 6px rgba(0, 0, 0, 0.1),
+    0px 0px 0px rgba(0, 0, 0, 0.1);
   border-radius: 0 0 0.5rem 0.5rem;
 }
-.b4-card{
-  box-shadow: 0px 18px 7px rgba(0, 0, 0, 0.01),
-    0px 10px 6px rgba(0, 0, 0, 0.05), 0px 4px 4px rgba(0, 0, 0, 0.09),
-    0px 2px 6px rgba(0, 0, 0, 0.1), 0px 0px 0px rgba(0, 0, 0, 0.1);
+.b4-card {
+  box-shadow: 0px 18px 7px rgba(0, 0, 0, 0.01), 0px 10px 6px rgba(0, 0, 0, 0.05),
+    0px 4px 4px rgba(0, 0, 0, 0.09), 0px 2px 6px rgba(0, 0, 0, 0.1),
+    0px 0px 0px rgba(0, 0, 0, 0.1);
 }
 
 .title {
@@ -163,13 +163,11 @@ span {
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
-  border-bottom: 1px solid #f1f1f1;
   font-weight: 700;
   font-size: 13px;
   color: #47484b;
 }
-.title > a,
-.title > span {
+.title > a {
   margin-top: 1px;
   box-sizing: border-box;
   background-color: #f1f1f1;
@@ -179,17 +177,9 @@ span {
   transition: all 0.2s;
 }
 
-.title > span:hover {
-  background-color: #e1e1e1;
-}
-
-.title::after {
-  content: "";
-  width: 8ch;
-  height: 1px;
-  position: absolute;
-  bottom: -1px;
-  background-color: #d4d4d4;
+.title > a:hover {
+  /* background-color: #e8e8e8; */
+  filter: brightness(94%);
 }
 
 .comments {
@@ -212,7 +202,7 @@ span {
 
 .comment-react button {
   width: 35px;
-  height: 35px;
+  height: 33px;
   position: relative;
   display: flex;
   align-items: center;
@@ -301,7 +291,7 @@ span {
   border-radius: 50%;
 }
 
-.comment-container .user .user-pic:after {
+/* .comment-container .user .user-pic:after {
   content: "";
   width: 9px;
   height: 9px;
@@ -309,9 +299,9 @@ span {
   right: 0px;
   bottom: 0px;
   border-radius: 50%;
-  background-color: #0fc45a;
+  background: url('{{asset("images/icons/badge.png")}}');
   border: 2px solid #ffffff;
-}
+} */
 
 .comment-container .user .user-info {
   width: 100%;
@@ -673,64 +663,61 @@ html {
   display: none;
 }
 
-
-.canvasjs-chart-toolbar{
+.canvasjs-chart-toolbar {
   /* display: none; */
   position: absolute;
   top: 2px;
   left: 3px;
   scale: 120%;
   width: fit-content;
-  
-    & button{
-        border-radius: 6px;
-    }
-    & div{
-        left: 1px;
-    }
+}
+.canvasjs-chart-toolbar button {
+  border-radius: 6px;
+}
+.canvasjs-chart-toolbar div {
+  left: 1px;
 }
 
 /* NOTIFICATION  */
-.notif-cont{
+.notif-cont {
   width: 240px;
   white-space: nowrap; /* Prevent text from wrapping to the next line */
   overflow: hidden; /* Hide the overflowed text */
 }
 
 /* NAV HOVER */
-.nav__item .testhover{
-    visibility: hidden;
-    background-color: rgba(60, 59, 59, 0.2); /* Black w/ opacity */
-    font-size: 1rem;
-    color: #000000;
-    text-align: center;
-    border-radius: 5px;
-    padding: 8px 10px;
-    position: absolute;
-    z-index: 1;
-    top: 105%;
-    left: 46%;
-    margin-left: -60px;
+.nav__item .testhover {
+  visibility: hidden;
+  background-color: rgba(182, 182, 182);
+  font-size: 1rem;
+  color: #000000;
+  text-align: center;
+  border-radius: 5px;
+  padding: 8px 10px;
+  position: absolute;
+  z-index: 51;
+  top: 105%;
+  left: 46%;
+  margin-left: -60px;
 }
-.nav__item:hover .testhover{
-   visibility: visible;
+.nav__item:hover .testhover {
+  visibility: visible;
 }
 
-.nav__item .testhover1{
-    visibility: hidden;
-    background-color: rgba(60, 59, 59, 0.2); /* Black w/ opacity */
-    font-size: 1rem;
-    color: #000000;
-    text-align: center;
-    border-radius: 5px;
-    padding: 8px 10px;
-    position: absolute;
-    z-index: 1;
-    top: 105%;
-    left: 78%;
-    margin-left: -60px;
+.nav__item .testhover1 {
+  visibility: hidden;
+  background-color: rgb(182, 182, 182);
+  font-size: 1rem;
+  color: #000000;
+  text-align: center;
+  border-radius: 5px;
+  padding: 8px 10px;
+  position: absolute;
+  z-index: 51;
+  top: 105%;
+  left: 78%;
+  margin-left: -60px;
 }
-.nav__item:hover .testhover1{
-   visibility: visible;
-
+.nav__item:hover .testhover1 {
+  visibility: visible;
 }

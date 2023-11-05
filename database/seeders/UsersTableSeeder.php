@@ -28,6 +28,6 @@ class UsersTableSeeder extends Seeder
             'password' => Hash::make('nopassword'),
             'type' => 'guest'
         ]);
-        Users::factory()->count(10)->create();
+        Users::factory()->count(40)->create();
     }
 }

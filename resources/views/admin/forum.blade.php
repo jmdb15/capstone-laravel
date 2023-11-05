@@ -43,11 +43,8 @@
             data-modal-target="table-modal"
             data-modal-toggle="table-modal"
             class="hidden w-full md:w-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center" type="button">
-              Small modal
+               modal
             </button>
-          {{-- <div class="bg-white p-2">
-            {{$users->links('vendor.pagination.tailwind')}}
-          </div> --}}
     </div>
     
   </div>

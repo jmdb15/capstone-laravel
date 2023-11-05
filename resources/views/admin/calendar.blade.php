@@ -20,7 +20,6 @@
   <script src="//unpkg.com/alpinejs" defer></script>
   @vite(['resources/css/app.css','resources/js/app.js']) 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/datepicker.min.js"></script>
-
 </head>
 <body class="bg-gray-200" x-data="{nos: false}" :class="{'no-scroll': nos}">
   @include('partials.__sidenavbar')
@@ -38,6 +37,22 @@
 
   <x-popover />
 
+  <div id="toast-cont" class="fixed top-20 right-[40%] z-20 h-fit items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow toast-container hidden" >
+      <div class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg">
+        <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+        </svg>
+        <span class="sr-only">Check icon</span>
+    </div>
+    <div class="ml-3 text-sm font-normal" id="toast"></div>
+    <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8" data-dismiss-target="#toast-success" aria-label="Close">
+        <span class="sr-only">Close</span>
+        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+        </svg>
+    </button>
+  </div>
+
 
   {{-- HIDDEN BUTTONS --}}
   <button id="toggler" data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" class="hidden text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center" type="button">
@@ -45,6 +60,17 @@
 </button>
 
   <script>
+    function showSuccessToast(text) {
+      var toastcont = document.getElementById('toast-cont');
+      var toast = document.getElementById('toast');
+      toast.innerHTML = text;
+      toastcont.style.display = 'flex'; // Display the toast
+      // Automatically hide the toast after a few seconds (adjust the timeout as needed)
+      setTimeout(function() {
+          toastcont.style.display = 'none'; // Hide the toast
+      }, 3000); // 3000 milliseconds (3 seconds)
+    }
+
     flatpickr('#startpicker', {
         enableTime: true,
         dateFormat: 'Y-m-d H:i:S',
@@ -78,7 +104,7 @@
               success:function(response)
               {
                   calendar.fullCalendar('refetchEvents');
-                  alert("Event Deleted Successfully");
+                  showSuccessToast("Event Deleted Successfully");
               }
           });
         }else{
@@ -103,7 +129,7 @@
             },
             success:function(data){
               calendar.fullCalendar('refetchEvents');
-              alert('Event '+type+'d');
+              showSuccessToast((action === 'create') ? 'Event added.' : 'Event Updated.');
             }
           })
         }
@@ -120,6 +146,7 @@
         selectable:true,
         selectHelper:true,
         select: function(start, end, allDay){
+          observe();
           $('#toggler').click();
           $('#modaltype').html('Create an Event');
           $('#title').val('');
@@ -128,6 +155,8 @@
           $('#endpicker').val('');
           document.querySelector('#foredit').style.display = 'none';
           document.querySelector('#forcreate').style.display = 'block';
+          document.querySelector('#title').focus();
+          observe();
         },
         editable:true,
         eventResize: function(event, delta){ //DO SOMETHING WHEN EVENT-VIEW IS RESIZED FROM TODAY VIEW
@@ -170,13 +199,14 @@
                 success:function(response)
                 {
                     calendar.fullCalendar('refetchEvents');
-                    alert("Event Updated Successfully");
+                    showSuccessToast("Event Updated Successfully");
                 }
             })
         },
         eventClick:function(event){//DO SOMETHING WHEN EVENT-VIEW IS CLICKED
+          observe();
           $('#toggler').click();
-          $('#modaltype').val('Edit Event');
+          $('#modaltype').html('Edit Event');
           $('#eventid').val(event.id);
           $('#title').val(event.title);
           $('#description').val(event.description);
@@ -184,6 +214,7 @@
           $('#endpicker').val(cformatDate(event.end));
           document.querySelector('#forcreate').style.display = 'none';
           document.querySelector('#foredit').style.display = 'block';
+          observe();
         },
         initialView: 'dayGridMonth',
         eventRender: function(event, element) { //RENDER SOMETHING TO EVERY EVENT-VIEW ELEMENT
@@ -218,34 +249,35 @@
         targetElement.dispatchEvent(mouseLeaveEvent);
     }
     // GET PROPER DATE
-    function cformatDate(date){
-      var inputDate = new Date(date);
-      var daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-      var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    function cformatDate(inputDate){
+      const date = new Date(inputDate);
 
-      var dayOfWeek = daysOfWeek[inputDate.getUTCDay()];
-      var month = months[inputDate.getUTCMonth()];
-      var day = inputDate.getUTCDate();
-      var year = inputDate.getUTCFullYear();
-      var hours = inputDate.getUTCHours();
-      var minutes = inputDate.getUTCMinutes();
+      const year = date.getFullYear();
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const day = date.getDate().toString().padStart(2, '0');
+      const hours = date.getHours().toString().padStart(2, '0');
+      const minutes = date.getMinutes().toString().padStart(2, '0');
+      const seconds = date.getSeconds().toString().padStart(2, '0');
 
-      // Convert hours to 12-hour format and determine AM or PM
-      var amOrPm = hours >= 12 ? "PM" : "AM";
-      hours = hours % 12 || 12; // Convert to 12-hour format
-
-      // Zero-pad the day and minutes
-      var formattedDay = (day < 10) ? "0" + day : day;
-      var formattedMinutes = (minutes < 10) ? "0" + minutes : minutes;
-
-      var formattedDateString = dayOfWeek + ", " + month + " " + formattedDay + ", " + year + " " + hours + ":" + formattedMinutes + " " + amOrPm;
-      return formattedDateString;
+      const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+      return formattedDate;
     }
     function yes(e){
       e.preventDefault();
-      console.log("clicked")
+      console.log("clicked");
     }
-
+    function observe(){
+      if(document.querySelector('#title').value !== '' &&
+         document.querySelector('#description').value !== '' &&
+         document.querySelector('#startpicker').value !== '' &&
+         document.querySelector('#endpicker').value !== ''){
+        document.querySelector('#forcreate').removeAttribute('disabled');
+        document.querySelector('#forupdate').removeAttribute('disabled');
+      }else{
+        document.querySelector('#forcreate').setAttribute('disabled', 'disabled');
+        document.querySelector('#forupdate').setAttribute('disabled', 'disabled');
+      }
+    }
     
   </script>
 

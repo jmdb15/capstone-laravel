@@ -36,4 +36,8 @@ class Posts extends Model
     {
         return $this->hasMany(Notifications::class);
     }
+    public function users()
+    {
+        return $this->belongsTo(Users::class);
+    }
 }

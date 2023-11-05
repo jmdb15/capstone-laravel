@@ -1,6 +1,6 @@
 @if (session()->has('message'))
 <div
-x-data="{show:true}" 
+x-data="{show:false}" 
 x-show="show" 
 x-init="setTimeout(()=>{ show = false }, 3000)" 
 id="toast-success" 

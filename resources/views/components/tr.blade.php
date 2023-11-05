@@ -1,7 +1,7 @@
 @php
   $def_profile = 'https://avatars.dicebear.com/api/initials/'.$user->name.'.svg';
 @endphp
-<tr class="bg-white border-b hover:bg-gray-50">
+<tr class="bg-white border-b hover:bg-gray-50" id="tr-{{ $user->id }}">
   <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap">
       <img class="w-10 h-10 rounded-full" 
         src="{{$user->image ? asset('storage/student/'.$user->image) : $def_profile}}"
@@ -32,5 +32,7 @@
     class="font-medium cursor-pointer text-blue-600 hover:underline"  
       x-on:click='open= !open, id="{{$user->id}}", name = "{{$user->name}}", email = "{{$user->email}}", type="{{$user->type}}", created_at="{{$user->created_at}}"'
       >Edit</a>
+      <a class="hover:underline font-medium cursor-pointer text-md text-red-400" 
+      onclick="confirmDel({{ $user->id }})">Delete</a>
   </td>
 </tr>

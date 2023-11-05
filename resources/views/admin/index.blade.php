@@ -2,10 +2,10 @@
 <body class="bg-gray-200" x-data="{nos: false}" :class="{'no-scroll': nos}">
 @include('partials.__sidenavbar')
 
-<div class="p-4 sm:ml-64" >
-  <div class="p-4 rounded-lg flex flex-col gap-y-10 mt-14">
+<div class="p-4 sm:ml-64 max-w-[1440px]" >
+  <div class="p-1 md:p-4 rounded-lg flex flex-col gap-y-10 mt-14">
 
-    <div class="flex flex-col gap-4  md:flex-row justify-around">
+    <div class="flex flex-col flex-wrap items-center gap-4 mx-auto w-full md:flex-row justify-center md:justify-around">
 
       <div class="relative flex flex-row gap-x-4 py-2 px-4 h-fit min-w-fit  w-52 max-w-sm bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 items-center">
         <svg xmlns="http://www.w3.org/2000/svg" fill="#fff" viewBox="0 0 24 24" stroke-width="1.5" stroke="#fff" class="w-11 h-11 p-2 bg-blue-400 rounded-md">
@@ -15,7 +15,11 @@
           <h5 class="text-xl font-bold tracking-tight text-gray-900">Total Users</h5>
           <div class="flex justify-between items-center">
             <p class="font-medium text-lg text-gray-600">{{ $users }}</p>
-            <p class="bg-green-50 text-green-500 font-light px-1.5 rounded-sm text-xs">+{{$userinc}}%</p>
+            @if ($userInc > 0)
+              <p class="bg-green-50 text-green-500 font-light px-1.5 rounded-sm text-xs">+{{$userInc}}%</p>
+            @else
+              <p class="bg-green-50 text-gray-400 font-light px-1.5 rounded-sm text-xs">{{$userInc}}%</p>
+            @endif
           </div>
         </div>
       </div>
@@ -26,7 +30,14 @@
         </svg>
         <div>
           <h5 class="text-xl font-bold tracking-tight text-gray-900">Queries</h5>
-          <p class="font-normal text-lg text-gray-600">{{ $qrys }}</p>
+          <div class="flex justify-between items-center">
+            <p class="font-medium text-lg text-gray-600">{{ $qrys }}</p>
+            @if ($qryInc > 0)
+              <p class="bg-green-50 text-green-500 font-light px-1.5 rounded-sm text-xs">+{{$qryInc}}%</p>
+            @else
+              <p class="bg-green-50 text-gray-400 font-light px-1.5 rounded-sm text-xs">{{$qryInc}}%</p>
+            @endif
+          </div>
         </div>
       </div>
 
@@ -36,7 +47,14 @@
         </svg>
         <div>
           <h5 class="text-xl font-bold tracking-tight text-gray-900">Posts</h5>
-          <p class="font-normal text-lg text-gray-600">{{ $posts }}</p>
+          <div class="flex justify-between items-center">
+            <p class="font-medium text-lg text-gray-600">{{ $posts }}</p>
+            @if ($postInc > 0)
+              <p class="bg-green-50 text-green-500 font-light px-1.5 rounded-sm text-xs">+{{$postInc}}%</p>
+            @else
+              <p class="bg-green-50 text-gray-400 font-light px-1.5 rounded-sm text-xs">{{$postInc}}%</p>
+            @endif
+          </div>
         </div>
       </div>
 
@@ -46,26 +64,32 @@
         </svg>
         <div>
           <h5 class="text-xl font-bold tracking-tight text-gray-900">Comments</h5>
-          <p class="font-normal text-lg text-gray-600">{{ $comments }}</p>
+          <div class="flex justify-between items-center">
+            <p class="font-medium text-lg text-gray-600">{{ $comments }}</p>
+            @if ($userInc > 0)
+              <p class="bg-green-50 text-green-500 font-light px-1.5 rounded-sm text-xs">+{{$comInc}}%</p>
+            @else
+              <p class="bg-green-50 text-gray-400 font-light px-1.5 rounded-sm text-xs">{{$comInc}}%</p>
+            @endif
+          </div>
         </div>
       </div>
 
     </div>
 
-    <div class="flex flex-col justify-between gap-y-[420px] xl:flex-row">
-      {{-- Line Graph Container --}}
-      <div id="chartContainer3" class="rounded-md shadow-xl min-w-sm basis-4/5" style="height: 370px; max-width: 920px;"></div>
-      
+    <div class="flex flex-col justify-center items-center gap-y-[324px] xl:flex-row" >
+      <div id="chartContainer3" class="rounded-md shadow-xl min-w-[324px] max-w-[920px] h-[370px] w-full lg:w-[80%]"></div>
     </div>
 
-    <div class="relative mt-10 flex flex-col justify-between max-w-2xl gap-96 xl:gap-6 xl:flex-row h-fit">
+    <div class="mx-auto w-full flex flex-wrap h-[400px] justify-between gap-y-8 xl:gap-6 xl:flex-row">
       {{-- Bar Graph Container --}}
-      <div id="chartContainer2" class="w-fit shadow-xl"></div>
+      <div id="chartContainer2" class="shadow-xl w-[500px] min-h-[400px] max-h-[400px] min-w-[324px]"></div>
       {{-- Pie Graph Container --}}
-      <div id="chartContainer" class="w-fit mt-12 xl:mt-0 shadow-xl"></div>
+      <div id="chartContainer" class="shadow-xl w-[500px] min-h-[400px] max-h-[400px] min-w-[324px]"></div>
     </div>
-
   </div>
+
+
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>

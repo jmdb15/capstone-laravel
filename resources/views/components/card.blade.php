@@ -6,7 +6,7 @@
 <div class="max-w-lg bg-white border border-gray-200 rounded-lg shadow relative">
   <div class="p-5 pb-2">
     <div class="flex relative">
-        <img src="{{ url('images/Untitled-1.ico') }}" class="aspect-square max-h-10 mr-2" alt="">
+        <img src="{{ url('images/cssp.png') }}" class="aspect-square max-h-10 mr-2" alt="">
         <div class="flex flex-col">
             <h5 class="-mt-1 text-2xl font-bold tracking-tight text-gray-900">CSSP Admin</h5>
             <p class="text-[#acaeb4] text-[.8rem] -mt-1">{{$date}}</p>

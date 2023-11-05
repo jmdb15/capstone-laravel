@@ -62,10 +62,10 @@
         center: 'title',
         right:'month,agendaWeek,agendaDay'
       },
-      events:'/calendar', //This is the url to send request to
+      events:'/calendar', 
       selectable:true,
       selectHelper:true,
-      eventClick:function(event){//DO SOMETHING WHEN EVENT-VIEW IS CLICKED
+      eventClick:function(event){
         $('#MODAL-TOGGLE').click();
         $('#fortitle').html(event.title);
         $('#fordescription').html(event.description);
@@ -73,7 +73,7 @@
         $('#endpick').html(cformatDate(event.end));
       },
       initialView: 'dayGridMonth',
-      eventRender: function(event, element) { //RENDER SOMETHING TO EVERY EVENT-VIEW ELEMENT
+      eventRender: function(event, element) {
         element.attr('data-modal-target', 'small-modal');
         element.attr('data-modal-toggle', 'small-modal');
       },
@@ -92,11 +92,9 @@
       var hours = inputDate.getUTCHours();
       var minutes = inputDate.getUTCMinutes();
 
-      // Convert hours to 12-hour format and determine AM or PM
       var amOrPm = hours >= 12 ? "PM" : "AM";
-      hours = hours % 12 || 12; // Convert to 12-hour format
+      hours = hours % 12 || 12; 
 
-      // Zero-pad the day and minutes
       var formattedDay = (day < 10) ? "0" + day : day;
       var formattedMinutes = (minutes < 10) ? "0" + minutes : minutes;
 
