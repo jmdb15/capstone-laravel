@@ -3,7 +3,10 @@
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CalendarController;
+use App\Http\Controllers\ExportController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Http;
+use GuzzleHttp\Client;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,6 +56,7 @@ Route::get('/signup', function () {
 Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin', [AdminController::class, 'index']);
     Route::get('/admin-line', [AdminController::class, 'line']);
+    Route::get('/admin-donut', [AdminController::class, 'donut']);
     Route::get('/create-post', [AdminController::class, 'create']);
     Route::post('/create-post/action', [AdminController::class, 'action']);
     Route::get('/users', [AdminController::class, 'users']);
@@ -90,3 +94,67 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+//FOR EXPORTS
+Route::get('/export-events', [ExportController::class, 'exportEvents'])->name('export-events');
+Route::get('/export-events-pdf', [ExportController::class, 'exportEventsPdf'])->name('export-events-pdf');
+Route::get('/export-users', [ExportController::class, 'exportUsers'])->name('export-users');
+Route::get('/export-users-pdf', [ExportController::class, 'exportUsersPdf'])->name('export-users-pdf');
+Route::get('/export-logs', [ExportController::class, 'exportLogs'])->name('export-logs');
+Route::get('/export-logs-pdf', [ExportController::class, 'exportLogsPdf'])->name('export-logs-pdf');
+
+Route::get('/getChatbotData', function(){
+    $response = Http::get('http://127.0.0.1:5000/getdata');
+
+    // Check if the request was successful
+    if ($response->successful()) {
+        // Get the response content (the file contents in this case)
+        $fileContents = $response->body();
+
+        // You can do something with $fileContents here, such as displaying it on the webpage.
+        return response()->json(['file_contents' => $fileContents]);
+    } else {
+        // Handle the case where the request was not successful (e.g., error handling)
+        return response()->json(['error' => 'Failed to fetch data'], 500);
+    }
+});
+
+Route::get('/update_json', function(){
+    $data ='[
+        {
+            "tag": "greeting",
+            "patterns": [
+                "Hi",
+                "Hey",
+                "How are you",
+                "Is anyone there?",
+                "Hello",
+                "Good day"
+            ],
+            "responses": [
+                "Hello, thanks for visiting",
+                "Hi there, what can I do for you?",
+                "Hi there, how can I help?"
+            ]
+        },
+        {
+            "tag": "goodbye",
+            "patterns": ["Bye", "See you later", "Goodbye"],
+            "responses": [
+                "See you later, thanks for visiting",
+                "Have a nice day",
+                "Bye! Come back again soon."
+            ]
+        }
+    ]';
+    
+    $phpObject = json_decode($data);
+
+    $response = Http::post('http://127.0.0.1:5000/update_json', [
+        'intents' => $phpObject
+    ]);
+
+    return $response;
+});
+
+

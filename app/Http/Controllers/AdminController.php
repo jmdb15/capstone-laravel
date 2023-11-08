@@ -104,6 +104,13 @@ class AdminController extends Controller
         }
     }
 
+    public function donut(){
+        $ver = Users::where('type', '=', 'student')->whereNotNull('email_verified_at')->count();
+        $unver = Users::where('type', '=', 'student')->whereNull('email_verified_at')->count();
+        $orgs = Users::where('type', '=', 'organization')->whereNotNull('email_verified_at')->count();
+        return response()->json([$ver, $unver, $orgs]);
+    }
+
     public function users(Request $request)
     {
         if ($request->ajax()) {
@@ -194,9 +201,6 @@ class AdminController extends Controller
                 $this->informUsers($post, $request->caption);
                 return back()->with('message', 'Post uploaded!');
             }
-            // $post = Posts::insert([
-            //     'caption' => $request->caption
-            // ]);
             $post = DB::table('posts')->insertGetId([
                 'users_id' => auth()->user()->id,
                 'caption' => $request->caption,
@@ -272,6 +276,7 @@ class AdminController extends Controller
             });
         }
 
+        $query->where('users_id', '!=', '1111111111');
         $query->leftJoin('users', 'activities.users_id', '=', 'users.id');
         $logs = $query->paginate(10); // You can adjust the number of activities per page as needed
         return view('admin.logs', compact('logs'), ['d' => $rd, 's' => $keyword, 'show' => $show]);

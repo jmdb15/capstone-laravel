@@ -1,3 +1,4 @@
+@php use Carbon\Carbon; use Illuminate\Support\Facades\DB; @endphp
 @include('partials.__header')
 @include('partials.__navbar')
 @include('partials.__sidebar', ['show' => true])
@@ -14,7 +15,11 @@
       
     <div class="flex flex-col w-full p-0 md:m-auto">
       @foreach ($posts as $post)
-      @php $def_profile = 'https://avatars.dicebear.com/api/initials/avatar.svg'; @endphp
+      @php 
+        $def_profile = 'https://avatars.dicebear.com/api/initials/avatar.svg'; 
+        $date = Carbon::parse($post->query_date);
+        $date = $date->format('l, F j, Y g:i A');
+      @endphp
         <div class="my-8 mx-auto w-[96%] max-w-[562px]" x-data="{open2: {{$open}}, see: {{$see}}}">
           <div class="b4-card w-full p-6 overflow-hidden rounded-t-lg bg-gray-100 h-min">
             <article>
@@ -22,7 +27,7 @@
                 <img src="{{$post->users->image ? asset('storage/student/'.$post->users->image) : $def_profile}}" alt="" class="w-10 h-10 rounded-full">
                 <div>
                   <h3 class="text-sm font-medium">{{$post->users->name}}</h3>
-                  <time class="text-xs">{{$post->query_date}}</time>
+                  <time class="text-xs">{{$date}}</time>
                 </div>
               </div>
               <p class="mt-4">{{$post->query}}</p>

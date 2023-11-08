@@ -18,7 +18,7 @@
                   @csrf
                     <div>
                         <label for="caption" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Caption</label>
-                        <textarea name="caption" id="caption" class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Post caption..."> </textarea>
+                        <textarea name="caption" id="caption" class="bg-gray-50 border border-gray-300 text-gray-900 text-md rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Post caption..." onkeyup="allowPost()"> </textarea>
                     </div>
 
                     <div class="flex items-center justify-center w-full flex-wrap gap-3" id="droppable" ondrop="handleDrop(event)" ondragover="allowDrop(event)">
@@ -35,7 +35,7 @@
                         <div id="putsomething"></div>
                     </div> 
 
-                    <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Post</button>
+                    <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:bg-gray-500 disabled:hover:bg-gray-500 disabled:cursor-not-allowed" id="create-post-btn" disabled>Post</button>
                 </form>
             </div>
         </div>

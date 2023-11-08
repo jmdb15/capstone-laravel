@@ -60,6 +60,14 @@
           }
       });
     });
+  function allowPost(){
+    const capt = document.querySelector('#caption').value;
+    if(capt !== ''){
+      document.querySelector('#create-post-btn').removeAttribute('disabled');
+    }else{
+      document.querySelector('#create-post-btn').setAttribute('disabled', 'disabled');
+    }
+  }
   function showpost(id){
     localStorage.setItem('id', id);
     $.ajax({
@@ -129,9 +137,16 @@
   function allowDrop(event) {
       event.preventDefault();
   }
-
+  function allowEdit(elem){
+    if(elem.value !== ''){
+      document.querySelector('#edit-post-btn').removeAttribute('disabled');
+    }else{
+      document.querySelector('#edit-post-btn').setAttribute('disabled','disabled');
+    }
+  }
   // Function to handle the drop event
   function handleDrop(event) {
+      document.querySelector('#create-post-btn').removeAttribute('disabled');
       event.preventDefault();
       const input = document.getElementById("dropzone-file");
       const imageContainer = document.getElementById("putsomething");
@@ -171,6 +186,7 @@
       input.files = files;
   }
   function displayImages() {
+    document.querySelector('#create-post-btn').removeAttribute('disabled');
     const input = document.getElementById("dropzone-file");
     const imageContainer = document.getElementById("putsomething");
       

@@ -2,10 +2,7 @@
     </section>
 
     <section id="right" class="h-[calc(100%-70px)] mt-[70px] min-w-[324px] max-w-[324px] overflow-y-auto basis-1/4 hidden flex-col items-center lg:flex" onmouseover="showScrollbar(this)" onmouseout="hideScrollbar(this)">
-      {{-- <div class="hidden p-4 rounded-lg bg-gray-50" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-          <p class="text-sm text-gray-500">This is some placeholder content the <strong class="font-medium text-gray-800">Profile tab's associated content</strong>. Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to control the content visibility and styling.</p>
-      </div> --}}
-      <div class="flex flex-col items-center justify-center overflow-y-auto">
+      <div class="flex flex-col items-center justify-center overflow-y-auto pt-10   ">
           <div class="flex justify-start items-center gap-x-4 w-full py-4 pl-8">
             <span class="text-2xl font-bold">Notifications</span>
             <svg class="p-1" width="36px" height="36px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -23,12 +20,13 @@
                         class="notifys mx-auto mt-0">
                         <div class="ctm cursor-pointer flex h-[80px] my-1 relative pr-6 pt-2 w-[280px] hover:bg-gray-100 rounded-lg shadow-sm transition-all overflow-hidden">
                             @if ($notif->posts_id)
-                                <img src="{{url('images/CSSP.png')}}" class="h-16 w-16 rounded-full mx-3" alt="">
+                                @php $image = ($notif->posts->users->type == 'organization') ? "http://127.0.0.1:8000/storage/student/" .$notif->posts->users->image : "http://127.0.0.1:8000/images/cssp.png"; @endphp
+                                <img src="{{$image}}" class="h-16 w-16 rounded-full mx-3" alt="">
                             @else
-                                <img src="{{$notif->queries->users->image ? asset('storage/student/thumbnail/'.$notif->queries->users->image) : $def_profile}}" class="h-16 w-16 rounded-full mx-3" alt="">
+                                <img src="{{$notif->queries->users->image ? asset('storage/student/thumbnail/'.$notif->queries->users->image) : $def_profile}}" class="h-16 w-20 object-fit rounded-full mx-3" alt="">
                             @endif
                             <div class="flex flex-col w-[240px]">
-                                <h2 class="font-bold">{{($notif->queries_id) ? $notif->queries->users->name : 'Admin'}}</h2>
+                                <!-- <h2 class="font-bold">{{($notif->queries_id) ? $notif->queries->users->name : (($notif->posts->users->type == 'admin') ? 'Admin' : $notif->posts->users->name)}}</h2> -->
                                 <p>{{$notif->content}}</p>
                             </div>
                             @if ($notif->is_read == 0)
@@ -38,7 +36,7 @@
                     </a>
                 @endforeach
             @else
-                <h2 class="text-xl font-light text-center">Login to get the latest announcements.</h2>
+                <h2 class="text-xl font-light text-center">Login to get notified.</h2>
             @endif
         </div>
     </section>
@@ -51,30 +49,36 @@
 @vite(['resources/js/chatapp.js'])
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js" defer></script>
 <script defer>
-    fetch('http://127.0.0.1:8000/json/intents.json')
-    .then(response => response.json())
-    .then(data => {
-        let x = 0;
-        const btns = document.querySelectorAll('.bot-quick-chat');
-        while(x <= 3){
-          for (const element of data.intents) {
-            if(Math.floor(Math.random() * 2)){
-              const index = Math.floor(Math.random() * (element.patterns.length));
-              btns[x].innerText = element.patterns[index];
-              x++;
+    function randomize(){
+        fetch('http://127.0.0.1:8000/json/intents.json')
+        .then(response => response.json())
+        .then(data => {
+            let x = 0;
+            try{
+                const btns = document.querySelectorAll('.bot-quick-chat');
+                while(x <= 3){
+                  for (const element of data.intents) {
+                    if(Math.floor(Math.random() * 2)){
+                      const index = Math.floor(Math.random() * (element.patterns.length));
+                      btns[x].innerText = element.patterns[index];
+                      x++;
+                    }
+                    if(x == 3){
+                      break
+                    }
+                  }
+                  if(x == 3){
+                    break
+                  }
+                };
+            }catch(e){
+                // console.log(e);
             }
-            if(x == 3){
-              break
-            }
-          }
-          if(x == 3){
-            break
-          }
-        };
-    })
-    .catch(error => {
-        console.error('Error loading JSON file:', error);
-    });
+        })
+        .catch(error => {
+            console.error('Error loading JSON file:', error);
+        });
+    }
 
     function sendMsg(s){
         const chatinp = document.querySelector('#chatbot-input');

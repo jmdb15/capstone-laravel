@@ -11,7 +11,6 @@
         "Good day"
       ],
       "responses": [
-        "Hey :-DDDDDDD",
         "Hello, thanks for visiting",
         "Hi there, what can I do for you?",
         "Hi there, how can I help?"
@@ -32,104 +31,80 @@
       "responses": ["Happy to help!", "Any time!", "My pleasure"]
     },
     {
-      "tag": "items",
+      "tag": "programs",
       "patterns": [
-        "Which items do you have?",
-        "What kinds of items are there?",
-        "What items do you sell?",
-        "What do you sell?"
+        "Which programs are offered within the CSSP?",
+        "What academic programs are available within the CSSP?",
+        "Could you list the educational programs provided by the CSSP?"
       ],
       "responses": [
-        "We sell coffee and tea",
-        "We have coffee and tea"
+        "There are three programs: Bachelor of Science in Social Work, Bachelor of Science in Psychology, and Bachelor in Public Administration"
       ]
     },
     {
-      "tag": "payments",
+      "tag": "community",
       "patterns": [
-        "Do you take credit cards?",
-        "Do you accept Mastercard?",
-        "Can I pay with Paypal?",
-        "Are you cash only?"
+        "How can I engage with the CSSP community?",
+        "What are ways in which I can actively participate in the CSSP community?",
+        "How can I become involved with the CSSP community?"
       ],
       "responses": [
-        "We accept VISA, Mastercard and Paypal",
-        "We accept most major credit cards, and Paypal"
+        "If you are a guest, simply sign up to become more involved in the community. Then, you can start interacting with other students, whether you have concerns or want to help others. Additionally, you have the opportunity to become a part of any of the organizations, further strengthening your connections with fellow students."
       ]
     },
     {
-      "tag": "delivery",
+      "tag": "research",
       "patterns": [
-        "How long does delivery take?",
-        "How long does shipping take?",
-        "When do I get my delivery?"
+        "How can I contact CSSP faculty members for academic advice or research opportunities?",
+        "What is the process for getting in touch with CSSP faculty members regarding academic guidance or potential research collaborations?",
+        "How can I reach out to CSSP faculty members for academic guidance or potential research opportunities?"
       ],
       "responses": [
-        "Delivery takes 2-4 days",
-        "Shipping takes 2-4 days"
+        "You can consider visiting the faculty page to access their contact information."
       ]
     },
     {
-      "tag": "funny",
+      "tag": "scholar",
       "patterns": [
-        "Tell me a joke!",
-        "Tell me something funny!",
-        "Do you know a joke?"
+        "Are there scholarships or financial assistance opportunities for students in CSSP, and what is the application process?",
+        "Are there any scholarships or financial aid options available to CSSP students, and could you provide details about the application procedure?",
+        "Can you share information about the availability of scholarships or financial assistance for CSSP students and outline the steps for applying?"
       ],
       "responses": [
-        "Why did the hipster burn his mouth? He drank the coffee before it was cool.",
-        "What did the buffalo say when his son left for college? Bison."
+        "As of the present, CSSP does not offer scholarships. However, there are alternative options available outside our department. We recommend contacting the financial aid office at your selected institution for further information"
       ]
     },
     {
-      "tag": "question",
+      "tag": "facility",
       "patterns": [
-        "What are you?",
-        "Are you human?",
-        "Are you real?"
+        "What facilities and resources, like libraries, laboratories, and study areas, are accessible to students in CSSP?",
+        "What facilities and resources, such as libraries, labs, and study spaces, are at the disposal of CSSP students?",
+        "What amenities and resources, including libraries, laboratories, and study areas, can CSSP students access?"
       ],
       "responses": [
-        "I am a custom chatbot",
-        "I am a not a human being but I'm a person."
+        "In addition to the university's e-library, which provides access to research materials and study resources, CSSP Building also offers dedicated areas for students to engage in research and study. Furthermore, some of the study rooms double as laboratories"
       ]
     },
     {
-      "tag": "abbreviation",
+      "tag": "rajah",
       "patterns": [
-        "What is CSSP?",
-        "ano ba yang CSSP"
+        "Could you provide information about Rajah?",
+        "Could you share some information about Rajah?",
+        "Can you offer insights or details about Rajah?"
       ],
       "responses": [
-        "CSSP is a college also known as College of Social Sciences and Philosophy.",
-        "CICT is a college also known as College of Social Sciences and Philosophy."
+        "Rajah Humabon, also known as Rajah Hamabar, was a historical figure. He was the ruler of the island of Cebu in the Philippines when the Spanish explorer Ferdinand Magellan arrived in 1521. Rajah Humabon is known for his role in the early interactions between the indigenous people of the Philippines and the Spanish explorers during Magellan's voyage"
       ]
     },
     {
-      "tag": "kalokohan",
+      "tag": "merch",
       "patterns": [
-        "pogi ba ko?",
-        "pangit kaya ako",
-        "bakit, maganda kaba",
-        "maganda ka?"
+        "Where can one buy CSSP merchandise?",
+        "Where is CSSP merchandise available for purchase?",
+        "Where can I find CSSP merchandise for sale?"
       ],
       "responses": [
-        "oo",
-        "hindi",
-        "di ko alam"
-      ]
-    },
-    {
-      "tag": "pangkamusta",
-      "patterns": [
-        "oy",
-        "oi",
-        "hoy",
-        "tao po"
-      ],
-      "responses": [
-        "ano yon",
-        "bakit",
-        "o ano"
+        "The availability of CSSP merchandise depends on the organization releasing it. To stay informed, you can watch out for upcoming announcements or visit the CSSP Local Student Council for additional details"
       ]
     }
   ]

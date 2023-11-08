@@ -183,10 +183,10 @@ class UserController extends Controller
                     $post['comments'] = DB::select('SELECT ' . $votes[0]->vote_count . ' as vote_count, (' . $comment_count[0]->c . ') as comment_count, comments.*, users.name, users.image, users.trusted FROM comments INNER JOIN users on comments.users_id = users.id WHERE comments.id = ' . $votes[0]->comments_id);
                 }
     
-                $date = $post->query_date;
-                $date = Carbon::parse($date);
-                $customFormat = $date->format('F j, Y');
-                $post['query_date'] = $customFormat;
+                // $date = $post->query_date;
+                // $date = Carbon::parse($date);
+                // $customFormat = $date->format('l, F j, Y g:i A');
+                // $post['query_date'] = $customFormat;
             }
             return view('students.query', ['posts' => $posts, 'open' => 'false', 'see' => 'true', 'notifs' => $notifs]);
         }else{
@@ -229,7 +229,7 @@ class UserController extends Controller
 
     public function news()
     {
-        $posts = Posts::where('is_deleted', 0)->orderBy('created_at', 'DESC')->get();
+        $posts = Posts::where('is_deleted', 0)->with('users')->orderBy('created_at', 'DESC')->get();
         $notifs = $this->notifs();
         return view('students.posts', ['posts' => $posts, 'notifs' => $notifs]);
     }
@@ -416,7 +416,8 @@ class UserController extends Controller
     {
         if (auth()->user()) {
             $user = auth()->user();
-            $notifs = Notifications::where('users_id', $user->id)->with('queries.users')->orderBy('created_at', 'DESC')->get();
+            $notifs = Notifications::where('users_id', $user->id)->with('queries.users')->with('posts.users')->orderBy('created_at', 'DESC')->get();
+            // dd($notifs->all());
             return $notifs;
         }
         // return view('students.some');

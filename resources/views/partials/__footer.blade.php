@@ -15,6 +15,7 @@
       element.style.overflow = 'hidden';
    }
 </script>
+@vite(['resources/js/chatapp.js'])
 
 {{-- CHATBOT --}}
 

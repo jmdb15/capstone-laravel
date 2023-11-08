@@ -1,11 +1,30 @@
 @include('partials.__header')
+<style>
+  @media print{
+    nav, aside, #print-admin{
+      display:none;
+    }
+    .first-container{
+      margin:0px;
+    }
+    .second-container{
+      margin:0px;
+    }
+  }
+</style>
 <body class="bg-gray-200" x-data="{nos: false}" :class="{'no-scroll': nos}">
 @include('partials.__sidenavbar')
 
-<div class="p-4 sm:ml-64 max-w-[1440px]" >
-  <div class="p-1 md:p-4 rounded-lg flex flex-col gap-y-10 mt-14">
+<div id="first-container" class="p-4 sm:ml-64 max-w-[1440px]" >
+  <div id="second-container" class="p-1 md:p-4 rounded-lg flex flex-col gap-y-10 mt-20">
 
-    <div class="flex flex-col flex-wrap items-center gap-4 mx-auto w-full md:flex-row justify-center md:justify-around">
+    <button onclick="printadmin()" id="print-admin" class="flex items-center gap-x-2 py-1.5 px-3 rounded-md bg-slate-400 hover:brightness-105 absolute top-16 text-lg right-2">
+    <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M5 5C5 4.44772 5.44772 4 6 4H18C18.5523 4 19 4.44772 19 5V11C20.6569 11 22 12.3431 22 14V18C22 19.6569 20.6569 21 19 21H5C3.34314 21 2 19.6569 2 18V14C2 12.3431 3.34315 11 5 11V5ZM5 13C4.44772 13 4 13.4477 4 14V18C4 18.5523 4.44772 19 5 19H19C19.5523 19 20 18.5523 20 18V14C20 13.4477 19.5523 13 19 13V15C19 15.5523 18.5523 16 18 16H6C5.44772 16 5 15.5523 5 15V13ZM7 6V12V14H17V12V6H7ZM9 9C9 8.44772 9.44772 8 10 8H14C14.5523 8 15 8.44772 15 9C15 9.55228 14.5523 10 14 10H10C9.44772 10 9 9.55228 9 9ZM9 12C9 11.4477 9.44772 11 10 11H14C14.5523 11 15 11.4477 15 12C15 12.5523 14.5523 13 14 13H10C9.44772 13 9 12.5523 9 12Z" fill="#000000"/>
+    </svg> Print</button>
+
+
+    <div id="printable" class="flex flex-col flex-wrap items-center gap-4 mx-auto w-full md:flex-row justify-center md:justify-around">
 
       <div class="relative flex flex-row gap-x-4 py-2 px-4 h-fit min-w-fit  w-52 max-w-sm bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 items-center">
         <svg xmlns="http://www.w3.org/2000/svg" fill="#fff" viewBox="0 0 24 24" stroke-width="1.5" stroke="#fff" class="w-11 h-11 p-2 bg-blue-400 rounded-md">
@@ -81,7 +100,7 @@
       <div id="chartContainer3" class="rounded-md shadow-xl min-w-[324px] max-w-[920px] h-[370px] w-full lg:w-[80%]"></div>
     </div>
 
-    <div class="mx-auto w-full flex flex-wrap h-[400px] justify-between gap-y-8 xl:gap-6 xl:flex-row">
+    <div id="chart-container" class="mx-auto w-full flex flex-wrap h-[400px] justify-between gap-y-8 xl:gap-6 xl:flex-row">
       {{-- Bar Graph Container --}}
       <div id="chartContainer2" class="shadow-xl w-[500px] min-h-[400px] max-h-[400px] min-w-[324px]"></div>
       {{-- Pie Graph Container --}}
@@ -104,6 +123,30 @@
       });
       
   });
+  const printbtn = document.querySelector('#print-admin');
+  printbtn.addEventListener('click', function(){
+    document.querySelector('nav').style.display = 'none'
+    document.querySelector('aside').style.display = 'none'
+    document.querySelector('#print-admin').style.display = 'none'
+    document.querySelector('#first-container').style.marginLeft = '0'
+    document.querySelector('#second-container').style.marginTop = '0'
+    document.querySelector('#chart-container').style.marginTop = '280px'
+    document.querySelector('#chart-container').classList.toggle = 'justify-between'
+    document.querySelector('#chart-container').classList.toggle = 'justify-around'
+    document.querySelector('#chartContainer').style.width = '400px'
+    document.querySelector('#chartContainer2').style.width = '400px'
+    window.print();
+    document.querySelector('nav').style.display = 'block'
+    document.querySelector('aside').style.display = 'block'
+    document.querySelector('#print-admin').style.display = 'block'
+    document.querySelector('#first-container').style.marginLeft = '16rem'
+    document.querySelector('#second-container').style.marginTop = '70px'
+    document.querySelector('#chart-container').style.marginTop = '0'
+    document.querySelector('#chart-container').classList.toggle = 'justify-between'
+    document.querySelector('#chart-container').classList.toggle = 'justify-around'
+    document.querySelector('#chartContainer').style.width = '500px'
+    document.querySelector('#chartContainer2').style.width = '500px'
+  })
 
   // THIS WILL RUN 
   $.ajax({
@@ -111,7 +154,6 @@
     type: 'GET',
     success:function(data){
       pieChartRend(data);
-      console.log(data)
     }
   });
   $.ajax({
@@ -136,7 +178,14 @@
       lineChartRend(data1, data2, data3);
     }
   });
-  barGraphRend('a');
+  $.ajax({
+    url:'/admin-donut',
+    type: 'GET',
+    success:function(data){
+      barGraphRend(data);
+      // console.log(data)
+    }
+  });
 
 
 
@@ -168,27 +217,28 @@
 
     function barGraphRend(data){
       var chart = new CanvasJS.Chart("chartContainer2", {
-        theme: "light2", // "light2", "dark1", "dark2"
-        exportEnabled: true,
-        animationEnabled: false, // change to true		
+        animationEnabled: true,
         title:{
-          text: "Latest User Activities"
+          text: "Accounts",
+          horizontalAlign: "center"
         },
-        data: [
-        {
-          // Change type to "bar", "area", "spline", "pie",etc.
-          type: "column",
+        data: [{
+          type: "doughnut",
+          startAngle: 60,
+          showInLegend: "true",
+          legendText: "{label}",
+          //innerRadius: 60,
+          indexLabelFontSize: 15,
+          indexLabel: "{label} - #percent%",
+          toolTipContent: "<b>{label}:</b> {y} (#percent%)",
           dataPoints: [
-            { label: "apple",  y: 10  },
-            { label: "orange", y: 15  },
-            { label: "banana", y: 25  },
-            { label: "mango",  y: 30  },
-            { label: "grape",  y: 28  }
+            { y: data[0], label: "Verified Student" },
+            { y: data[1], label: "Unverified Students" },
+            { y: data[2], label: "Organization" },
           ]
-        }
-        ]
+        }]
       });
-    chart.render();
+      chart.render();
     }
 
     function lineChartRend(data1, data2, data3){

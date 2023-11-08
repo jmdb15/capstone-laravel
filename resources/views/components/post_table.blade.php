@@ -16,7 +16,7 @@
         </thead>
         <tbody>
             @forelse ($posts as $post)
-              <x-post_table_row :post="$post"/>
+                <x-post_table_row :post="$post"/>
             @empty
                 <tr class="bg-white border-b hover:bg-gray-50">
                     <th scope="row" colspan="3" class="text-center px-6 py-4 font-bold text-lg text-gray-900 whitespace-nowrap overflow-hidden overflow-ellipsis max-w-lg">

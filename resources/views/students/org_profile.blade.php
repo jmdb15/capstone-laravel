@@ -7,7 +7,7 @@
 
 {{-- Personal Details --}}
     <div class="flex flex-col bg-gray-50 min-h-64 h-[440px] w-[96%] md:h-96 rounded-md ">
-      <img src="{{url('images/cssp_white.png')}}" class="object-cover w-full overflow-y-hidden h-[40%] md:h-[60%]" alt="">
+      <img src="{{url('images/banner.jpg')}}" class="object-cover w-full overflow-y-hidden h-[40%] md:h-[60%]" alt="">
       <div class="flex flex-col relative h-[40%] md:flex-row pt-4">
         {{-- left side --}}
         <div class="relative basis-1/4 md:basis-1/3 flex flex-col justify-center items-center">

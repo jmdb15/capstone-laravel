@@ -1,15 +1,17 @@
 @php    use Carbon\Carbon; use Illuminate\Support\Facades\DB;
         $date = Carbon::parse($post->created_at);
         $date = $date->format('l, F j, Y g:i A');
+        $image = ($post->users->type == 'organization') ? "http://127.0.0.1:8000/storage/student/" .$post->users->image : "http://127.0.0.1:8000/images/cssp.png";
+        $author = ($post->users->type == 'admin') ? 'CSSP Admin' : $post->users->name;
 @endphp
 
 <div class="max-w-lg bg-white border border-gray-200 rounded-lg shadow relative">
   <div class="p-5 pb-2">
     <div class="flex relative">
-        <img src="{{ url('images/cssp.png') }}" class="aspect-square max-h-10 mr-2" alt="">
+        <img src="{{$image}}" class="aspect-square rounded-full max-h-10 mr-2" alt="">
         <div class="flex flex-col">
-            <h5 class="-mt-1 text-2xl font-bold tracking-tight text-gray-900">CSSP Admin</h5>
-            <p class="text-[#acaeb4] text-[.8rem] -mt-1">{{$date}}</p>
+            <h5 class="-mt-1 text-2xl font-bold tracking-tight text-gray-900">{{$author}}</h5>
+            <p class="text-[#acaeb4] text-[.8rem] -mt-1">{{$date}} </p>
         </div>
     </div>
     <p class="ml-5 mt-3 font-normal text-black">{{$post->caption}}</p>

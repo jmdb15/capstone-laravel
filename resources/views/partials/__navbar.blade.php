@@ -1,15 +1,26 @@
 @php
   $def_profile = 'https://avatars.dicebear.com/api/initials/avatar.svg';
 @endphp
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Martian+Mono:wght@700&display=swap" rel="stylesheet">
+    <style>
+        .text-xl.ml-3 {
+            font-family: 'Martian Mono', monospace;
+            color: white;
+        }
+    </style>
+</head>
 <body class="bg-gray-200 h-screen w-screen grid place-items-center overflow-y-scroll overflow-x-hidden" x-data="{nos: false}" :class="{'no-scroll': nos}">
   
 <div class="w-screen h-[70px] bg-violet-400 fixed top-0 left-0 z-[49]">
     <nav class="container relative flex flex-wrap items-center justify-between h-full mx-auto lg:justify-between xl:px-0" x-data="{openMobile: false, open: false}">
         <div class="flex flex-wrap items-center justify-between w-full lg:w-auto">
               <a href="/" class="flex items-center space-x-2 text-2xl font-medium text-indigo-500">
-                  <img alt="logo" src="{{ url('images/CSSP.png') }}" class="h-14 w-14 aspect-square" width="36" height="36" decoding="async" data-nimg="1" loading="lazy" style="color:transparent" />
+                  <img alt="logo" src="{{ url('images/CSSP.png') }}" class="pb-1.5 h-14 w-14 aspect-square" width="36" height="36" decoding="async" data-nimg="1" loading="lazy" style="color:transparent" />
               </a>
-            <h2 class="text-xl ml-3">TALK to RAJAH</h2>
+            <h2 class="text-xl ml-3">Talk to RAJAH</h2>
             <button x-on:click="openMobile = !openMobile, nos = !nos" aria-label="Toggle Menu" class="px-2 py-1 ml-auto z-50 text-gray-800 rounded-md transition-all lg:hidden hover:bg-violet-600  focus:text-indigo-500 focus:bg-indigo-100 focus:outline-none" id="headlessui-disclosure-button-:R17:" type="button" aria-expanded="false" 
             data-headlessui-state="">
                 <svg class="w-6 h-6 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

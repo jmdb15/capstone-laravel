@@ -10,3 +10,26 @@ php artisan serve
 
 php artisan storage:link
 composer require intervention/image
+
+
+for laravel excel
+composer require maatwebsite/excel
+composer require psr/simple-cache:^2.0 maatwebsite/excel { if theres an error }
+php artisan vendor:publish --provider="Maatwebsite\Excel\ExcelServiceProvider"
+
+must be 
+PHP 8.1 and above
+extension=gd
+extension=zip
+
+
+options 
+php artisan vendor:publish --tag=config
+composer update
+composer self-update
+composer clear-cache
+composer remove phpoffice/phpexcel
+composer require phpoffice/phpspreadsheet
+
+composer require barryvdh/laravel-dompdf
+php artisan vendor:publish --provider="Barryvdh\DomPDF\ServiceProvider"

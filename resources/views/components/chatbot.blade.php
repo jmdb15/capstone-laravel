@@ -28,6 +28,6 @@
         </div>
     </div>
 </div>
-<div class="chatbox__button w-fit absolute bottom-5 right-5">
+<div class="chatbox__button w-fit absolute bottom-5 right-5" onclick="randomize()">
     <button type="button" class="w-fit"><img src="{{ url('images/chatbot.png')}} " class="h-10" /></button>
 </div>
