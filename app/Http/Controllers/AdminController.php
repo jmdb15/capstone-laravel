@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class AdminController extends Controller
 {
@@ -332,6 +333,19 @@ class AdminController extends Controller
                 'content' => 'There is a new post: "' . $caption . '"',
                 'posts_id' => $post_id,
             ]);
+        }
+    }
+
+    // PYTHON CONNECTIONS
+    public function getcbdata(){
+        $response = Http::get('http://127.0.0.1:5001/getdata');
+
+        if ($response->successful()) {
+            $fileContents = $response->body();
+            // return response()->json(['intents' => json_decode($fileContents)]);
+            return view('admin.editcbdata', ['intents' => json_decode($fileContents)]);
+        } else {
+            return response()->json(['error' => 'Failed to fetch data'], 500);
         }
     }
 }

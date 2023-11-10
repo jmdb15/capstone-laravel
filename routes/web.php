@@ -4,9 +4,9 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\ExportController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Http;
-use GuzzleHttp\Client;
 
 /*
 |--------------------------------------------------------------------------
@@ -103,56 +103,127 @@ Route::get('/export-users-pdf', [ExportController::class, 'exportUsersPdf'])->na
 Route::get('/export-logs', [ExportController::class, 'exportLogs'])->name('export-logs');
 Route::get('/export-logs-pdf', [ExportController::class, 'exportLogsPdf'])->name('export-logs-pdf');
 
-Route::get('/getChatbotData', function(){
-    $response = Http::get('http://127.0.0.1:5000/getdata');
 
-    // Check if the request was successful
-    if ($response->successful()) {
-        // Get the response content (the file contents in this case)
-        $fileContents = $response->body();
-
-        // You can do something with $fileContents here, such as displaying it on the webpage.
-        return response()->json(['file_contents' => $fileContents]);
-    } else {
-        // Handle the case where the request was not successful (e.g., error handling)
-        return response()->json(['error' => 'Failed to fetch data'], 500);
+//Python Connections
+Route::get('/edit-cb', [AdminController::class, 'getcbdata']);
+Route::get('/update_json', function(Request $request){
+    $data ='{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": [
+        "Hi",
+        "Hey",
+        "How are you",
+        "Is anyone there?",
+        "Hello",
+        "Good day"
+      ],
+      "responses": [
+        "Hello, thanks for visiting",
+        "Hi there, what can I do for you?",
+        "Hi there, how can I help?"
+      ]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": ["Bye", "See you later", "Goodbye"],
+      "responses": [
+        "See you later, thanks for visiting",
+        "Have a nice day",
+        "Bye! Come back again soon."
+      ]
+    },
+    {
+      "tag": "thanks",
+      "patterns": ["Thanks", "Thank you", "Thats helpful", "Thanks a lot!", "Nice"],
+      "responses": ["Happy to help!", "Any time!", "My pleasure"]
+    },
+    {
+      "tag": "programs",
+      "patterns": [
+        "Which programs are offered within the CSSP?",
+        "What academic programs are available within the CSSP?",
+        "Could you list the educational programs provided by the CSSP?"
+      ],
+      "responses": [
+        "There are three programs: Bachelor of Science in Social Work, Bachelor of Science in Psychology, and Bachelor in Public Administration"
+      ]
+    },
+    {
+      "tag": "community",
+      "patterns": [
+        "How can I engage with the CSSP community?",
+        "What are ways in which I can actively participate in the CSSP community?",
+        "How can I become involved with the CSSP community?"
+      ],
+      "responses": [
+        "If you are a guest, simply sign up to become more involved in the community. Then, you can start interacting with other students, whether you have concerns or want to help others. Additionally, you have the opportunity to become a part of any of the organizations, further strengthening your connections with fellow students."
+      ]
+    },
+    {
+      "tag": "research",
+      "patterns": [
+        "How can I contact CSSP faculty members for academic advice or research opportunities?",
+        "What is the process for getting in touch with CSSP faculty members regarding academic guidance or potential research collaborations?",
+        "How can I reach out to CSSP faculty members for academic guidance or potential research opportunities?"
+      ],
+      "responses": [
+        "You can consider visiting the faculty page to access their contact information."
+      ]
+    },
+    {
+      "tag": "scholar",
+      "patterns": [
+        "Are there scholarships or financial assistance opportunities for students in CSSP, and what is the application process?",
+        "Are there any scholarships or financial aid options available to CSSP students, and could you provide details about the application procedure?",
+        "Can you share information about the availability of scholarships or financial assistance for CSSP students and outline the steps for applying?"
+      ],
+      "responses": [
+        "As of the present, CSSP does not offer scholarships. However, there are alternative options available outside our department. We recommend contacting the financial aid office at your selected institution for further information"
+      ]
+    },
+    {
+      "tag": "facility",
+      "patterns": [
+        "What facilities and resources, like libraries, laboratories, and study areas, are accessible to students in CSSP?",
+        "What facilities and resources, such as libraries, labs, and study spaces, are at the disposal of CSSP students?",
+        "What amenities and resources, including libraries, laboratories, and study areas, can CSSP students access?"
+      ],
+      "responses": [
+        "In addition to the universitys e-library, which provides access to research materials and study resources, CSSP Building also offers dedicated areas for students to engage in research and study. Furthermore, some of the study rooms double as laboratories"
+      ]
+    },
+    {
+      "tag": "rajah",
+      "patterns": [
+        "Could you provide information about Rajah?",
+        "Could you share some information about Rajah?",
+        "Can you offer insights or details about Rajah?"
+      ],
+      "responses": [
+        "Rajah Humabon, also known as Rajah Hamabar, was a historical figure. He was the ruler of the island of Cebu in the Philippines when the Spanish explorer Ferdinand Magellan arrived in 1521. Rajah Humabon is known for his role in the early interactions between the indigenous people of the Philippines and the Spanish explorers during Magellans voyage"
+      ]
+    },
+    {
+      "tag": "merch",
+      "patterns": [
+        "Where can one buy CSSP merchandise?",
+        "Where is CSSP merchandise available for purchase?",
+        "Where can I find CSSP merchandise for sale?"
+      ],
+      "responses": [
+        "The availability of CSSP merchandise depends on the organization releasing it. To stay informed, you can watch out for upcoming announcements or visit the CSSP Local Student Council for additional details"
+      ]
     }
-});
-
-Route::get('/update_json', function(){
-    $data ='[
-        {
-            "tag": "greeting",
-            "patterns": [
-                "Hi",
-                "Hey",
-                "How are you",
-                "Is anyone there?",
-                "Hello",
-                "Good day"
-            ],
-            "responses": [
-                "Hello, thanks for visiting",
-                "Hi there, what can I do for you?",
-                "Hi there, how can I help?"
-            ]
-        },
-        {
-            "tag": "goodbye",
-            "patterns": ["Bye", "See you later", "Goodbye"],
-            "responses": [
-                "See you later, thanks for visiting",
-                "Have a nice day",
-                "Bye! Come back again soon."
-            ]
-        }
-    ]';
+  ]
+}';
     
-    $phpObject = json_decode($data);
+    $phpObject = json_decode($request->data);
 
-    $response = Http::post('http://127.0.0.1:5000/update_json', [
-        'intents' => $phpObject
-    ]);
+    $response = Http::post('http://127.0.0.1:5001/update_json',
+       $phpObject
+    );
 
     return $response;
 });
