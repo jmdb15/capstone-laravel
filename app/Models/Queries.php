@@ -13,20 +13,13 @@ class Queries extends Model
     protected $fillable = [
         'users_id',
         'query',
-        'is_deleted'
+        'image',
+        'is_deleted',
+        'updated_at'
     ];
 
     public static function showPost($id)
     {
-        // $rootQueries = Queries::get();
-        // $allComments = Comments::get();
-
-        // foreach($rootQueries as $rootQuery){
-        //     $rootQuery->children = $allComments->where('query_id',$rootQuery->query_id)->values();
-        // }
-        // return $rootQueries;
-        // $combined = compact('rootQueries', 'allComments');
-
         $queries = DB::table('queries')
             ->join('users', 'users.id', '=', 'queries.users_id')
             ->join('comments', 'comments.queries_id', '=', 'queries.id')
@@ -47,7 +40,6 @@ class Queries extends Model
     {
         return $this->hasMany(Comments::class);
     }
-
     public function users()
     {
         return $this->belongsTo(Users::class);
@@ -55,5 +47,9 @@ class Queries extends Model
     public function notifications()
     {
         return $this->hasMany(Notifications::class);
+    }
+    public function reports()
+    {
+        return $this->belongsTo(Reports::class);
     }
 }

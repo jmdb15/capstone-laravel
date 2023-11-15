@@ -11,7 +11,7 @@
         </div>
         <div class="chatbox__messages">
             <div>
-                <div class="flex flex-col gap-y-4 w-full">
+                <div class="flex flex-col gap-y-4 w-full" id="cb-con">
                     <button class="bot-quick-chat w-full my-2 px-3 py-2 text-center text-sm rounded-full cursor-pointer bg-gray-400 hover:brightness-110 opacity-80" onclick="sendMsg(this)">Which programs are offered within the CSSP?</button>
                     <button class="bot-quick-chat w-full my-2 px-3 py-2 text-center text-sm rounded-full cursor-pointer bg-gray-400 hover:brightness-110 opacity-80" onclick="sendMsg(this)">How can I engage with the CSSP community?</button>
                     <button class="bot-quick-chat w-full my-2 px-3 py-2 text-center text-sm rounded-full cursor-pointer bg-gray-400 hover:brightness-110 opacity-80" onclick="sendMsg(this)">Could you provide information about Rajah?</button>

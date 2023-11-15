@@ -9,6 +9,7 @@ use App\Models\Notifications;
 use App\Models\Posts;
 use App\Models\Queries;
 use App\Models\Users;
+use App\Models\Reports;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
@@ -326,14 +327,48 @@ class AdminController extends Controller
 
     public function informUsers($post_id, $caption)
     {
-        $users = Users::get();
+        if($caption){
+            $caption = ' has posted: "' . $caption;
+        }else{
+            $caption = ' posted an image.';
+        }
+        $cur = auth()->user();
+        $users = Users::where('type', '!=', 'admin')->where('id', '!=', auth()->user()->id)->get();
         foreach ($users as $user) {
             Notifications::insert([
                 'users_id' => $user->id,
-                'content' => 'There is a new post: "' . $caption . '"',
+                'author' => $cur->id,
+                'content' => $caption,
                 'posts_id' => $post_id,
             ]);
         }
+    }
+
+    public function reports(Request $request){
+        if($request->ajax()){
+            if($request->type == 'delete'){
+                DB::table('reports')->where('id', $request->id)->delete();
+                return 'Delete successful';
+            }
+            Reports::find($request->id)->update([
+                'checked' => 1
+            ]);
+            $report = Reports::with(['users', 'sender'])
+                        ->select('users.name', 'users.image', 'users.email', 'reports.*')
+                        ->join('users', 'users.id', '=', 'reports.sender')
+                        ->findOrFail($request->id);
+            if($report->queries_id){
+                $reportContent = Queries::where('id', '=', $report->queries_id)->get();
+            }else{
+                $reportContent = Comments::where('id', '=', $report->comments_id)->get();
+            }
+            return response()->json(['report' => $report, 'content' => $reportContent[0]]);
+        }
+        $reports = Reports::with(['users', 'sender'])
+                        ->select('users.name', 'users.image', 'users.email', 'reports.*')
+                        ->join('users', 'users.id', '=', 'reports.sender')
+                        ->orderBy('created_at', 'DESC')->get();
+        return view('admin.reports', ['reports' => $reports]);
     }
 
     // PYTHON CONNECTIONS

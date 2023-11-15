@@ -9,7 +9,11 @@
     $first = DB::table('votes')->where('users_id', $cuid)->where('checked', '1')->where('comments_id', $cid)->get();
     $color = (count($first) > 0) ? '#f5356e' : '#707277';
 @endphp
-<div class="comments" x-show="open2">
+<div class="comments relative" x-show="open2">
+  <svg onclick="setReportFor('comment', {{$cid}})" 
+      data-modal-target="report-modal" 
+      data-modal-toggle="report-modal" class="absolute top-4 right-4 fill-current opacity-40 hover:text-red-600 hover:opacity-90 cursor-pointer" fill="#ccc" width="20px" height="20px" viewBox="205 205 612 612" xmlns="http://www.w3.org/2000/svg"><path d="M512 768a256 256 0 1 1 0-512 256 256 0 0 1 0 512zm-27-168c-8 7-11 16-11 27s3 20 11 27c7 8 16 11 27 11s20-3 28-11c8-7 11-16 11-27s-3-20-11-27c-8-8-17-11-28-11s-20 4-27 11zm50-47l15-195h-76l15 195h46z"/></svg>
+
   @if (auth()->user() && auth()->user()->email_verified_at != null)
     <div class="comment-react">
         <button onclick="reactsubmit('react', {{$cuid}}, '{{auth()->user()->name}}', {{$cid}}, {{$c->queries_id}})">

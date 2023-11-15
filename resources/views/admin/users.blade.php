@@ -170,6 +170,9 @@
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script defer>
+    function handleImageError(elem){
+        elem.src = 'https://avatars.dicebear.com/api/initials/avatar.svg';
+    }
     function deleteAll(){
         document.querySelector('#delete-all').click();
     }

@@ -165,7 +165,7 @@ span {
   padding: 0 20px;
   font-weight: 700;
   font-size: 13px;
-  color: #47484b;
+  color: rgb(243 244 246 / var(--tw-bg-opacity));
 }
 .title > a {
   margin-top: 1px;

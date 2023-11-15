@@ -12,13 +12,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('reports', function (Blueprint $table) {
             $table->increments('id');
             $table->string('users_id');
-            $table->text('links')->nullable();
-            $table->text('caption')->nullable();
-            $table->smallInteger('is_deleted')->default(0);
-            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->string('sender');
+            $table->text('content');
+            $table->string('queries_id')->nullable();
+            $table->string('comments_id')->nullable();
+            $table->smallInteger('checked')->default(0);
+            $table->datetime('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->nullable();
         });
     }
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('reports');
     }
 };

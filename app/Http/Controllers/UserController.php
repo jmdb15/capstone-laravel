@@ -10,6 +10,7 @@ use App\Models\Events;
 use App\Models\Notifications;
 use App\Models\Posts;
 use App\Models\Queries;
+use App\Models\Reports;
 use App\Models\Users;
 use App\Models\Votes;
 use Exception;
@@ -73,7 +74,7 @@ class UserController extends Controller
                 }
 
                 $act = Activities::where('users_id', $user->id)->where('activity', 'Logged in')->where('created_at', $formattedDate)->first();
-                if ($act == null) {
+                if ($act == null && $user->type != 'admin') {
                     Activities::insert([
                         'users_id' => $user->id,
                         'activity' => 'Logged in'
@@ -153,14 +154,43 @@ class UserController extends Controller
 
     public function postQuery(Request $request)
     {
+        $user = auth()->user();
+        if($request->ajax()){
+            $qry = Queries::findOrFail($request->id);
+            DB::table('activities')->insert([
+                'users_id' => $user->id,
+                'activity' => "Changed his question from '" . $qry->query . "' to '" . $request->input('query') . "'."
+            ]);
+            $qry->update([ 'query' => $request->input('query') ]);
+            return response()->json($qry);
+        }
         if($request->question == null || $request->question == ''){
             return back()->with('errmessage', 'You have to input a question.');
         }
-        $user = auth()->user();
-        $post = DB::table('queries')->insertGetId([
-            'users_id' => $user->id,
-            'query' => $request->question,
-        ]);
+        if ($request->hasFile('image')) {
+            $validator = Validator::make($request->all(), [
+                'image' => 'mimes:jpeg,png,bmp,jpg,tiff|max:51200',
+            ]);
+            if ($validator->fails()) {
+                return back()->with('errmessage', 'There\'s a problem uploading your picture: ' . $validator->error());
+            }
+            $fileNameWithExtension = $request->file('image');
+            $fileName = pathInfo($fileNameWithExtension, PATHINFO_FILENAME);
+            $extension = $request->file('image')->getClientOriginalExtension();
+            $fileNameToStore = $fileName . '_' . time() . '.' . $extension;
+            $request->file('image')->storeAs('public/student/questions/', $fileNameToStore);
+
+            $post = DB::table('queries')->insertGetId([
+                'users_id' => $user->id,
+                'query' => $request->question,
+                'image' => $fileNameToStore,
+            ]);
+        }else{
+            $post = DB::table('queries')->insertGetId([
+                'users_id' => $user->id,
+                'query' => $request->question,
+            ]);
+        }
         DB::table('activities')->insert([
             'users_id' => $user->id,
             'activity' => "Posted his/her question."
@@ -237,7 +267,7 @@ class UserController extends Controller
     public function viewProfile($id)
     {
         if(auth()->user()->type == 'student'){
-            $posts = Queries::where('users_id', $id)->with('users')->where('is_deleted', 0)->get();
+            $posts = Queries::where('users_id', $id)->with('users')->where('is_deleted', 0)->orderBy('query_date', 'DESC')->get();
             foreach ($posts as $post) {
                 $post['comments'] = Comments::select('comments.*', 'users.name', 'users.image', 'users.id as users_id')
                     ->join('users', 'users.id', '=', 'comments.users_id')
@@ -252,7 +282,7 @@ class UserController extends Controller
             $notifs = $this->notifs();
             return view('students.profile', ['posts' => $posts, 'user' => $user, 'see' => 'true', 'notifs' => $notifs]);
         }else if(auth()->user()->type == 'organization'){
-            $posts = Posts::where('users_id', '=', auth()->user()->id)->with('users')->get();
+            $posts = Posts::where('users_id', '=', auth()->user()->id)->with('users')->orderBy('created_at', 'DESC')->get();
             $notifs = $this->notifs();
             $user = Users::find($id);
             return view('students.profile', ['posts' => $posts, 'user' => $user, 'see' => 'true', 'notifs' => $notifs]);
@@ -342,37 +372,40 @@ class UserController extends Controller
 
     public function ajaxRequestReact(Request $request)
     {
-        $vote = Votes::where('users_id', $request->uid)->where('comments_id', $request->cid)->get(); //get()
-        if (count($vote) > 0) {
-            if ($request->uid == auth()->user()->id) {
-                $check = $vote[0]->checked == 1 ? 0 : 1;
-                DB::table('votes')
-                    ->where('users_id', $request->uid)
-                    ->where('comments_id', $request->cid)
-                    ->update(['checked' => $check]);
-                $ret = ($check) ? 'add' : 'minus';
-                return $ret;
+        if($request->uid != auth()->user()->id){
+            $vote = Votes::where('users_id', $request->uid)->where('comments_id', $request->cid)->get(); //get()
+            if (count($vote) > 0) {
+                if ($request->uid == auth()->user()->id) {
+                    $check = $vote[0]->checked == 1 ? 0 : 1;
+                    DB::table('votes')
+                        ->where('users_id', $request->uid)
+                        ->where('comments_id', $request->cid)
+                        ->update(['checked' => $check]);
+                    $ret = ($check) ? 'add' : 'minus';
+                    return $ret;
+                }
+                return '';
+            } else {
+                DB::table('votes')->insert([
+                    'users_id' => $request->uid,
+                    'queries_id' => $request->qid,
+                    'comments_id' => $request->cid
+                ]);
+                DB::table('activities')->insert([
+                    'users_id' => $request->uid,
+                    'activity' => "Reacted on someone's comment"
+                ]);
+                $user = Users::find($request->uid);
+                $c = Comments::find($request->cid);
+                DB::table('notifications')->insert([
+                    'users_id' => $c->users_id,
+                    'author' => $user->id,
+                    'content' => ' liked your comment: "' . $c->comment . '"',
+                    'queries_id' => $request->qid,
+                    //i need the commentor's id, his comment, query id where he commented 
+                ]);
+                return 'add';
             }
-            return '';
-        } else {
-            DB::table('votes')->insert([
-                'users_id' => $request->uid,
-                'queries_id' => $request->qid,
-                'comments_id' => $request->cid
-            ]);
-            DB::table('activities')->insert([
-                'users_id' => $request->uid,
-                'activity' => "Reacted on someone's comment"
-            ]);
-            $user = Users::find($request->uid);
-            $c = Comments::find($request->cid);
-            DB::table('notifications')->insert([
-                'users_id' => $c->users_id,
-                'content' => $user->name . ' liked your comment: "' . $c->comment . '"',
-                'queries_id' => $request->qid,
-                //i need the commentor's id, his comment, query id where he commented 
-            ]);
-            return 'add';
         }
     }
 
@@ -391,7 +424,8 @@ class UserController extends Controller
         if ($qry->users_id != auth()->user()->id) {
             DB::table('notifications')->insert([
                 'users_id' => $qry->users_id,
-                'content' => $request->name . ' commented on your "' . $qry->query . '"',
+                'author' => $request->id,
+                'content' => ' commented on your "' . $qry->query . '"',
                 'queries_id' => $request->qid,
             ]);
         }
@@ -416,27 +450,38 @@ class UserController extends Controller
     {
         if (auth()->user()) {
             $user = auth()->user();
-            $notifs = Notifications::where('users_id', $user->id)->with('queries.users')->with('posts.users')->orderBy('created_at', 'DESC')->get();
+            $oneMonthAgo = now()->copy()->subMonth();
+            $notifs = Notifications::where('users_id', $user->id)
+                                    ->where('hidden', '=', '0')
+                                    ->whereBetween('notifications.created_at', [$oneMonthAgo, now()])
+                                    ->with('queries.users')
+                                    ->with('posts.users')
+                                    ->join('users', 'users.id', '=', 'notifications.author')
+                                    ->select('users.name' , 'notifications.*')
+                                    ->orderBy('notifications.created_at', 'DESC')->get();
             // dd($notifs->all());
             return $notifs;
         }
         // return view('students.some');
     }
+    
     public function notifications()
     {
+        // USER SPECIFIC NOTIFICATION PAGE
         $user = auth()->user();
-        $notifs = Notifications::where('users_id', $user->id)->with('queries.users')->orderBy('created_at', 'DESC')->get();
+        $notifs = Notifications::where('users_id', $user->id)->where('hidden', '=', '0')->with('queries.users')->orderBy('created_at', 'DESC')->get();
         return view('students.notifications', ['notifs' => $notifs, 'show'=> true, 'see' => 'true']);
     }
 
     public function informUsers($id, $query_id, $query)
     {
-        $cur = auth()->user()->name;
-        $users = Users::where('id', '!=', $id)->orderBy('created_at', 'DESC')->get();
+        $cur = auth()->user();
+        $users = Users::where('id', '!=', $id)->get();
         foreach ($users as $user) {
             Notifications::insert([
                 'users_id' => $user->id,
-                'content' => $cur . ' posted a question: ' . $query,
+                'author' => $cur->id,
+                'content' => ' posted a question: ' . $query,
                 'queries_id' => $query_id,
             ]);
         }
@@ -452,6 +497,41 @@ class UserController extends Controller
             return 'updated';
         } catch (ModelNotFoundException $e) {
             return response()->json('no records');
+        }
+    }
+
+    public function hidenotifs(Request $request)
+    {
+        try {
+            $id = Notifications::findOrFail($request->id);
+            $id->update([
+                'hidden' => 1
+            ]);
+            return 'updated';
+        } catch (ModelNotFoundException $e) {
+            return response()->json('no records');
+        }
+    }
+
+    public function report(Request $request){
+        if($request->queries_id){
+            $qry_uid = Queries::select('users_id')->find($request->queries_id);
+            Reports::insert([
+                'users_id' => $qry_uid->users_id,
+                'sender' => auth()->user()->id,
+                'content' => $request->content,
+                'queries_id' => $request->queries_id,
+            ]);
+            return 'Report sent.';
+        }else if($request->comments_id){
+            $cm_uid = Comments::select('users_id')->find($request->comments_id);
+            Reports::insert([
+                'users_id' => $cm_uid->users_id,
+                'sender' => auth()->user()->id,
+                'content' => $request->content,
+                'comments_id' => $request->comments_id,
+            ]);
+            return 'Report sent.';
         }
     }
 

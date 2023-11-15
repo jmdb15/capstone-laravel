@@ -14,6 +14,7 @@ class Notifications extends Model
         'queries_id',
         'posts_id',
         'is_read',
+        'hidden',
     ];
     public function posts()
     {

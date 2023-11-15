@@ -86,9 +86,9 @@
                         <th scope="col" class="px-6 py-3">
                             Date
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        {{-- <th scope="col" class="px-6 py-3">
                             Action
-                        </th>
+                        </th> --}}
                     </tr>
                 </thead>
                 <tbody id="tboy">
@@ -96,7 +96,7 @@
                         <tr class="border-b border-gray-200 bg-white hover:bg-gray-100" id="tr-3">
                             <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">{{$log->id}}</th>
                             <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap">
-                                <img class="w-10 h-10 rounded-full" src="{{ asset('storage/student/'.$log->image ) }}" alt="gabby image">
+                                <img class="w-10 h-10 rounded-full" src="{{$log->image && asset('storage/student/'.$log->image) || 'https://avatars.dicebear.com/api/initials/avatar.svg' }}" alt="image" onerror="handleImageError(this)">
                                 <div class="pl-3">
                                     <div class="text-base font-semibold">{{$log->name}}</div>
                                     <div class="font-normal text-gray-500">{{$log->email}}</div>
@@ -104,9 +104,9 @@
                             </th>
                             <td class="px-6 py-4">{{$log->activity}}</td>
                             <td class="px-6 py-4">{{$log->created_at}}</td>
-                            <td class="px-6 py-4">
+                            {{-- <td class="px-6 py-4">
                                 <a onclick="confirmDel({{$log->id}})" class="font-medium text-red-600 cursor-pointer hover:underline">Delete</a>
-                            </td>
+                            </td> --}}
                         </tr>
                     @endforeach
                 </tbody>
@@ -168,6 +168,9 @@
         // ajaxfilter('','');
     });
 
+    function handleImageError(elem){
+        elem.src = 'https://avatars.dicebear.com/api/initials/avatar.svg';
+    }
     // FILTER DATA USING AJAX
     function ajaxfilter(date, value){
         startdate = date ? fixDate(date) : '';

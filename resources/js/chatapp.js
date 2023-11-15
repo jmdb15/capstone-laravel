@@ -39,6 +39,8 @@ class Chatbox {
   onSendButton(chatbox) {
     var textField = chatbox.querySelector("input");
     let text1 = textField.value;
+    let cbm = document.querySelector('.chatbox__messages');
+
     if (text1 === "") {
       return;
     }
@@ -58,7 +60,12 @@ class Chatbox {
       .then((r) => {
         let msg2 = { name: "Sam", message: r.answer };
         this.messages.push(msg2);
-        this.updateChatText(chatbox);
+        let currentHTML = cbm.innerHTML;
+        cbm.innerHTML = `<div class="chat-bubble"><div class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div> <div class="messages__item messages__item--operator"> ${text1} </div> ${currentHTML}`;
+        setTimeout(() => {
+          document.querySelector('.chat-bubble').remove();
+          this.updateChatText(chatbox);
+        }, 1800);
         textField.value = "";
       })
       .catch((error) => {

@@ -6,15 +6,6 @@
       element.classList.toggle('element');
    });
 </script> --}}
-<script defer>
-   function showScrollbar(element) {
-      element.style.overflow = 'auto';
-   }
-
-   function hideScrollbar(element) {
-      element.style.overflow = 'hidden';
-   }
-</script>
 @vite(['resources/js/chatapp.js'])
 
 {{-- CHATBOT --}}

@@ -4,8 +4,9 @@
 <tr class="bg-white border-b hover:bg-gray-50" id="tr-{{ $user->id }}">
   <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap">
       <img class="w-10 h-10 rounded-full" 
-        src="{{$user->image ? asset('storage/student/'.$user->image) : $def_profile}}"
-        alt="{{$user->name}} image">
+        src="{{$user->image && asset('storage/student/'.$user->image) || 'https://avatars.dicebear.com/api/initials/avatar.svg' }}"
+        alt="image" 
+        onerror="handleImageError(this)">
       <div class="pl-3">
           <div class="text-base font-semibold">{{$user->name}}</div>
           <div class="font-normal text-gray-500">{{$user->email}}</div>

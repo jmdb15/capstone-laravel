@@ -1,17 +1,6 @@
 @php
   $def_profile = 'https://avatars.dicebear.com/api/initials/avatar.svg';
 @endphp
-<head>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Martian+Mono:wght@700&display=swap" rel="stylesheet">
-    <style>
-        .text-xl.ml-3 {
-            font-family: 'Martian Mono', monospace;
-            color: white;
-        }
-    </style>
-</head>
 <body class="bg-gray-200 h-screen w-screen grid place-items-center overflow-y-scroll overflow-x-hidden" x-data="{nos: false}" :class="{'no-scroll': nos}">
   
 <div class="w-screen h-[70px] bg-violet-400 fixed top-0 left-0 z-[49]">
@@ -45,10 +34,9 @@
             </ul>
         </div>
         <x-mobilenavdropdown />
-        <img @if (auth()->user()) src="{{(auth()->user()->image) ? asset('storage/student/thumbnail/'.auth()->user()->image) : $def_profile}}" @else src="{{$def_profile}}" @endif
-          alt=""
-          class='h-12 w-12 aspect-square rounded-full transition-all cursor-pointer hover:scale-105 hidden lg:block' 
-          x-on:click="open = !open" />
+        <svg width="40px" height="40px" viewBox="0 0 24 24" fill="none" class='h-10 w-10 aspect-square rounded-full transition-all cursor-pointer hover:scale-105 hover:bg-violet-300 hidden lg:block' x-on:click="open = !open">
+          <path d="M17.9188 8.17969H11.6888H6.07877C5.11877 8.17969 4.63877 9.33969 5.31877 10.0197L10.4988 15.1997C11.3288 16.0297 12.6788 16.0297 13.5088 15.1997L15.4788 13.2297L18.6888 10.0197C19.3588 9.33969 18.8788 8.17969 17.9188 8.17969Z" fill="#292D32"/>
+        </svg>
         <x-prof_dropdown />
     </nav>
 </div>

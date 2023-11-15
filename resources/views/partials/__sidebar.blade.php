@@ -3,7 +3,7 @@
 @endphp
 <main class="h-full w-full px-1 max-w-1920 flex justify-between fixed md:px-0">
 
-  <section id="left" class="h-[calc(100%-70px)] mt-[70px] min-w-[294px] max-w-[294px] basis-1/4  hidden md:block" onmouseover="showScrollbar(this)" onmouseout="hideScrollbar(this)">
+  <section id="left" class="h-[calc(100%-70px)] mt-[70px] min-w-[294px] max-w-[294px] basis-1/4 overflow-hidden hover:overflow-auto hidden md:block">
     <!-- Sidebar Navigations -->
     @if (auth()->user())
       <a href="/profile/{{auth()->user()->id}}" class="hover:bg-gray-300 rounded-md">

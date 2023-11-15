@@ -85,7 +85,7 @@
   @if(auth()->user()->type == 'student' && auth()->user()->email_verified_at != null)
     {{-- FORM FOR FORUM QUESTION --}}
     <div id="post_query" class="w-[96%] max-w-[562px] px-4 pt-4 pb-8 mx-auto mt-8 shadow-md rounded-md bg-gray-100">
-      <form action="/go-ask" method="post" class="w-full relative">
+      <form action="/go-ask" method="post" class="w-full relative" enctype="multipart/form-data">
         @csrf
         
         <label for="message" class="block mb-2 text-xl font-medium text-gray-700">Do you have a question?</label>
@@ -97,6 +97,9 @@
             <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" stroke="#ffffff" d="M7 9L11.2929 4.70711C11.6262 4.37377 11.7929 4.20711 12 4.20711C12.2071 4.20711 12.3738 4.37377 12.7071 4.70711L17 9"></path>
           </svg>
         </button>
+        
+        <input class="absolute bottom-3 left-1/2 -translate-x-1/2 w-[60%] text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none" id="user_img_qry" name="image" type="file" accept="image/*">
+   
 
       </form>
     </div>
@@ -118,6 +121,33 @@
           @php $def_profile = 'https://avatars.dicebear.com/api/initials/avatar.svg'; @endphp
             <div class="my-2 mx-auto w-[96%] max-w-[562px]" x-data="{open2: false, see: {{$see}} }">
               <div class="b4-card w-full p-6 overflow-hidden rounded-t-lg shadow bg-gray-100 h-min">
+                <!-- DROPDOWN -->
+                <div class="flex justify-end px-4 relative">
+                  <button id="dropdownButton-{{$post->id}}" data-dropdown-toggle="dropdown-{{$post->id}}" class="absolute -top-2 -right-2 inline-block text-gray-500 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg text-sm p-1.5" type="button">
+                      <span class="sr-only">Open dropdown</span>
+                      <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
+                          <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
+                      </svg>
+                  </button>
+                  <!-- Dropdown menu -->
+                  <div id="dropdown-{{$post->id}}" class="z-40 hidden text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
+                      <ul class="py-2" aria-labelledby="dropdownButton-{{$post->id}}">
+                        <li id="copylinkbtn{{$post->id}}" class="block cursor-pointer px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" 
+                            onclick="copylink('{{$post->id}}')">
+                            <svg class="inline mr-1.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16"> 
+                                <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/> 
+                                <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/> 
+                            </svg>
+                            Copy link
+                        </li>
+                        <li onclick="setEdit({{$post->id}})"
+                          id="edit-{{$post->id}}" class="block cursor-pointer px-4 py-2 text-sm text-gray-700 group hover:bg-gray-100" >
+                            Edit question
+                        </li>
+                      </ul>
+                  </div>
+                </div>
+              <!-- END DROPDOWN -->
                 <article>
                   <div class="flex items-center mb-8 space-x-4">
                     <img src="{{$post->users->image ? asset('storage/student/'.$post->users->image) : $def_profile}}" alt="" class="w-10 h-10 rounded-full">
@@ -126,8 +156,12 @@
                       <time datetime="2021-02-18" class="text-xs">{{$post->query_date}}</time>
                     </div>
                   </div>
-                  <p class="mt-4">{{$post->query}}</p>
+                  <p class="mt-4 py-1.5 pl-1" id="query-cont-{{$post->id}}">{{$post->query}}</p>
+                  @if ($post->image)
+                    <img src="{{asset('storage/student/questions/'. $post->image)}}" alt="" class="mx-auto max-h-[364px]">
+                  @endif
                 </article>
+                <button class="hidden my-4 px-6 py-2 bg-green-400 rounded-lg hover:brightness-110" id="save-btn-{{$post->id}}" onclick="saveEdit({{$post->id}})">Save</button>
               </div>
               <x-commentbox :comments="$post->comments" :curqid="$post->id" />
             </div>
@@ -182,6 +216,34 @@
       }
       reader.readAsDataURL(image)
   })
+
+  function setEdit(id){
+    document.getElementById('query-cont-'+id).setAttribute('contenteditable', 'true');
+    document.getElementById('query-cont-'+id).focus();
+    document.getElementById('save-btn-'+id).classList.toggle('hidden');
+  }
+  
+  function saveEdit(id){
+    let query = document.getElementById('query-cont-'+id).innerHTML;
+    document.getElementById('query-cont-'+id).removeAttribute('contenteditable');
+    document.getElementById('save-btn-'+id).classList.toggle('hidden');
+    $.ajaxSetup({
+      headers:{
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
+    $.ajax({
+      url:'/go-ask',
+      type:'POST',
+      data: {
+        id: id,
+        query: query
+      },
+      success:function(data){
+        console.log(data);
+      }
+    })
+  }
 
   function reactsubmit(type, uid, namee, cid, qid){
     if((cid != 'null' && type == 'react') || (qid != 'null' && type=='comment')){
@@ -423,5 +485,7 @@
   }
 </script>
 <x-changepass />
-<x-createpost_modal />
+@if(auth()->user()->type == 'organization')
+  <x-createpost_modal />
+@endif
 @include('partials.__footer')

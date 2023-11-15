@@ -16,7 +16,7 @@ class UsersTableSeeder extends Seeder
     {
         Users::create([
             'id' => '1111111111',
-            'name' => 'Your Name',
+            'name' => 'CSSP Admin',
             'email' => 'CSSPadmin@bulsu.edu.ph',
             'password' => Hash::make('CSSPnum1'),
             'type' => 'admin'

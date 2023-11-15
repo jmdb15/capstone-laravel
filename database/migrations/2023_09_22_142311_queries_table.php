@@ -16,9 +16,10 @@ return new class extends Migration
             $table->id();
             $table->string('users_id');
             $table->string('query');
+            $table->string('image')->nullable();
             $table->smallInteger('is_deleted')->default(0);
             $table->timestamp('query_date');
-            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->nullable();
         });
     }
 
