@@ -195,13 +195,9 @@
   
 @include('partials.__notifications', ['notifs' => $notifs])
 <script>
-  // const selectImage = document.querySelector('.select_image');
   const profile_input = document.querySelector('#profile_input');
   const image_area = document.querySelector('#image_area');
 
-  // selectImage.addEventListener('click', function(){
-  //     inputFile.click();
-  // })
   image_area.addEventListener('click', function(){
       profile_input.click();
   })
@@ -216,6 +212,45 @@
       }
       reader.readAsDataURL(image)
   })
+
+  let reportFor = '';
+    let reportType = '';
+    let reportId = '';
+
+    function setReportFor(type, id){
+      reportFor = type;
+      reportId = id;
+    }
+
+    function setReport(elem, type){
+      reportType = type;
+    }
+
+    function confirmReport(){
+      let content = reportType, queries_id = '', comments_id = '';
+      if(reportFor == 'queries'){
+        queries_id = reportId;
+      }else{
+        comments_id = reportId;
+      }
+       $.ajaxSetup({
+            headers:{
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: '/send-report',
+            type: 'POST',
+            data: { 
+              content : content, 
+              queries_id : queries_id, 
+              comments_id : comments_id 
+            },
+            success: function(data){
+                console.log(data);
+            }
+        });
+    }
 
   function setEdit(id){
     document.getElementById('query-cont-'+id).setAttribute('contenteditable', 'true');
@@ -487,5 +522,6 @@
 <x-changepass />
 @if(auth()->user()->type == 'organization')
   <x-createpost_modal />
-@endif
+  @endif
+<x-report_modal />
 @include('partials.__footer')

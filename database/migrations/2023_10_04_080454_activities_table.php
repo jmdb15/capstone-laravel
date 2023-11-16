@@ -16,7 +16,7 @@ return new class extends Migration
             $table->increments('id');
             $table->string('users_id');
             $table->text('activity');
-            $table->date('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
         });
     }
 

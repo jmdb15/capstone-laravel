@@ -372,8 +372,7 @@ class UserController extends Controller
 
     public function ajaxRequestReact(Request $request)
     {
-        if($request->uid != auth()->user()->id){
-            $vote = Votes::where('users_id', $request->uid)->where('comments_id', $request->cid)->get(); //get()
+            $vote = Votes::where('users_id','=', $request->uid)->where('comments_id', '=', $request->cid)->get(); //get()
             if (count($vote) > 0) {
                 if ($request->uid == auth()->user()->id) {
                     $check = $vote[0]->checked == 1 ? 0 : 1;
@@ -406,7 +405,6 @@ class UserController extends Controller
                 ]);
                 return 'add';
             }
-        }
     }
 
     public function ajaxRequestComment(Request $request)
@@ -424,7 +422,7 @@ class UserController extends Controller
         if ($qry->users_id != auth()->user()->id) {
             DB::table('notifications')->insert([
                 'users_id' => $qry->users_id,
-                'author' => $request->id,
+                'author' => auth()->user()->id,
                 'content' => ' commented on your "' . $qry->query . '"',
                 'queries_id' => $request->qid,
             ]);
@@ -452,12 +450,11 @@ class UserController extends Controller
             $user = auth()->user();
             $oneMonthAgo = now()->copy()->subMonth();
             $notifs = Notifications::where('users_id', $user->id)
-                                    ->where('hidden', '=', '0')
-                                    ->whereBetween('notifications.created_at', [$oneMonthAgo, now()])
+                                    ->where('hidden', '=', 0)
                                     ->with('queries.users')
                                     ->with('posts.users')
                                     ->join('users', 'users.id', '=', 'notifications.author')
-                                    ->select('users.name' , 'notifications.*')
+                                    ->select('users.name', 'users.image' , 'notifications.*')
                                     ->orderBy('notifications.created_at', 'DESC')->get();
             // dd($notifs->all());
             return $notifs;

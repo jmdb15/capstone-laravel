@@ -20,11 +20,11 @@
                             class="notifys mx-auto mt-0">
                             <div class="ctm cursor-pointer flex h-[80px] my-1 relative pr-6 pt-2 w-[280px] hover:bg-gray-100 rounded-lg shadow-sm transition-all overflow-hidden">
                                 @if ($notif->posts_id)
-                                    @php $ifimg = ($notif->posts->users->image) ? "http://127.0.0.1:8000/storage/student/" .$notif->posts->users->image : $def_profile; 
-                                    $image = ($notif->posts->users->type == 'organization') ? $ifimg : "http://127.0.0.1:8000/images/cssp.png"; @endphp
+                                    @php $ifimg = ($notif->image) ? "http://127.0.0.1:8000/storage/student/thumbnail/" .$notif->image : $def_profile; 
+                                    $image = ($notif->type == 'organization') ? $ifimg : "http://127.0.0.1:8000/images/cssp.png"; @endphp
                                     <img src="{{$image}}" class="h-16 w-16 rounded-full mx-3" alt="">
                                 @else
-                                    <img src="{{$notif->queries->users->image ? asset('storage/student/thumbnail/'.$notif->queries->users->image) : $def_profile}}" class="h-16 w-20 object-fit rounded-full mx-3" alt="">
+                                    <img src="{{$notif->image ? asset('storage/student/thumbnail/'.$notif->image) : $def_profile}}" class="h-16 w-20 object-fit rounded-full mx-3" alt="">
                                 @endif
                                 <div class="flex flex-col w-[240px]">
                                     <p><strong>{{$notif->name}}</strong>{{$notif->content}}</p>

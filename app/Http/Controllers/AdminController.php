@@ -280,6 +280,7 @@ class AdminController extends Controller
 
         $query->where('users_id', '!=', '1111111111');
         $query->leftJoin('users', 'activities.users_id', '=', 'users.id');
+        $query->orderBy('activities.created_at', 'DESC');
         $logs = $query->paginate(10); // You can adjust the number of activities per page as needed
         return view('admin.logs', compact('logs'), ['d' => $rd, 's' => $keyword, 'show' => $show]);
     }
