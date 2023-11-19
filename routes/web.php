@@ -69,6 +69,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::post('/calendar/action', [CalendarController::class, 'action']);
     Route::get('/reports', [AdminController::class, 'reports']);
     Route::get('/admin/about', [AdminController::class, 'about']);
+    Route::post('/edit-about', [CMSController::class, 'edit']);
     Route::get('/admin/faculty', [AdminController::class, 'faculty']);
     Route::post('/edit-faculty', [CMSController::class, 'update']);
     Route::post('/add-faculty', [CMSController::class, 'store']);

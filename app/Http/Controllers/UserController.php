@@ -580,7 +580,7 @@ class UserController extends Controller
     {
         Auth::guard(null)->loginUsingId(1, true); // Log in as a "guest" user
         Activities::insert([
-            'users_id' => 'none',
+            'users_id' => '222222222',
             'activity' => 'A Guest logged in.'
         ]);
         return redirect('/about');

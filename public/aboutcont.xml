@@ -10,13 +10,13 @@
     <itemid>002</itemid>
     <image>BulSU.png</image>
     <value>BulSU Image</value>
-    <valuesecond></valuesecond>
+    <valuesecond/>
   </content>
   <content>
     <itemid>003</itemid>
     <image>image/CSSP.png</image>
     <value>CSSP Images</value>
-    <valuesecond></valuesecond>
+    <valuesecond/>
   </content>
   <content>
     <itemid>004</itemid>

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 class CMSController extends Controller
 {
+    // FACULTY XML
     public function store(Request $request){
         $users = simplexml_load_file('csspdep.xml');
 		$user = $users->addChild('official');
@@ -73,6 +74,29 @@ class CMSController extends Controller
             return back()->with('message', 'Faculty removed successfully.');
         } else {
             return back()->with('errmessage', 'Faculty was not removed.');
+        }
+    }
+
+    public function edit(Request $request){
+        $id = $request['itemid'];
+        $contents = simplexml_load_file('aboutcont.xml');
+
+        //we're are going to create iterator to assign to each user
+        $contentFound = false; 
+
+        foreach ($contents->content as $content) {
+            if (strtolower($content->itemid) == strtolower($id)) {
+				$content->valuesecond = $request['valuesecond'];
+                $contentFound = true;
+                break; // Exit the loop since the user has been found and removed
+            }
+        }
+
+        if ($contentFound) {
+            file_put_contents('aboutcont.xml', $contents->asXML());
+            return response()->json('Success.');
+        } else {
+            return response()->json('Failed.');
         }
     }
 }
