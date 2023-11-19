@@ -3,6 +3,15 @@
 @include('partials.__sidebar')
 
   <h2 class="w-full text-center text-3xl font-bold m-4">Official and Staff</h2>
+      <div class=" flex-wrap p-0 m-4 justify-around">
+        <div class="flex bg-gray-100 rounded-lg h-24 shadow-lg p-1.5 my-1 min-w-[200px] max-w-sm basis-full md:basis-[47.7%]">
+          <img src="https://lh3.googleusercontent.com/a-/ALV-UjVxxbBynoJaHCqASjZjcjoF2WM1JD9nZRpHsBB8mDRKrL0=s96-p-k-rw-no" class="mr-4 rounded-full p-2" alt="">
+          <div class="flex flex-col justify-around -ml-2">
+            <h4 class="text-lg">Sherwin M. Pariñas</h4>
+            <p class="text-xs text-gray-500 italic">Dean, College of Social Sciences and Philosophy</p>
+          </div>
+        </div>
+      </div>  
       <div class="flex flex-wrap p-0 m-4 justify-around">
         <!-- Item 1 -->
         <div class="flex bg-gray-100 rounded-lg h-24 shadow-lg p-1.5 my-3 min-w-[200px] max-w-sm basis-full md:basis-[47.7%]">
@@ -85,6 +94,7 @@
           </div>
         </div>
       </div>
+</div>
 
 
       @foreach ($data as $category => $departments)

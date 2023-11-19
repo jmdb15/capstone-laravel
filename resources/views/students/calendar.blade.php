@@ -22,7 +22,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/datepicker.min.js"></script>
 
 </head>
-<body class="bg-gray-200 h-screen w-screen grid place-items-center" x-data="{nos: false}" :class="{'no-scroll': nos}">
+<body class="bg-gray-50 h-screen w-screen grid place-items-center" x-data="{nos: false}" :class="{'no-scroll': nos}">
 @include('partials.__navbar')
 @include('partials.__sidebar' , ['show' => false])
 

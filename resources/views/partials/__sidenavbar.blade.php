@@ -141,10 +141,10 @@
                   <a href="/edit-cb" class="flex items-center text-xs w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100">Chatbot</a>
                </li>
                <li>
-                  <a href="#" class="flex items-center text-xs w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100">Faculty</a>
+                  <a href="/admin/faculty" class="flex items-center text-xs w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100">Faculty</a>
                </li>
                <li>
-                  <a href="#" class="flex items-center text-xs w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100">About</a>
+                  <a href="/admin/about" class="flex items-center text-xs w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100">About</a>
                </li>
             </ul>
          </li>

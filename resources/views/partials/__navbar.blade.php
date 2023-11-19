@@ -1,7 +1,7 @@
 @php
   $def_profile = 'https://avatars.dicebear.com/api/initials/avatar.svg';
 @endphp
-<body class="bg-gray-200 h-screen w-screen grid place-items-center overflow-y-scroll overflow-x-hidden" x-data="{nos: false}" :class="{'no-scroll': nos}">
+<body class="bg-gray-50 h-screen w-screen grid place-items-center overflow-y-scroll overflow-x-hidden" x-data="{nos: false}" :class="{'no-scroll': nos}">
   
 <div class="w-screen h-[70px] bg-violet-400 fixed top-0 left-0 z-[49]">
     <nav class="container relative flex flex-wrap items-center justify-between h-full mx-auto lg:justify-between xl:px-0" x-data="{openMobile: false, open: false}">

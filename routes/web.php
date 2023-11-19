@@ -3,6 +3,7 @@
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CalendarController;
+use App\Http\Controllers\CMSController;
 use App\Http\Controllers\ExportController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -67,6 +68,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/calendar', [CalendarController::class, 'index']);
     Route::post('/calendar/action', [CalendarController::class, 'action']);
     Route::get('/reports', [AdminController::class, 'reports']);
+    Route::get('/admin/about', [AdminController::class, 'about']);
+    Route::get('/admin/faculty', [AdminController::class, 'faculty']);
+    Route::post('/edit-faculty', [CMSController::class, 'update']);
+    Route::post('/add-faculty', [CMSController::class, 'store']);
+    Route::post('/delete-faculty', [CMSController::class, 'destroy']);
 });
 Route::post('/forum-modal', [AdminController::class, 'forum_modal']);
 
@@ -83,6 +89,7 @@ Route::post('/ajax-request-react', [UserController::class, 'ajaxRequestReact']);
 Route::post('/ajax-request-comment', [UserController::class, 'ajaxRequestComment']);
 Route::post('/go-ask', [UserController::class, 'postQuery']);
 Route::get('/process-notifs', [UserController::class, 'notifs'])->middleware('auth');
+Route::get('/new-post', [UserController::class, 'getNewPost'])->middleware('auth');
 Route::post('/read-notifs', [UserController::class, 'readnotifs'])->middleware('auth');
 Route::post('/hide-notifs', [UserController::class, 'hidenotifs'])->middleware('auth');
 Route::post('/send-report', [UserController::class, 'report'])->middleware('auth');

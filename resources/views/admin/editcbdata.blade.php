@@ -190,7 +190,7 @@
         document.querySelector(`#responses`).value = rep;
         document.querySelector(`#add-btn`).classList.add('hidden');
         document.querySelector(`#edit-btn`).classList.remove('hidden');
-    }
+    } 
 
     function saveEdit(){
         const intentToEdit = jsondata.intents.find(intent => intent.tag === tagState);

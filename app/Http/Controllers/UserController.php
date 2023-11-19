@@ -470,6 +470,20 @@ class UserController extends Controller
         return view('students.notifications', ['notifs' => $notifs, 'show'=> true, 'see' => 'true']);
     }
 
+    public function getNewPost(Request $request){
+        $tenSecondsAgo = date('Y-m-d H:i:s', strtotime($request->currentDateTime) - 10);
+        if($request->ajax()){
+            $posts = Posts::whereBetween('created_at', [$tenSecondsAgo, $request->currentDateTime])->count();
+            $qrys = Queries::whereBetween('query_date', [$tenSecondsAgo, $request->currentDateTime])->count();
+            if($posts > 0 || $qrys > 0){
+                $hasNew = true;
+            }else{
+                $hasNew = false;
+            }
+            return response()->json(['hasNew' => $hasNew, 'posts' => $posts, 'queries' => $qrys]);
+        }
+    }
+
     public function informUsers($id, $query_id, $query)
     {
         $cur = auth()->user();

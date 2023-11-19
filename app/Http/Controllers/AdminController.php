@@ -372,6 +372,16 @@ class AdminController extends Controller
         return view('admin.reports', ['reports' => $reports]);
     }
 
+    public function faculty(){
+        $file = simplexml_load_file('csspdep.xml'); 
+        return view('admin.faculty', ['file' => $file]);
+    }
+
+    public function about(){
+        $file = simplexml_load_file('aboutcont.xml'); 
+        return view('admin.about', ['file' => $file]);
+    }
+
     // PYTHON CONNECTIONS
     public function getcbdata(){
         $response = Http::get('http://127.0.0.1:5001/getdata');
