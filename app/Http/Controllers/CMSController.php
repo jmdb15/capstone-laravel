@@ -5,14 +5,35 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use DOMDocument;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class CMSController extends Controller
 {
     // FACULTY XML
     public function store(Request $request){
+        $hasImage = false;
+        $fileNameToStore = '';
+         if ($request->hasFile('image')) {
+            $validator = Validator::make($request->all(), [
+                'image' => 'mimes:jpeg,png,bmp,jpg,tiff|max:51200',
+            ]);
+            if ($validator->fails()) {
+                return back()->with('errmessage', 'Data was not updated successfully: Image extension is invalid.');
+            }
+            $fileNameWithExtension = $request->file('image');
+            $fileName = pathInfo($fileNameWithExtension, PATHINFO_FILENAME);
+            $extension = $request->file('image')->getClientOriginalExtension();
+            $fileNameToStore = $fileName . '_' . time() . '.' . $extension;
+            $request->file('image')->storeAs('public/faculty', $fileNameToStore);
+            $hasImage = true;
+        }
         $users = simplexml_load_file('csspdep.xml');
 		$user = $users->addChild('official');
-		$user->addChild('image', 'https://avatars.dicebear.com/api/initials/avatar.svg');
+        if($hasImage){
+            $user->addChild('image', $fileNameToStore);
+        }else{
+            $user->addChild('image', '');
+        }
 		$user->addChild('name', $request['fullname']);
 		$user->addChild('email', $request['email']);
 		$user->addChild('position', $request['position']);
@@ -29,10 +50,29 @@ class CMSController extends Controller
     }
 
     public function update(Request $request){
+        $hasImage = false;
+        $fileNameToStore = '';
+        if ($request->hasFile('image')) {
+            $validator = Validator::make($request->all(), [
+                'image' => 'mimes:jpeg,png,bmp,jpg,tiff|max:51200',
+            ]);
+            if ($validator->fails()) {
+                return back()->with('errmessage', 'Data was not updated successfully: Image extension is invalid.');
+            }
+            $fileNameWithExtension = $request->file('image');
+            $fileName = pathInfo($fileNameWithExtension, PATHINFO_FILENAME);
+            $extension = $request->file('image')->getClientOriginalExtension();
+            $fileNameToStore = $fileName . '_' . time() . '.' . $extension;
+            $request->file('image')->storeAs('public/faculty', $fileNameToStore);
+            $hasImage = true;
+        }
         $users = simplexml_load_file('csspdep.xml');
         $userFound = false; 
 		foreach($users->official as $user){
 			if(strtolower($user->name) == strtolower($request['edit-fullname'])){
+                if($hasImage){
+				    $user->image = $fileNameToStore;
+                }
 				$user->name = $request['edit-fullname'];
 				$user->email = $request['edit-email'];
 				$user->position = $request['edit-position'];

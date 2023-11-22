@@ -57,7 +57,7 @@
                     @foreach($file->official as $row)
                         <tr class="bg-white border-b hover:bg-gray-50">
                             <th scope="row" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap">
-                                <img class="w-10 h-10 rounded-full" src="{{ $row->image }}" alt="">  
+                                <img class="w-10 h-10 rounded-full" src="{{ strpos($row->image, 'http') !== false ? $row->image : asset('storage/faculty/'.$row->image) }}" alt="">  
                                 <div class="pl-3">
                                     <div class="text-base font-semibold">{{$row->name}}</div>
                                 <div class="font-normal text-gray-500">{{$row->email}}</div>
@@ -130,6 +130,21 @@
         document.querySelector('#edit-position').value = pos;
         document.querySelector('#edit-department').value = dep;
         document.querySelector('#edit-status').value = stat;
+    }
+    function queryUpload(type, elem){
+      let imgArea = document.querySelector('#img_upload_area_'+type);
+      const image = elem.files[0]
+      if(image){
+        imgArea.classList.remove('hidden');
+        const reader = new FileReader();
+        reader.onload = ()=> {
+            const imgUrl = reader.result;
+            imgArea.src = imgUrl;
+        }
+        reader.readAsDataURL(image)
+      }else{
+        imgArea.classList.add('hidden');
+      }
     }
 </script>
 <x-messages />

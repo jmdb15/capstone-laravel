@@ -15,7 +15,10 @@ class LogsExcelExport implements FromCollection, WithHeadings
     */
     public function collection()
     {
-        $logs = Activities::with('users')->get();
+        $logs = Activities::join('users', 'activities.users_id', '=', 'users.id')
+            ->select('activities.id as log_id', 'users.name as user_name', 'activities.activity', 'activities.created_at')
+            ->get();
+
         return $logs;
     }
 
@@ -23,7 +26,7 @@ class LogsExcelExport implements FromCollection, WithHeadings
     {
         return [
             'Log ID',
-            'Users ID',
+            'User Name', // Changed from 'Users ID'
             'Activity',
             'Created at',
         ];

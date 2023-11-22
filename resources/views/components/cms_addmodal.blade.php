@@ -17,12 +17,15 @@
             </button>
             <div class="px-6 py-6 lg:px-8">
                 <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">Add Faculty</h3>
-                <form class="space-y-6" action="/add-faculty" method="POST">
+                <form class="space-y-6" action="/add-faculty" method="POST" enctype="multipart/form-data">
                   @csrf
-                  <div>
-                      <label for="image" class="block mb-2 text-sm font-medium text-gray-900">Image: </label>
-                      <input type="text" name="image" id="image" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="name@company.com" required>
-                  </div>
+                    <div>
+                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="user_avatar">Upload file</label>
+                        <input onchange="queryUpload('add', this)" name="image" accept="image/*" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="user_avatar_help" id="user_avatar" type="file">
+                    </div>
+                    <div class="w-[60%] mx-auto mt-4">
+                        <img id="img_upload_area_add" alt="" class="hidden mx-auto max-h-[364px]">
+                    </div>
                     <div>
                         <label for="fullname" class="block mb-2 text-sm font-medium text-gray-900">Name: </label>
                         <input type="text" name="fullname" id="fullname" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="name@company.com" required>

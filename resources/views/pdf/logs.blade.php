@@ -36,7 +36,7 @@
         <tbody>
             @foreach($logs as $logs)
                 <tr>
-                    <td>{{ $logs->name }}</td>
+                    <td>{{ $logs->user_name }}</td>
                     <td>{{ $logs->activity }}</td>
                     <td>{{ $logs->created_at }}</td>
                 </tr>

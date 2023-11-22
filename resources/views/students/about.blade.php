@@ -6,14 +6,13 @@
       ?>
       <!-- Dean's Section -->
       <div class="flex flex-col items-center w-full h-fit relative ">
-        <div class="flex flex-col items-center">
-          <h2 class="text-4xl font-bold">College of Social Sciences and Philosophy</h2>
-          <p class="text-xl basis-2/3 text-center">(CSSP)</p>
-        </div>
         <!-- Dean's Information -->
         <div class="flex flex-col justify-around items-center w-full p-6 md:flex-row">
-          <img src="{{url('images/BulSU.png')}}" class="h-40 w-40 object-contain sm:basis-1/3 sm:h-full max-h-44" alt="">
-          <img src="{{url('images/CSSP.png')}}" class="h-40 w-40 object-contain sm:basis-1/3 sm:h-full max-h-44" alt="">
+          <img src="{{url('images/BulSU.png')}}" class="h-40 w-40 object-contain sm:basis-1/3 sm:h-full max-h-44" alt="" draggable="false">
+          <img src="{{url('images/CSSP.png')}}" class="h-40 w-40 object-contain sm:basis-1/3 sm:h-full max-h-44" alt="" draggable="false">
+        </div>
+        <div class="flex flex-col items-center">
+          <h2 class="text-4xl font-bold">College of Social Sciences and Philosophy</h2>
         </div>
       </div>
 

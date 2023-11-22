@@ -21,27 +21,27 @@
             <div class="p-4 md:p-5 relative">
                   <p class="text-sm font-normal text-gray-500 dark:text-gray-400">Please select a problem</p>
                   <ul class="my-4 space-y-3">
-                      <li onclick="setReport(this, 'nudity')" >
-                          <a class="flex report-list items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
+                      <li onclick="setReport(this, 'nudity')"  class="cursor-pointer">
+                          <a class="reportAnchors flex report-list items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
                               <span class="flex-1 ms-3 whitespace-nowrap w-full">Nudity</span>                        </a>
                       </li>
-                      <li onclick="setReport(this, 'violence')">
-                          <a class="flex report-list items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
+                      <li onclick="setReport(this, 'violence')" class="cursor-pointer">
+                          <a class="reportAnchors flex report-list items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
                               <span class="flex-1 ms-3 whitespace-nowrap">Violence</span>
                           </a>
                       </li>
-                      <li onclick="setReport(this, 'harassment')">
-                          <a class="flex report-list items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
+                      <li onclick="setReport(this, 'harassment')" class="cursor-pointer">
+                          <a class="reportAnchors flex report-list items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
                               <span class="flex-1 ms-3 whitespace-nowrap">Harassment</span>
                           </a>
                       </li>
-                      <li onclick="setReport(this, 'offensive language')">
-                          <a class="flex report-list items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
+                      <li onclick="setReport(this, 'offensive language')" class="cursor-pointer">
+                          <a class="reportAnchors flex report-list items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
                               <span class="flex-1 ms-3 whitespace-nowrap">Offensive Language</span>
                           </a>
                       </li>
-                      <li onclick="setReport(this, 'nonsense')">
-                          <a class="flex report-list items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
+                      <li onclick="setReport(this, 'nonsense')" class="cursor-pointer">
+                          <a class="reportAnchors flex report-list items-center p-3 text-base font-bold text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
                               <span class="flex-1 ms-3 whitespace-nowrap">Nonsense</span>
                           </a>
                       </li>

@@ -14,7 +14,7 @@
       <div class="flex flex-col relative h-[40%] md:flex-row pt-4">
         {{-- left side --}}
         <div class="relative basis-1/4 md:basis-1/3 flex flex-col justify-center items-center">
-          <img src="{{ ($user->image) ? asset('storage/student/'.$user->image) : $def }}" class="-mt-24 w-[23%] md:w-[60%] lg:w-[45%] md:-mt-36 rounded-full aspect-square cursor-pointer hover:brightness-105" alt="Dp" id="image_area">
+          <img src="{{ ($user->image) ? asset('storage/student/'.$user->image) : $def }}" class="-mt-24 w-[23%] md:w-[60%] lg:w-[45%] md:-mt-36 aspect-square cursor-pointer rounded-full ring-4 ring-gray-300 hover:brightness-105" alt="Dp" id="image_area">
           @if ($show)
             <form class="h-fit w-full grid place-items-center " action="/update" method="POST" enctype="multipart/form-data">
               @method('PUT')
@@ -91,15 +91,23 @@
         <label for="message" class="block mb-2 text-xl font-medium text-gray-700">Do you have a question?</label>
         <textarea id="message" name="question" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Ask everyone..."></textarea>
 
-        <button class="send absolute bottom-3 right-3 bg-blue-600 p-2 rounded-full" title="Send" id="send">
+        <button class="send absolute bottom-[10px] right-3 bg-blue-600 p-2 rounded-full" title="Send" id="send">
           <svg class="rotate-90" fill="none" viewBox="0 0 24 24" height="18" width="18" xmlns="http://www.w3.org/2000/svg">
             <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" stroke="#ffffff" d="M12 5L12 20"></path>
             <path stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" stroke="#ffffff" d="M7 9L11.2929 4.70711C11.6262 4.37377 11.7929 4.20711 12 4.20711C12.2071 4.20711 12.3738 4.37377 12.7071 4.70711L17 9"></path>
           </svg>
         </button>
         
-        <input class="absolute bottom-3 left-1/2 -translate-x-1/2 w-[60%] text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none" id="user_img_qry" name="image" type="file" accept="image/*">
+        <label for="user_img_qry" id="up_label" class="cursor-pointer absolute bottom-[10px] right-[35px] -translate-x-1/2 bg-gray-200 p-1.5 rounded-full hover:brightness-[98%]">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18.5 3.75H8.5C7.77065 3.75 7.07118 4.03973 6.55546 4.55546C6.03973 5.07118 5.75 5.77065 5.75 6.5V6.75H5.5C4.77065 6.75 4.07118 7.03973 3.55546 7.55546C3.03973 8.07118 2.75 8.77065 2.75 9.5V17.5C2.75 18.2293 3.03973 18.9288 3.55546 19.4445C4.07118 19.9603 4.77065 20.25 5.5 20.25H15.5C16.2293 20.25 16.9288 19.9603 17.4445 19.4445C17.9603 18.9288 18.25 18.2293 18.25 17.5V17.25H18.5C19.2293 17.25 19.9288 16.9603 20.4445 16.4445C20.9603 15.9288 21.25 15.2293 21.25 14.5V6.5C21.25 5.77065 20.9603 5.07118 20.4445 4.55546C19.9288 4.03973 19.2293 3.75 18.5 3.75ZM7.25 6.5C7.25 6.16848 7.3817 5.85054 7.61612 5.61612C7.85054 5.3817 8.16848 5.25 8.5 5.25H18.5C18.8315 5.25 19.1495 5.3817 19.3839 5.61612C19.6183 5.85054 19.75 6.16848 19.75 6.5V12.7L17.48 10.79C17.4061 10.7257 17.3201 10.6768 17.2271 10.646C17.1341 10.6152 17.036 10.6032 16.9383 10.6106C16.8406 10.6181 16.7454 10.6448 16.6581 10.6893C16.5709 10.7339 16.4933 10.7953 16.43 10.87L15.36 12.13L11.36 8.25C11.2961 8.17377 11.2166 8.11204 11.127 8.06893C11.0373 8.02582 10.9395 8.00232 10.84 8C10.737 8.00389 10.6358 8.02898 10.5429 8.07372C10.45 8.11845 10.3673 8.18187 10.3 8.26L7.25 11.89V6.5ZM8.5 15.75C8.16848 15.75 7.85054 15.6183 7.61612 15.3839C7.3817 15.1495 7.25 14.8315 7.25 14.5V14.2L10.92 9.88L14.38 13.27L12.28 15.75H8.5ZM16.75 17.5C16.75 17.8315 16.6183 18.1495 16.3839 18.3839C16.1495 18.6183 15.8315 18.75 15.5 18.75H5.5C5.16848 18.75 4.85054 18.6183 4.61612 18.3839C4.3817 18.1495 4.25 17.8315 4.25 17.5V9.5C4.25 9.16848 4.3817 8.85054 4.61612 8.61612C4.85054 8.3817 5.16848 8.25 5.5 8.25H5.75V14.5C5.75 15.2293 6.03973 15.9288 6.55546 16.4445C7.07118 16.9603 7.77065 17.25 8.5 17.25H16.75V17.5ZM18.5 15.75H14.25L17.09 12.41L19.72 14.64C19.6903 14.9433 19.549 15.2247 19.3236 15.4298C19.0982 15.6349 18.8047 15.749 18.5 15.75Z" fill="#000000"/>
+          </svg>        
+        </label>
+        <input onchange="queryUpload(this)" hidden class="absolute bottom-3 left-1/2 -translate-x-1/2 w-[60%] text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none" id="user_img_qry" name="image" type="file" accept="image/*">
    
+        <div class="w-[60%] mx-auto mt-4">
+          <img id="img_upload_area" alt="" class="hidden mx-auto max-h-[364px]">
+        </div>
 
       </form>
     </div>
@@ -141,7 +149,11 @@
                             Copy link
                         </li>
                         <li onclick="setEdit({{$post->id}})"
-                          id="edit-{{$post->id}}" class="block cursor-pointer px-4 py-2 text-sm text-gray-700 group hover:bg-gray-100" >
+                          id="edit-{{$post->id}}" class="flex items-center cursor-pointer px-4 py-2 text-sm text-gray-700 group hover:bg-gray-100" >
+                          <svg width="16" height="16" viewBox="0 0 24 24" class="mr-2" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M21.2799 6.40005L11.7399 15.94C10.7899 16.89 7.96987 17.33 7.33987 16.7C6.70987 16.07 7.13987 13.25 8.08987 12.3L17.6399 2.75002C17.8754 2.49308 18.1605 2.28654 18.4781 2.14284C18.7956 1.99914 19.139 1.92124 19.4875 1.9139C19.8359 1.90657 20.1823 1.96991 20.5056 2.10012C20.8289 2.23033 21.1225 2.42473 21.3686 2.67153C21.6147 2.91833 21.8083 3.21243 21.9376 3.53609C22.0669 3.85976 22.1294 4.20626 22.1211 4.55471C22.1128 4.90316 22.0339 5.24635 21.8894 5.5635C21.7448 5.88065 21.5375 6.16524 21.2799 6.40005V6.40005Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M11 4H6C4.93913 4 3.92178 4.42142 3.17163 5.17157C2.42149 5.92172 2 6.93913 2 8V18C2 19.0609 2.42149 20.0783 3.17163 20.8284C3.92178 21.5786 4.93913 22 6 22H17C19.21 22 20 20.2 20 18V13" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                          </svg>
                             Edit question
                         </li>
                       </ul>
@@ -170,6 +182,7 @@
     </section>
   </form>
   
+  {{-- ORGANIZATION POST FORM --}}
   @elseif (auth()->user()->type == 'organization')
       <div class="flex items-center px-3 py-2 rounded-lg bg-gray-50 w-[96%] my-10">
           <img src="{{url('images/cssp.png')}}" alt="CSSP logo" class="h-10 w-10">
@@ -252,6 +265,24 @@
         });
     }
 
+    function queryUpload(elem){
+      let imgArea = document.querySelector('#img_upload_area');
+      const image = elem.files[0]
+      if(image){
+        imgArea.classList.remove('hidden');
+        const reader = new FileReader();
+        reader.onload = ()=> {
+            const imgUrl = reader.result;
+            imgArea.src = imgUrl;
+        }
+        reader.readAsDataURL(image)
+        document.getElementById('up_label').className = 'cursor-pointer absolute bottom-[50px] -right-[6px] -translate-x-1/2 bg-gray-200 p-1.5 rounded-full hover:brightness-[98%] bottom-[10px]';
+      }else{
+        document.getElementById('up_label').className = 'cursor-pointer absolute bottom-[10px] right-[35px] -translate-x-1/2 bg-gray-200 p-1.5 rounded-full hover:brightness-[98%] bottom-[10px]';
+        imgArea.classList.add('hidden');
+      }
+    }
+
   function setEdit(id){
     document.getElementById('query-cont-'+id).setAttribute('contenteditable', 'true');
     document.getElementById('query-cont-'+id).focus();
@@ -276,6 +307,14 @@
       },
       success:function(data){
         console.log(data);
+        document.querySelector('#toast-s-content').innerHTML = 'Update Successful';
+        let elem = document.querySelector('#toast-success');
+        elem.classList.toggle('hidden')
+        elem.classList.toggle('flex')
+        setTimeout(() => {
+            elem.classList.toggle('hidden')
+            elem.classList.toggle('flex')
+        }, 3000);
       }
     })
   }
@@ -520,6 +559,7 @@
   }
 </script>
 <x-changepass />
+<x-messages />
 @if(auth()->user()->type == 'organization')
   <x-createpost_modal />
   @endif

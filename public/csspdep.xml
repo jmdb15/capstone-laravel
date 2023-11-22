@@ -401,6 +401,20 @@
     <department>Psychology Department</department>
     <status>Adjunct Faculty</status>
   </official>
-  <user/>
-  
+  <official>
+    <image>php325C_1700583538.jpg</image>
+    <name>at</name>
+    <email>ASDRG@gmail.com</email>
+    <position>tewtwewetaet</position>
+    <department>tawetwetaweawt</department>
+    <status>twertwe</status>
+  </official>
+  <official>
+    <image>php41F8_1700582035.jpg</image>
+    <name>Gabby Mendoza</name>
+    <email>gabby@gmail.com</email>
+    <position>faculty</position>
+    <department>faculty</department>
+    <status>faculty</status>
+  </official>
 </officials>

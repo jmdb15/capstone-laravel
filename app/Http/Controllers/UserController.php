@@ -172,7 +172,7 @@ class UserController extends Controller
                 'image' => 'mimes:jpeg,png,bmp,jpg,tiff|max:51200',
             ]);
             if ($validator->fails()) {
-                return back()->with('errmessage', 'There\'s a problem uploading your picture: ' . $validator->error());
+                return back()->with('errmessage', 'There\'s a problem uploading your picture: ' . $validator->errors());
             }
             $fileNameWithExtension = $request->file('image');
             $fileName = pathInfo($fileNameWithExtension, PATHINFO_FILENAME);
@@ -322,7 +322,7 @@ class UserController extends Controller
                 'image' => 'mimes:jpeg,png,bmp,jpg,tiff|max:51200',
             ]);
             if ($validator->fails()) {
-                return back()->with('errmessage', 'Data was not updated successfully: ' . $validator->error());
+                return back()->with('errmessage', 'Data was not updated successfully: ' . $validator->errors());
             }
             $fileNameWithExtension = $request->file('image');
             $fileName = pathInfo($fileNameWithExtension, PATHINFO_FILENAME);

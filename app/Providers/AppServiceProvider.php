@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::share('title', 'CSSP Rajah');
+        View::share('title', 'CSSP Rajahs');
         View::share('default_img', 'https://avatars.dicebear.com/api/initials/avatar.svg');
         // View::composer('students.index', function($view){
         //     $view->with('students', Users::all());
