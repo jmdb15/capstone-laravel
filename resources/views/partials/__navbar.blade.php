@@ -34,9 +34,17 @@
             </ul>
         </div>
         <x-mobilenavdropdown />
-        <svg width="40px" height="40px" viewBox="0 0 24 24" fill="none" class='h-10 w-10 aspect-square rounded-full transition-all cursor-pointer hover:scale-105 hover:bg-violet-300 hidden lg:block' x-on:click="open = !open">
-          <path d="M17.9188 8.17969H11.6888H6.07877C5.11877 8.17969 4.63877 9.33969 5.31877 10.0197L10.4988 15.1997C11.3288 16.0297 12.6788 16.0297 13.5088 15.1997L15.4788 13.2297L18.6888 10.0197C19.3588 9.33969 18.8788 8.17969 17.9188 8.17969Z" fill="#292D32"/>
-        </svg>
-        <x-prof_dropdown />
+        @auth
+          <svg width="40px" height="40px" viewBox="0 0 24 24" fill="none" class='h-10 w-10 aspect-square rounded-full transition-all cursor-pointer hover:scale-105 hover:bg-violet-300 hidden lg:block' x-on:click="open = !open">
+            <path d="M17.9188 8.17969H11.6888H6.07877C5.11877 8.17969 4.63877 9.33969 5.31877 10.0197L10.4988 15.1997C11.3288 16.0297 12.6788 16.0297 13.5088 15.1997L15.4788 13.2297L18.6888 10.0197C19.3588 9.33969 18.8788 8.17969 17.9188 8.17969Z" fill="#292D32"/>
+          </svg>
+          <x-prof_dropdown />
+        @else
+          <div class="flex">
+            <a href="/login" class="px-5 py-1 text-xl text-white border-b-2 border-transparent hover:border-b-black hover:border-b-2 cursor-pointer">Login</a>
+            <div class="py-1 mx-1 w-[2px] border-l-2 border-white"></div>
+            <a href="/signup" class="px-3 py-1 text-xl text-white border-b-2 border-transparent hover:border-b-black hover:border-b-2 cursor-pointer">Signup</a>
+          </div>
+        @endauth
     </nav>
 </div>

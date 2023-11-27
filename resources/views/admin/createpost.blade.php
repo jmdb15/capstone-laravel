@@ -1,6 +1,6 @@
 @include('partials.__header')
 @vite(['resources/css/post.css'])
-<body class="bg-gray-200" x-data="{nos: false}" :class="{'no-scroll': nos}">
+<body class="bg-gray-200 dark:bg-slate-700" x-data="{nos: false}" :class="{'no-scroll': nos}">
 @include('partials.__sidenavbar')
 
 <div class="p-4 sm:ml-64" >

@@ -21,7 +21,7 @@
   @vite(['resources/css/app.css','resources/js/app.js']) 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/datepicker.min.js"></script>
 </head>
-<body class="bg-gray-200" x-data="{nos: false}" :class="{'no-scroll': nos}">
+<body class="bg-gray-200 dark:bg-slate-700" x-data="{nos: false}" :class="{'no-scroll': nos}">
   @include('partials.__sidenavbar')
 
   <div class="container mt-[70px] sm:ml-[160px]">

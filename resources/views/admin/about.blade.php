@@ -1,8 +1,8 @@
 @include('partials.__header')
-<body class="bg-gray-200" x-data="{nos: false}" :class="{'no-scroll': nos}">
+<body class="bg-gray-200 dark:bg-slate-700" x-data="{nos: false}" :class="{'no-scroll': nos}">
 @include('partials.__sidenavbar')
 
-<div class="p-4 sm:ml-64" >
+<div class="p-4 sm:ml-64 " >
     <div class="p-4 rounded-lg mt-14">
         <div class="flex justify-between w-full">
             <h2 class="text-4xl mb-5">About CSSP</h2>
@@ -31,7 +31,9 @@
                                 {{ $row->itemid }}
                             </th>
                             <th scope="col" class="flex items-center px-6 py-4 text-gray-900 whitespace-nowrap">
-                                <img src="{{ url('images/'.$row->image) }}" class="w-10 h-10 rounded-full"  alt="" onerror="handleImgError(this)">
+                                @if($row->image)
+                                    <img src="{{ url('images/'.$row->image) }}" class="w-10 h-10 rounded-full"  alt="" onerror="handleImgError(this)">
+                                @endif
                             </th>
                             <td scope="col" class="px-6 py-4"><div class="pl-3">
                                 <div class="text-base font-semibold">{{ $row->value }}</div>

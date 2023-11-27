@@ -12,7 +12,7 @@
     }
   }
 </style>
-<body class="bg-gray-200" x-data="{nos: false}" :class="{'no-scroll': nos}">
+<body class="bg-gray-200 dark:bg-slate-700" x-data="{nos: false}" :class="{'no-scroll': nos}">
 @include('partials.__sidenavbar')
 
 <div id="first-container" class="p-4 sm:ml-64 max-w-[1440px]" >

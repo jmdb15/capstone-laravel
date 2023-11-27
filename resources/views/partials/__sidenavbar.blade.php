@@ -1,4 +1,4 @@
-<nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200">
+<nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-slate-800">
    <div class="px-3 py-2 lg:px-5 lg:pl-3">
       <div class="flex items-center justify-between">
          <div class="flex items-center justify-start">
@@ -10,7 +10,7 @@
             </button>
             <a href="/admin" class="flex ml-2 md:mr-24">
                <img src="{{url('images/cssp.png')}}" class="h-10 mr-3" alt="FlowBite Logo" />
-               <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap">CSSP Admin</span>
+               <span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-gray-400">CSSP Admin</span>
             </a>
          </div>
          <div class="flex items-center">
@@ -51,72 +51,72 @@
    </div>
 </nav>
 
-<aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full sm:translate-x-0 bg-white border-r border-gray-200" aria-label="Sidebar">
-   <div class="h-full px-3 pb-4 overflow-y-auto bg-white">
+<aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full sm:translate-x-0 bg-white border-r border-gray-200 dark:bg-slate-800 dark:group-hover:text-gray-100" aria-label="Sidebar">
+   <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-slate-800">
       <ul class="space-y-2 font-medium">
          <a href="/admin">
-            <li class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-               <svg class="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
+            <li class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group dark:hover:bg-slate-700">
+               <svg class="w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:group-hover:text-gray-100" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
                   <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z" />
                   <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z" />
                </svg>
-               <span class="ml-3">Dashboard</span>
+               <span class="ml-3 dark:text-gray-400 dark:group-hover:text-gray-100">Dashboard</span>
             </li>
          </a>
          <a href="/admin/calendar">
-            <li class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-               <svg class="flex-shrink-0 w-5 h-5 text-gray-500 group-hover:text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+            <li class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group dark:hover:bg-slate-700">
+               <svg class="flex-shrink-0 w-5 h-5 text-gray-500 group-hover:text-gray-900 dark:group-hover:text-gray-100" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm14-7.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4Z" />
                </svg>
-               <span class="flex-1 ml-3 whitespace-nowrap">Calendar</span>
+               <span class="flex-1 ml-3 whitespace-nowrap dark:text-gray-400 dark:group-hover:text-gray-100">Calendar</span>
                {{-- <span class="inline-flex items-center justify-center px-2 ml-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full">Pro</span> --}}
             </li>
          </a>
          <a href="/users">
-            <li class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-               <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+            <li class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group dark:hover:bg-slate-700">
+               <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:group-hover:text-gray-100" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                   <path d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z" />
                </svg>
-               <span class="flex-1 ml-3 whitespace-nowrap">Users</span>
+               <span class="flex-1 ml-3 whitespace-nowrap dark:text-gray-400 dark:group-hover:text-gray-100">Users</span>
             </li>
          </a>
          <a href="/logs">
-            <li class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-               <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+            <li class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group dark:hover:bg-slate-700">
+               <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:group-hover:text-gray-100" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                   <path d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z" />
                </svg>
-               <span class="flex-1 ml-3 whitespace-nowrap">Logs</span>
+               <span class="flex-1 ml-3 whitespace-nowrap dark:text-gray-400 dark:group-hover:text-gray-100">Logs</span>
             </li>
          </a>
          <a href="/admin/forum">
-            <li class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-               <svg class="flex-shrink-0 w-5 h-5 text-gray-500 group-hover:text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 18" fill="currentColor">
+            <li class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group dark:hover:bg-slate-700">
+               <svg class="flex-shrink-0 w-5 h-5 text-gray-500 group-hover:text-gray-900 dark:group-hover:text-gray-100" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 18" fill="currentColor">
                   <path d="M18 4H16V9C16 10.0609 15.5786 11.0783 14.8284 11.8284C14.0783 12.5786 13.0609 13 12 13H9L6.846 14.615C7.17993 14.8628 7.58418 14.9977 8 15H11.667L15.4 17.8C15.5731 17.9298 15.7836 18 16 18C16.2652 18 16.5196 17.8946 16.7071 17.7071C16.8946 17.5196 17 17.2652 17 17V15H18C18.5304 15 19.0391 14.7893 19.4142 14.4142C19.7893 14.0391 20 13.5304 20 13V6C20 5.46957 19.7893 4.96086 19.4142 4.58579C19.0391 4.21071 18.5304 4 18 4Z" fill="currentColor" />
                   <path d="M12 0H2C1.46957 0 0.960859 0.210714 0.585786 0.585786C0.210714 0.960859 0 1.46957 0 2V9C0 9.53043 0.210714 10.0391 0.585786 10.4142C0.960859 10.7893 1.46957 11 2 11H3V13C3 13.1857 3.05171 13.3678 3.14935 13.5257C3.24698 13.6837 3.38668 13.8114 3.55279 13.8944C3.71889 13.9775 3.90484 14.0126 4.08981 13.996C4.27477 13.9793 4.45143 13.9114 4.6 13.8L8.333 11H12C12.5304 11 13.0391 10.7893 13.4142 10.4142C13.7893 10.0391 14 9.53043 14 9V2C14 1.46957 13.7893 0.960859 13.4142 0.585786C13.0391 0.210714 12.5304 0 12 0Z" fill="currentColor" />
                </svg>
-               <span class="flex-1 ml-3 whitespace-nowrap">Forum</span>
+               <span class="flex-1 ml-3 whitespace-nowrap dark:text-gray-400 dark:group-hover:text-gray-100">Forum</span>
             </li>
          </a>
          <a href="/create-post">
-            <li class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-               <svg class="flex-shrink-0 w-5 h-5 text-gray-500 group-hover:text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+            <li class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group dark:hover:bg-slate-700">
+               <svg class="flex-shrink-0 w-5 h-5 text-gray-500 group-hover:text-gray-900 dark:group-hover:text-gray-100" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                   <path d="M18 0H2a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h3.546l3.2 3.659a1 1 0 0 0 1.506 0L13.454 14H18a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-8 10H5a1 1 0 0 1 0-2h5a1 1 0 1 1 0 2Zm5-4H5a1 1 0 0 1 0-2h10a1 1 0 1 1 0 2Z" />
                </svg>
-               <span class="flex-1 ml-3 whitespace-nowrap">Posts</span>
+               <span class="flex-1 ml-3 whitespace-nowrap dark:text-gray-400 dark:group-hover:text-gray-100">Posts</span>
             </li>
          </a>
          <a href="/reports">
-            <li class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-               <svg class="flex-shrink-0 w-5 h-5 text-gray-500 hover:text-gray-900" fill="currentColor" version="1.1" x="0px" y="0px" viewBox="0 0 97 95" enable-background="0 0 30 30">
+            <li class="flex items-center p-2 text-gray-900 rounded-lg hover:bg-gray-100 group dark:hover:bg-slate-700">
+               <svg class="flex-shrink-0 w-5 h-5 text-gray-500 hover:text-gray-900 dark:group-hover:bg-gray-200" fill="currentColor" version="1.1" x="0px" y="0px" viewBox="0 0 97 95" enable-background="0 0 30 30">
                   <path d="M50,5C25.2,5,5,25.2,5,50s20.2,45,45,45s45-20.2,45-45S74.8,5,50,5z M50,90c-22.1,0-40-17.9-40-40s17.9-40,40-40  s40,17.9,40,40S72.1,90,50,90z" />
                   <path d="M50,15c-19.3,0-35,15.7-35,35s15.7,35,35,35s35-15.7,35-35S69.3,15,50,15z M50,73.8c-2.1,0-3.8-1.7-3.8-3.8s1.7-3.8,3.8-3.8  s3.8,1.7,3.8,3.8S52.1,73.8,50,73.8z M58.8,35.7c0,1-0.2,2-0.5,3L50,61.3l-8.2-22.6c-0.3-1-0.5-2-0.5-3V35c0-4.8,3.9-8.8,8.8-8.8  s8.8,3.9,8.8,8.8V35.7z" /><text x="0" y="115" fill="#000000" font-size="5px" font-weight="bold" font-family="'Helvetica Neue', Helvetica, Arial-Unicode, Arial, Sans-serif">Created by Arthur Shlain</text><text x="0" y="120" fill="#000000" font-size="5px" font-weight="bold" font-family="'Helvetica Neue', Helvetica, Arial-Unicode, Arial, Sans-serif">from the Noun Project</text>
                </svg>
-               <span class="flex-1 ml-3 whitespace-nowrap">Reports</span>
+               <span class="flex-1 ml-3 whitespace-nowrap dark:text-gray-400 dark:group-hover:text-gray-100">Reports</span>
             </li>
          </a>
          <li>
-            <button type="button" class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100" aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
-               <svg class="flex-shrink-0 w-5 h-5 text-gray-500 hover:text-gray-900" fill="#6B7280" version="1.1" x="0px" y="0px" viewBox="0 0 30 30">
+            <button type="button" class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:hover:bg-slate-700" aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
+               <svg class="flex-shrink-0 w-5 h-5 text-gray-500 group-hover:text-gray-900 dark:group-hover:text-gray-100 dark:group-hover:bg-gray-100" fill="#6B7280" version="1.1" x="0px" y="0px" viewBox="0 0 30 30">
                   <g>
                      <polygon points="11,6 13,2 12,2 10,6  " />
                      <path d="M9,6l2-4H3C2.4477539,2,2,2.4477539,2,3v3H9z M7,3c0.5523071,0,1,0.4476929,1,1S7.5523071,5,7,5   C6.4477539,5,6,4.5523071,6,4S6.4477539,3,7,3z M4,3c0.5523071,0,1,0.4476929,1,1S4.5523071,5,4,5C3.4477539,5,3,4.5523071,3,4   S3.4477539,3,4,3z" />
@@ -131,20 +131,20 @@
                      <path d="M17,16c-1.6568604,0-3,1.3431396-3,3s1.3431396,3,3,3c0.7718506,0,1.4683838-0.2996826,2-0.7785645v-4.4428711   C18.4683838,16.2996826,17.7718506,16,17,16z" />
                   </g>
                </svg>
-               <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap">CMS</span>
+               <span class="flex-1 ms-3 text-left rtl:text-right whitespace-nowrap dark:text-gray-400 dark:group-hover:text-gray-100">CMS</span>
                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
                </svg>
             </button>
             <ul id="dropdown-example" class="hidden py-2 space-y-2">
                <li>
-                  <a href="/edit-cb" class="flex items-center text-xs w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100">Chatbot</a>
+                  <a href="/edit-cb" class="flex items-center text-xs w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-100 dark:hover:bg-slate-700">Chatbot</a>
                </li>
                <li>
-                  <a href="/admin/faculty" class="flex items-center text-xs w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100">Faculty</a>
+                  <a href="/admin/faculty" class="flex items-center text-xs w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-100 dark:hover:bg-slate-700">Faculty</a>
                </li>
                <li>
-                  <a href="/admin/about" class="flex items-center text-xs w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100">About</a>
+                  <a href="/admin/about" class="flex items-center text-xs w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-100 dark:hover:bg-slate-700">About</a>
                </li>
             </ul>
          </li>
@@ -152,11 +152,11 @@
             @csrf
             <li>
                <button type="submit" class="w-full">
-                  <a class="flex items-center justify-start p-2 text-gray-900 rounded-lg hover:bg-gray-100 group">
-                     <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 16">
+                  <a class="flex items-center justify-start p-2 text-gray-900 rounded-lg hover:bg-gray-100 group dark:hover:bg-slate-700">
+                     <svg class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:group-hover:text-gray-100" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 16">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 8h11m0 0L8 4m4 4-4 4m4-11h3a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-3" />
                      </svg>
-                     <span class="flex-1 mr-28 whitespace-nowrap">Sign Out</span>
+                     <span class="flex-1 mr-28 whitespace-nowrap dark:text-gray-400 dark:group-hover:text-gray-100">Sign Out</span>
                   </a>
                </button>
             </li>

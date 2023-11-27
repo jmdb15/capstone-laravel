@@ -351,9 +351,12 @@ class AdminController extends Controller
                 DB::table('reports')->where('id', $request->id)->delete();
                 return 'Delete successful';
             }
-            Reports::find($request->id)->update([
-                'checked' => 1
-            ]);
+            $report = Reports::find($request->id);
+            if($report->checked != 2){
+                $report->update([
+                    'checked' => 1
+                ]);
+            }
             $report = Reports::with(['users', 'sender'])
                         ->select('users.name', 'users.image', 'users.email', 'reports.*')
                         ->join('users', 'users.id', '=', 'reports.sender')
@@ -372,9 +375,37 @@ class AdminController extends Controller
         return view('admin.reports', ['reports' => $reports]);
     }
 
+    function reportActions(Request $request){
+        if($request->type == 'comment'){
+            $comment = Comments::find($request->id);
+            Notifications::insert([
+                'users_id' => $comment->users_id,
+                'author' => 1111111111,
+                'content' => " has deleted your comment '". $comment->comment ."' for violating social standards."
+            ]);
+            $comment->delete();
+        }else{
+            $query = Queries::find($request->id);
+            Notifications::insert([
+                'users_id' => $query->users_id,
+                'author' => 1111111111,
+                'content' => " has deleted your question '". $query->query ."' for violating social standards."
+            ]);
+            $query->update([
+                'is_deleted' => 1
+            ]);
+        }
+        $report = Reports::find($request->reportId);
+        $report->update([
+            'checked' => 2
+        ]);
+        return response()->json(['code' => 200, 'message' => 'Action was successful']);
+    }
+
     public function faculty(){
         $file = simplexml_load_file('csspdep.xml'); 
-        return view('admin.faculty', ['file' => $file]);
+        $file2 = simplexml_load_file('staffs.xml'); 
+        return view('admin.faculty', ['file' => $file, 'file2' => $file2]);
     }
 
     public function about(){

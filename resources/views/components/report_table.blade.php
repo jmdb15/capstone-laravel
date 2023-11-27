@@ -25,7 +25,9 @@
                       <td class="px-6 py-4">
                           <div class="flex items-center">
                             @if ($report->checked == 0)
-                              <div class="h-2.5 w-2.5 rounded-full bg-green-500 me-2" id="greenc-{{$report->id}}"></div> <p class="inline" id="p-{{$report->id}}">Unread</p>
+                              <div class="h-2.5 w-2.5 rounded-full bg-blue-500 me-2" id="greenc-{{$report->id}}"></div> <p class="inline" id="p-{{$report->id}}">Unread</p>
+                            @elseif ($report->checked == 2)
+                              <div class="h-2.5 w-2.5 rounded-full bg-transparent me-2" id="greenc-{{$report->id}}"></div> <p class="inline" id="p-{{$report->id}}">Took Action</p>
                             @else
                               <div class="h-2.5 w-2.5 rounded-full bg-transparent me-2" id="greenc-{{$report->id}}"></div> <p class="inline" id="p-{{$report->id}}">Read</p>
                             @endif

@@ -68,12 +68,16 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/calendar', [CalendarController::class, 'index']);
     Route::post('/calendar/action', [CalendarController::class, 'action']);
     Route::get('/reports', [AdminController::class, 'reports']);
+    Route::post('/take-action', [AdminController::class, 'reportActions']);
     Route::get('/admin/about', [AdminController::class, 'about']);
     Route::post('/edit-about', [CMSController::class, 'edit']);
     Route::get('/admin/faculty', [AdminController::class, 'faculty']);
     Route::post('/edit-faculty', [CMSController::class, 'update']);
     Route::post('/add-faculty', [CMSController::class, 'store']);
     Route::post('/delete-faculty', [CMSController::class, 'destroy']);
+    Route::post('/edit-official', [CMSController::class, 'update_off']);
+    Route::post('/add-official', [CMSController::class, 'store_off']);
+    Route::post('/delete-official', [CMSController::class, 'destroy_off']);
 });
 Route::post('/forum-modal', [AdminController::class, 'forum_modal']);
 

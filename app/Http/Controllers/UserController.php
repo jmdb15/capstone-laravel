@@ -143,7 +143,8 @@ class UserController extends Controller
         $notifs = $this->notifs();
         $jsonContent = File::get(public_path('json/faculty copy.json'));
         $data = json_decode($jsonContent);
-        return view('students.faculty', ['show' => true, 'notifs' => $notifs, 'data' => $data]);
+        $file = simplexml_load_file('staffs.xml');
+        return view('students.faculty', ['show' => true, 'notifs' => $notifs, 'file'=> $file, 'data' => $data]);
     }
 
     public function about()

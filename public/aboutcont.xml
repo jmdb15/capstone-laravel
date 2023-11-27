@@ -14,61 +14,46 @@
   </content>
   <content>
     <itemid>003</itemid>
-    <image>image/CSSP.png</image>
-    <value>CSSP Images</value>
-    <valuesecond/>
-  </content>
-  <content>
-    <itemid>004</itemid>
-    <image/>
     <value>VISION</value>
     <valuesecond>Bulacan State University is a progressive knowledge-generating institution globally recognized for excellent instruction, pioneering research, and responsive community engagements</valuesecond>
   </content>
   <content>
-    <itemid>005</itemid>
-    <image/>
+    <itemid>004</itemid>
     <value>MISSION</value>
     <valuesecond>Bulacan State University exists to produce highly competent, ethical and service-oriented professionals that contribute to the sustainable socio-economic growth and development of the nation</valuesecond>
   </content>
   <content>
-    <itemid>006</itemid>
-    <image/>
-    <value>GENERAL OBJECTIVE: Quality and Excellence.</value>
+    <itemid>005</itemid>
+    <value>Quality and Excellence.</value>
     <valuesecond>Promoting quality and relevant educational programs that meet international standards.</valuesecond>
   </content>
   <content>
-    <itemid>007</itemid>
-    <image/>
-    <value>GENERAL OBJECTIVE: Relevance and Responsiveness.</value>
+    <itemid>006</itemid>
+    <value>Relevance and Responsiveness.</value>
     <valuesecond>Generation and dissemination of knowledge in the broad range of disciplines relevant and responsive to the dynamically changing domestic and international environments.</valuesecond>
   </content>
   <content>
-    <itemid>008</itemid>
-    <image/>
-    <value>GENERAL OBJECTIVE: Access and Equity.</value>
+    <itemid>007</itemid>
+    <value>Access and Equity.</value>
     <valuesecond>Broadening the access of deserving and qualified students to educational opportunities.</valuesecond>
   </content>
   <content>
-    <itemid>009</itemid>
-    <image/>
-    <value>GENERAL OBJECTIVE: Efficiency and Effectiveness.</value>
+    <itemid>08</itemid>
+    <value>Efficiency and Effectiveness.</value>
     <valuesecond>Optimizing of social, institutional and individual returns and benefits derived from the utilization of higher education resources.</valuesecond>
   </content>
   <content>
-    <itemid>010</itemid>
-    <image/>
+    <itemid>09</itemid>
     <value>Bachelor of Science in Social Work</value>
     <valuesecond>Social Work education in the undergraduate level shall be geared towards the preparation of students for generalist social work practice. Professional education in social work requires the acquisition and application of beginning level of knowledge, attitudes, values and skills in enhancing the social functioning of individuals, families, groups and communities, linking people (client systems) with needed resources, improving the operation of social service delivery networks, and promoting social justice through organizing and advocacy.</valuesecond>
   </content>
   <content>
-    <itemid>011</itemid>
-    <image/>
+    <itemid>010</itemid>
     <value>Bachelor of Science in Psychology</value>
     <valuesecond>Psychology is the scientific study of behavior and mental processes. Psychology as a discipline and professional practice contributes to national development through basic and applied research and interventions aimed at solving problem and promoting optimal development and functioning at the individual, family, group, organizations/institutions, community and national levels.</valuesecond>
   </content>
   <content>
-    <itemid>012</itemid>
-    <image/>
+    <itemid>011</itemid>
     <value>Bachelor in Public Administration</value>
     <valuesecond>Public Administration is a degree program that prepares people for careers in public administration and governance for the public interest. It is also a formation course for students who want to devout their life to public service in government and civil society.</valuesecond>
   </content>

@@ -90,6 +90,80 @@ class CMSController extends Controller
         }
     }
 
+    public function store_off(Request $request){
+        $hasImage = false;
+        $fileNameToStore = '';
+         if ($request->hasFile('image')) {
+            $validator = Validator::make($request->all(), [
+                'image' => 'mimes:jpeg,png,bmp,jpg,tiff|max:51200',
+            ]);
+            if ($validator->fails()) {
+                return back()->with('errmessage', 'Data was not updated successfully: Image extension is invalid.');
+            }
+            $fileNameWithExtension = $request->file('image');
+            $fileName = pathInfo($fileNameWithExtension, PATHINFO_FILENAME);
+            $extension = $request->file('image')->getClientOriginalExtension();
+            $fileNameToStore = $fileName . '_' . time() . '.' . $extension;
+            $request->file('image')->storeAs('public/faculty', $fileNameToStore);
+            $hasImage = true;
+        }
+        $users = simplexml_load_file('staffs.xml');
+		$user = $users->addChild('staff');
+        if($hasImage){
+            $user->addChild('image', $fileNameToStore);
+        }else{
+            $user->addChild('image', '');
+        }
+		$user->addChild('name', $request['fullname']);
+		$user->addChild('position', $request['position']);
+	
+		// Save to file
+		$dom = new DOMDocument();
+		$dom->preserveWhiteSpace = false;
+		$dom->formatOutput = true;
+		$dom->loadXML($users->asXML());
+		$dom->save('staffs.xml'); 
+        return back()->with('message', 'Faculty added.');
+    }
+
+    public function update_off(Request $request){
+        $hasImage = false;
+        $fileNameToStore = '';
+        if ($request->hasFile('image')) {
+            $validator = Validator::make($request->all(), [
+                'image' => 'mimes:jpeg,png,bmp,jpg,tiff|max:51200',
+            ]);
+            if ($validator->fails()) {
+                return back()->with('errmessage', 'Data was not updated successfully: Image extension is invalid.');
+            }
+            $fileNameWithExtension = $request->file('image');
+            $fileName = pathInfo($fileNameWithExtension, PATHINFO_FILENAME);
+            $extension = $request->file('image')->getClientOriginalExtension();
+            $fileNameToStore = $fileName . '_' . time() . '.' . $extension;
+            $request->file('image')->storeAs('public/faculty', $fileNameToStore);
+            $hasImage = true;
+        }
+        $users = simplexml_load_file('staffs.xml');
+        $userFound = false; 
+		foreach($users->staff as $user){
+			if(strtolower($user->name) == strtolower($request['off-edit-fullname'])){
+                if($hasImage){
+				    $user->image = $fileNameToStore;
+                }
+				$user->name = $request['off-edit-fullname'];
+				$user->position = $request['off-edit-position'];
+                $userFound = true; 
+				break;
+			}
+		}
+		if ($userFound) {
+            file_put_contents('staffs.xml', $users->asXML());
+            return back()->with('message', 'Faculty updated successfully.');
+        } else {
+            return back()->with('errmessage', 'Faculty was not updated.');
+        }
+    }
+
     public function destroy(Request $request){
         $id = $request['fullname'];
         $users = simplexml_load_file('csspdep.xml');
@@ -111,6 +185,33 @@ class CMSController extends Controller
 
         if ($userFound) {
             file_put_contents('csspdep.xml', $users->asXML());
+            return back()->with('message', 'Faculty removed successfully.');
+        } else {
+            return back()->with('errmessage', 'Faculty was not removed.');
+        }
+    }
+
+    public function destroy_off(Request $request){
+        $id = $request['fullname'];
+        $users = simplexml_load_file('staffs.xml');
+
+        //we're are going to create iterator to assign to each user
+        $index = 0;
+        $i = 0;
+        $userFound = false; 
+
+        foreach ($users->staff as $user) {
+            if (strtolower($user->name) == strtolower($id)) {
+                $index = $i;
+                unset($users->staff[$index]);
+                $userFound = true;
+                break; // Exit the loop since the user has been found and removed
+            }
+            $i++;
+        }
+
+        if ($userFound) {
+            file_put_contents('staffs.xml', $users->asXML());
             return back()->with('message', 'Faculty removed successfully.');
         } else {
             return back()->with('errmessage', 'Faculty was not removed.');

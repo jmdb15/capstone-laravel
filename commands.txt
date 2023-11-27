@@ -8,12 +8,12 @@ composer global require laravel/installer
 composer update
 cp .env.example .env or copy .env.example .env
 php artisan key:generate
+php artisan storage:link
 php artisan migrate
 php artisan db:seed --class=UsersTableSeeder
 php artisan serve
 
 
-php artisan storage:link
 composer require intervention/image
 
 

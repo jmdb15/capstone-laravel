@@ -21,10 +21,10 @@
                   @csrf
                     <div>
                         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="user_avatar">Upload file</label>
-                        <input onchange="queryUpload('edit', this)" name="image" accept="image/*" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="user_avatar_help" id="name" type="file">
+                        <input onchange="queryUpload('edit', 'fac', this)" name="image" accept="image/*" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" aria-describedby="user_avatar_help" id="name" type="file">
                     </div>
                     <div class="w-[60%] mx-auto mt-4">
-                        <img id="img_upload_area_edit" alt="" class="hidden mx-auto max-h-[364px]">
+                        <img id="img_upload_area_fac_edit" alt="" class="hidden mx-auto max-h-[364px]">
                     </div>
                     <div>
                         <label for="edit-fullname" class="block mb-2 text-sm font-medium text-gray-900">Name: </label>
